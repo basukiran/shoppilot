@@ -1,5 +1,12 @@
-export type ViewKey = 'dashboard' | 'ai-buyer' | 'growth' | 'activity' | 'payment-approval' | 'payment-failure';
-
+export type ViewKey =
+  | 'dashboard'
+  | 'ai-buyer'
+  | 'orders'
+  | 'cart'
+  | 'growth'
+  | 'activity'
+  | 'payment-approval'
+  | 'payment-failure';
 export type AgentActionType =
   | 'product_search'
   | 'stock_verification'
@@ -81,4 +88,14 @@ export interface RevenuePoint {
   label: string;
   revenue: number;
   orders: number;
+}
+
+export interface Order {
+  id: number;
+  product_id: number;
+  product_name: string;
+  quantity: number;
+  total_amount: number;
+  status: string;
+  payment_status: string;
 }
