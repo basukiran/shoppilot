@@ -12,10 +12,12 @@ import {
   ArrowLeft,
 } from 'lucide-react';
 
-import type { ViewKey, Product } from '@/types';
+import type { Product } from '@/types';
+import { apiFetch } from '@/lib/api';
 import { formatCurrency, cn } from '@/lib/utils';
 
 type Phase = 'review' | 'processing' | 'approved' | 'declined';
+type ViewKey = 'ai-buyer' | 'orders' | 'payment-failure';
 
 declare global {
   interface Window {
@@ -75,8 +77,8 @@ export function PaymentApprovalView({
       // 1. CREATE RAZORPAY ORDER ON SERVER
       // --------------------------------------------
 
-      const createResponse = await fetch(
-        `http://127.0.0.1:8000/payment/create?product_id=${product.id}&quantity=${quantity}`,
+      const createResponse = await apiFetch(
+        `/payment/create?product_id=${product.id}&quantity=${quantity}`,
         {
           method: 'POST',
         }
@@ -115,7 +117,7 @@ export function PaymentApprovalView({
 
         currency: razorpayOrder.currency,
 
-        name: 'ShopPilot',
+        name: 'BookVision',
 
         description: `${product.name} × ${quantity}`,
 
@@ -123,7 +125,7 @@ export function PaymentApprovalView({
 
         prefill: {
           name: 'Alex Morgan',
-          email: 'alex@shoppilot.ai',
+          email: 'alex@bookvision.ai',
           contact: '+919876543210',
         },
 
@@ -144,8 +146,8 @@ export function PaymentApprovalView({
             // 4. SEND PAYMENT DETAILS TO BACKEND
             // ----------------------------------------
 
-            const verifyResponse = await fetch(
-              'http://127.0.0.1:8000/payment/verify',
+            const verifyResponse = await apiFetch(
+              '/payment/verify',
               {
                 method: 'POST',
                 headers: {

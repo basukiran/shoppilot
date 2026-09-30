@@ -4,12 +4,10 @@ import {
   Bot,
   ShoppingBag,
   ShoppingCart,
-  TrendingUp,
-  Activity,
-  ShieldCheck,
-  ShieldAlert,
-  Sparkles,
   ChevronRight,
+  RefreshCw,
+  BookOpen,
+  UserRound,
 } from 'lucide-react';
 import type { ViewKey } from '@/types';
 
@@ -17,59 +15,47 @@ interface NavItem {
   key: ViewKey;
   label: string;
   icon: typeof LayoutDashboard;
-  group: 'main' | 'payments';
+  group: 'main';
   badge?: string;
 }
 
 const navItems: NavItem[] = [
   {
     key: 'dashboard',
-    label: 'Dashboard',
+    label: 'Home',
     icon: LayoutDashboard,
     group: 'main',
   },
   {
+    key: 'account',
+    label: 'My Account',
+    icon: UserRound,
+    group: 'main',
+  },
+  {
     key: 'ai-buyer',
-    label: 'AI Buyer',
+    label: 'Ask BookVision',
     icon: Bot,
     group: 'main',
     badge: 'Live',
   },
   {
     key: 'orders',
-    label: 'Orders',
+    label: 'My Orders',
     icon: ShoppingBag,
     group: 'main',
   },
   {
     key: 'cart',
-    label: 'Cart',
+    label: 'Reading Bag',
     icon: ShoppingCart,
     group: 'main',
   },
   {
-    key: 'growth',
-    label: 'Merchant Growth',
-    icon: TrendingUp,
+    key: 'rental-management',
+    label: 'Rentals',
+    icon: RefreshCw,
     group: 'main',
-  },
-  {
-    key: 'activity',
-    label: 'Agent Activity',
-    icon: Activity,
-    group: 'main',
-  },
-  {
-    key: 'payment-approval',
-    label: 'Payment Approval',
-    icon: ShieldCheck,
-    group: 'payments',
-  },
-  {
-    key: 'payment-failure',
-    label: 'Payment Failure',
-    icon: ShieldAlert,
-    group: 'payments',
   },
 ];
 
@@ -85,7 +71,6 @@ export function Sidebar({
   onClose: () => void;
 }) {
   const main = navItems.filter((n) => n.group === 'main');
-  const payments = navItems.filter((n) => n.group === 'payments');
 
   return (
     <>
@@ -104,18 +89,18 @@ export function Sidebar({
         )}
       >
         {/* Logo */}
-        <div className="flex h-16 items-center gap-3 px-6">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-glow">
-            <Sparkles className="h-5 w-5" />
+        <div className="flex h-[76px] items-center gap-3 px-5">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-700 text-white shadow-soft">
+            <BookOpen className="h-5 w-5" />
           </div>
 
           <div className="leading-tight">
             <p className="font-display text-base font-bold text-ink-900">
-              ShopPilot
+              BookVision
             </p>
 
-            <p className="text-[11px] font-medium text-ink-400">
-              Agentic Commerce
+            <p className="text-[10px] font-medium text-ink-500">
+              Books · Reading · Ideas
             </p>
           </div>
         </div>
@@ -140,24 +125,6 @@ export function Sidebar({
               ))}
             </div>
           </div>
-
-          {/* Payments */}
-          <div>
-            <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-wider text-ink-400">
-              Payments
-            </p>
-
-            <div className="space-y-1">
-              {payments.map((item) => (
-                <NavButton
-                  key={item.key}
-                  item={item}
-                  active={current === item.key}
-                  onClick={() => onNavigate(item.key)}
-                />
-              ))}
-            </div>
-          </div>
         </nav>
 
         {/* Agent status */}
@@ -170,12 +137,12 @@ export function Sidebar({
               </div>
 
               <p className="text-sm font-semibold text-ink-900">
-                Agent online
+                BookVision AI ready
               </p>
             </div>
 
             <p className="mt-2 text-xs text-ink-600">
-              5 agents running. Last sync 12s ago.
+              Search by title, author, subject, or mood.
             </p>
 
             <div className="mt-3 flex items-center gap-1.5">

@@ -1,10 +1,10 @@
-# 🛒 ShopPilot — Agentic Commerce Platform
+# 📚 BookVision — Agentic Book Commerce Platform
 
 > **An AI-powered commerce agent that helps customers discover products, make bounded purchase decisions, and complete payments securely through Razorpay Test Mode.**
 
 ## 🚀 Overview
 
-**ShopPilot** is an Agentic Commerce platform built for the Razorpay hackathon.
+**BookVision** is an Agentic Commerce platform built for the Razorpay hackathon.
 
 It combines an AI shopping agent with a merchant catalog, purchase guardrails, explicit payment approval, and Razorpay payment processing.
 
@@ -24,11 +24,11 @@ Every money action is designed to be:
 
 ### 🤖 AI Buyer
 
-Customers can interact with ShopPilot using natural language.
+Customers can interact with BookVision using natural language.
 
 Example:
 
-> "Show me running products under ₹5000"
+> "Find programming books under ₹2500"
 
 The AI agent searches the catalog and returns relevant products.
 
@@ -45,13 +45,13 @@ The platform provides an agent-readable product catalog containing:
 
 ### 📦 Smart Stock Checking
 
-Before purchase, ShopPilot checks whether the requested quantity is available.
+Before purchase, BookVision checks whether the requested quantity is available.
 
 This prevents the agent from attempting to purchase unavailable inventory.
 
 ### 💰 Purchase Guardrails
 
-ShopPilot uses a spending limit to control autonomous purchasing.
+BookVision uses a spending limit to control autonomous purchasing.
 
 For example:
 
@@ -80,7 +80,7 @@ The payment flow continues only after explicit approval.
 
 ### 💳 Razorpay Integration
 
-ShopPilot integrates **Razorpay Test Mode** for payment processing.
+BookVision integrates **Razorpay Test Mode** for payment processing.
 
 The flow is:
 
@@ -139,7 +139,7 @@ ORDER_CONFIRMED
 
 ### ❌ Graceful Payment Failure
 
-ShopPilot also handles failed or cancelled payments.
+BookVision also handles failed or cancelled payments.
 
 Instead of leaving the user in an unclear state, the application displays a payment-failure state and preserves the transaction flow.
 
@@ -149,7 +149,7 @@ Instead of leaving the user in an unclear state, the application displays a paym
 
 ```text
                     ┌──────────────────────┐
-                    │      ShopPilot UI    │
+                    │      BookVision UI  │
                     │    React + TypeScript │
                     └──────────┬───────────┘
                                │
@@ -205,7 +205,7 @@ Instead of leaving the user in an unclear state, the application displays a paym
 ## 📁 Project Structure
 
 ```text
-ShopPilot/
+BookVision/
 │
 ├── frontend/
 │   ├── src/
@@ -235,7 +235,7 @@ ShopPilot/
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-cd ShopPilot
+cd BookVision
 ```
 
 ### 2. Backend setup
@@ -331,7 +331,7 @@ Payment endpoints are used internally for Razorpay order creation and payment ve
 
 ## 🧠 AI Agent Tools
 
-ShopPilot's AI agent uses tools instead of relying only on generated text.
+BookVision's AI agent uses tools instead of relying only on generated text.
 
 ### `search_products`
 
@@ -356,7 +356,7 @@ This ensures the agent has access to real catalog information before recommendin
 
 ## 🛡️ Commerce Safety Model
 
-ShopPilot follows a simple bounded-agent model:
+BookVision follows a simple bounded-agent model:
 
 ```text
              CUSTOMER REQUEST
@@ -417,15 +417,15 @@ The application was tested for:
 
 ## 🎯 Razorpay Hackathon Alignment
 
-ShopPilot addresses the challenge of making a merchant **transactable by an AI buyer**.
+BookVision addresses the challenge of making a merchant **transactable by an AI buyer**.
 
 ### Challenge requirement
 
 > Every money action should be explainable, bounded and gated.
 
-### ShopPilot implementation
+### BookVision implementation
 
-| Requirement      | ShopPilot                         |
+| Requirement      | BookVision                         |
 | ---------------- | --------------------------------- |
 | Explainable      | AI provides purchase reasoning    |
 | Bounded          | Spending limit + stock validation |
@@ -440,18 +440,18 @@ ShopPilot addresses the challenge of making a merchant **transactable by an AI b
 
 ```text
 User:
-"Find me running shoes under ₹5,000"
+"Find me The Pragmatic Programmer under ₹2,500"
 
         ↓
 
-ShopPilot searches catalog
+BookVision searches catalog
 
         ↓
 
-Runner Pro Shoes
-₹4,999
-Rating: 4.5
-Stock: Available
+The Pragmatic Programmer
+₹2,199
+Rating: 4.8
+Stock: 15
 
         ↓
 
@@ -459,7 +459,7 @@ User selects quantity
 
         ↓
 
-ShopPilot checks:
+BookVision checks:
 ✓ Stock available
 ✓ ₹4,999 <= ₹5,000 spending limit
 
@@ -519,7 +519,7 @@ Order confirmed
 
 **Razorpay Agentic Commerce Hackathon**
 
-**Project:** ShopPilot
+**Project:** BookVision
 **Category:** Agentic Commerce / AI Buyer
 **Payment:** Razorpay Test Mode
 
@@ -527,6 +527,6 @@ Order confirmed
 
 ## ⭐ Conclusion
 
-ShopPilot demonstrates how an AI agent can move beyond product recommendations and participate in a **controlled, explainable and gated commerce workflow**.
+BookVision demonstrates how an AI agent can move beyond product recommendations and participate in a **controlled, explainable and gated commerce workflow**.
 
 The system connects AI-driven product discovery with real payment infrastructure while maintaining merchant and customer safeguards at every money-action boundary.

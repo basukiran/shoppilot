@@ -152,7 +152,7 @@ export function ActivityView() {
 
     timestamp: `Order #${order.id}`,
 
-    agent: 'ShopPilot Order Agent',
+    agent: 'BookVision Order Agent',
 
     meta: {
       Product: order.product_name,

@@ -1,10 +1,20 @@
 import os
 import json
+import re
 
 from groq import Groq
 from dotenv import load_dotenv
 
 from database import get_connection
+
+
+SEARCH_STOP_WORDS = {
+    "a", "about", "all", "an", "and", "are", "book", "books",
+    "can", "do", "find", "for", "from", "help", "i", "in", "is",
+    "it", "me", "my", "need", "of", "on", "please", "recommend",
+    "rent", "rental", "show", "suitable", "the", "this", "to", "under",
+    "want", "which", "with", "below", "beginner", "beginners", "learning",
+}
 
 load_dotenv()
 
@@ -17,38 +27,61 @@ client = Groq(
 # TOOL: Search products
 # -----------------------------
 
-def search_products(query: str, max_price: float | None = None):
+def search_products(
+    query: str,
+    max_price: float | None = None,
+    rentable_only: bool = False
+):
     conn = get_connection()
 
     sql = """
         SELECT
             id,
             name,
+            author,
             category,
             price,
             rating,
             stock,
-            description
+            description,
+            cover_image,
+            is_rentable,
+            rental_price,
+            ownership_price,
+            rental_duration_days
         FROM products
-        WHERE stock > 0
-        AND (
-            name LIKE ?
-            OR category LIKE ?
-            OR description LIKE ?
-        )
+        WHERE is_book = 1
+        AND stock > 0
     """
 
-    search_term = f"%{query}%"
+    terms = []
+    for term in re.findall(r"[a-z0-9]+", query.lower()):
+        if term in SEARCH_STOP_WORDS or term.isdigit():
+            continue
+        normalized_term = (
+            term[:-1]
+            if term.endswith("s") and len(term) > 4 and term != "sapiens"
+            else term
+        )
+        if normalized_term not in terms:
+            terms.append(normalized_term)
 
-    params = [
-        search_term,
-        search_term,
-        search_term
-    ]
+    params = []
+    if terms:
+        term_conditions = []
+        for term in terms:
+            term_conditions.append(
+                "(name LIKE ? OR author LIKE ? OR category LIKE ? OR description LIKE ?)"
+            )
+            params.extend([f"%{term}%"] * 4)
+        sql += " AND (" + " OR ".join(term_conditions) + ")"
 
     if max_price is not None:
         sql += " AND price <= ?"
         params.append(max_price)
+
+    if rentable_only:
+        sql += " AND is_rentable = 1"
 
     sql += " ORDER BY rating DESC"
 
@@ -59,7 +92,26 @@ def search_products(query: str, max_price: float | None = None):
 
     conn.close()
 
-    return [dict(product) for product in products]
+    def matches_terms(product):
+        searchable_text = " ".join(
+            str(product[field] or "")
+            for field in ("name", "author", "category", "description")
+        ).lower()
+        return any(
+            re.search(
+                rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])",
+                searchable_text
+            )
+            if len(term) <= 2
+            else term in searchable_text
+            for term in terms
+        )
+
+    return [
+        dict(product)
+        for product in products
+        if not terms or matches_terms(product)
+    ]
 
 
 # -----------------------------
@@ -73,13 +125,19 @@ def get_product(product_id: int):
         SELECT
             id,
             name,
+            author,
             category,
             price,
             rating,
             stock,
-            description
+            description,
+            cover_image,
+            is_rentable,
+            rental_price,
+            ownership_price,
+            rental_duration_days
         FROM products
-        WHERE id = ?
+        WHERE id = ? AND is_book = 1
         """,
         (product_id,)
     ).fetchone()
@@ -97,7 +155,7 @@ def check_stock(product_id: int, quantity: int = 1):
         """
         SELECT id, name, price, stock
         FROM products
-        WHERE id = ?
+        WHERE id = ? AND is_book = 1
         """,
         (product_id,)
     ).fetchone()
@@ -127,7 +185,7 @@ def check_stock(product_id: int, quantity: int = 1):
         "available_stock": product["stock"],
         "price": product["price"]
     }
-def create_order(product_id: int, quantity: int):
+def create_order(product_id: int, quantity: int, user_id: int | None = None):
     conn = get_connection()
     product = conn.execute(
         """
@@ -164,15 +222,16 @@ def create_order(product_id: int, quantity: int):
     cursor = conn.execute(
         """
         INSERT INTO orders
-        (product_id, quantity, total_amount, status, payment_status)
-        VALUES (?, ?, ?, ?, ?)
+        (product_id, quantity, total_amount, status, payment_status, user_id)
+        VALUES (?, ?, ?, ?, ?, ?)
         """,
         (
             product_id,
             quantity,
             total_amount,
             "PENDING",
-            "NOT_PAID"
+            "NOT_PAID",
+            user_id
         )
     )
 
@@ -197,17 +256,21 @@ tools = [
         "type": "function",
         "function": {
             "name": "search_products",
-            "description": "Search the ShopPilot product catalog. Use this when the customer wants to find or compare products.",
+            "description": "Search in-stock BookVision books by title, author, topic, or subject. Use rentable_only for rental requests and max_price when the customer gives a budget.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "query": {
                         "type": "string",
-                        "description": "Short product or category search phrase, such as running shoes or earbuds."
+                        "description": "A book title, author, category, or subject to search for."
                     },
                     "max_price": {
                         "type": "number",
-                        "description": "Maximum product price in INR. Use null when there is no price limit."
+                        "description": "Maximum book price in INR. Use only when the customer gives a price limit."
+                    },
+                    "rentable_only": {
+                        "type": "boolean",
+                        "description": "Set true when the customer specifically wants to rent a book."
                     }
                 },
                 "required": [
@@ -220,13 +283,13 @@ tools = [
     "type": "function",
     "function": {
         "name": "get_product",
-        "description": "Get complete details for a specific ShopPilot product using its product ID.",
+        "description": "Get complete details for a specific book using its product ID.",
         "parameters": {
             "type": "object",
             "properties": {
                 "product_id": {
                     "type": "integer",
-                    "description": "The product ID."
+                    "description": "The database ID of a book."
                 }
             },
             "required": ["product_id"]
@@ -237,13 +300,13 @@ tools = [
     "type": "function",
     "function": {
         "name": "check_stock",
-        "description": "Check whether a specific product has enough stock for the requested quantity.",
+            "description": "Check whether a specific book has enough stock for the requested quantity.",
         "parameters": {
             "type": "object",
             "properties": {
                 "product_id": {
                     "type": "integer",
-                    "description": "The product ID."
+                    "description": "The database ID of a book."
                 },
                 "quantity": {
                     "type": "integer",
@@ -325,17 +388,28 @@ def ask_agent(user_message: str):
         {
             "role": "system",
             "content": """
-You are ShopPilot, an AI commerce agent.
+You are BookVision, an AI book-shopping agent.
 
-You help customers discover products from the ShopPilot catalog.
+You help customers find books in the live BookVision catalog by title, author,
+subject, category, description, level, and reading goal.
 
-When the customer asks about products, use the search_products tool.
+For book recommendations and availability questions, use search_products.
+Pass concise topic/title/author terms rather than relying on generated facts.
+Extract a stated maximum price into max_price. For a request to rent, set
+rentable_only to true. Use get_product for more catalog details and check_stock
+when the customer asks about a specific quantity.
 
 IMPORTANT:
 - All prices in the catalog are in Indian Rupees (INR).
 - Always display prices using ₹.
 - Never convert INR prices to another currency.
 - Never change the numerical price returned by a tool.
+- Use only returned catalog data for titles, authors, categories, descriptions,
+  ratings, prices, stock, and rental availability or terms.
+- If the search returns no matching book, say so; do not invent a title,
+    availability, rating, price, or rental option.
+- Do not describe a book as suitable for a level or goal unless its catalog
+    description supports that recommendation.
 - Checking stock does NOT create an order.
 - Never claim that an order or purchase has been created.
 - Do not create orders or payments yet.
@@ -371,6 +445,8 @@ IMPORTANT:
             assistant_message
         )
 
+        book_results = {}
+
         for tool_call in assistant_message.tool_calls:
 
             function_name = tool_call.function.name
@@ -382,7 +458,8 @@ IMPORTANT:
             if function_name == "search_products":
                 result = search_products(
                 query=arguments["query"],
-                max_price=arguments.get("max_price")
+                max_price=arguments.get("max_price"),
+                rentable_only=arguments.get("rentable_only", False)
     )
 
             elif function_name == "get_product":
@@ -401,6 +478,12 @@ IMPORTANT:
                     "error": f"Unknown tool: {function_name}"
     }
 
+            if isinstance(result, list):
+                for book in result:
+                    if isinstance(book, dict) and book.get("id") is not None:
+                        book_results[str(book["id"])] = book
+            elif isinstance(result, dict) and result.get("id") is not None:
+                book_results[str(result["id"])] = result
 
             messages.append(
     {
@@ -425,7 +508,7 @@ IMPORTANT:
     "customer_request": user_message,
     "tool_used": True,
     "tool": "search_products",
-    "tool_result": result,
+    "tool_result": list(book_results.values()),
     "response": final_response.choices[0].message.content
 }
 

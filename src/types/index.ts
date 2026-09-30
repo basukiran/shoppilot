@@ -1,12 +1,15 @@
 export type ViewKey =
   | 'dashboard'
+  | 'account'
   | 'ai-buyer'
   | 'orders'
   | 'cart'
   | 'growth'
   | 'activity'
   | 'payment-approval'
-  | 'payment-failure';
+  | 'payment-failure'
+  | 'rental-checkout'
+  | 'rental-management';
 export type AgentActionType =
   | 'product_search'
   | 'stock_verification'
@@ -16,9 +19,20 @@ export type AgentActionType =
 
 export type AgentActionStatus = 'success' | 'pending' | 'failed';
 
+export interface AccountUser {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  created_at: string;
+}
+
 export interface Product {
   id: string;
   name: string;
+  author: string;
+  description: string;
+  coverImage: string;
   brand: string;
   price: number;
   originalPrice?: number;
@@ -30,6 +44,12 @@ export interface Product {
   stockCount: number;
   tags: string[];
   matchScore?: number;
+
+  // Rental information
+  isRentable: boolean;
+  rentalPrice: number;
+  ownershipPrice?: number;
+  rentalDurationDays: number;
 }
 
 export interface ChatMessage {

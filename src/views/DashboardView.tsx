@@ -116,7 +116,7 @@ function HeroBanner({ onNavigate }: { onNavigate: (v: ViewKey) => void }) {
             Your AI agents sold $42,180 this month.
           </h2>
           <p className="mt-2 text-sm text-ink-300">
-            ShopPilot agents search, verify stock, recommend, and create orders — then ask you to approve payments.
+            BookVision agents search, verify stock, recommend, and create orders — then ask you to approve payments.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <button onClick={() => onNavigate('ai-buyer')} className="btn-primary">

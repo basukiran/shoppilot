@@ -27,7 +27,7 @@ export function PaymentFailureView({ onNavigate }: { onNavigate: (v: ViewKey) =>
 
         <div className="grid grid-cols-1 gap-4 p-6 sm:grid-cols-2">
           <InfoTile label="Order reference" value={f.orderRef} />
-          <InfoTile label="Amount" value={formatCurrency(f.amount, 'USD')} />
+          <InfoTile label="Amount" value={formatCurrency(f.amount, f.currency)} />
           <InfoTile label="Attempted at" value={f.attemptedAt} />
           <InfoTile label="Retryable" value={f.retryable ? 'Yes' : 'No'} highlight={f.retryable} />
         </div>

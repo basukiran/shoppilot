@@ -13,6 +13,7 @@ import { formatCurrency, cn } from '@/lib/utils';
 export interface CartItem {
   product: Product;
   quantity: number;
+  mode: 'purchase' | 'rental';
 }
 
 export function CartView({
@@ -22,12 +23,24 @@ export function CartView({
   onCheckout,
 }: {
   cart: CartItem[];
-  onUpdateQuantity: (productId: string, quantity: number) => void;
-  onRemove: (productId: string) => void;
-  onCheckout: (product: Product, quantity: number) => void;
+  onUpdateQuantity: (
+    productId: string,
+    quantity: number,
+    mode: CartItem['mode']
+  ) => void;
+  onRemove: (productId: string, mode: CartItem['mode']) => void;
+  onCheckout: (
+    product: Product,
+    quantity: number,
+    mode: CartItem['mode']
+  ) => void;
 }) {
   const total = cart.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
+    (sum, item) =>
+      sum +
+      (item.mode === 'rental'
+        ? (item.product.rentalPrice ?? 0) * item.quantity + 500
+        : item.product.price * item.quantity),
     0
   );
 
@@ -78,7 +91,10 @@ export function CartView({
           {cart.map((item) => {
             const { product, quantity } = item;
 
-            const itemTotal = product.price * quantity;
+            const itemTotal =
+              item.mode === 'rental'
+                ? (product.rentalPrice ?? 0) * quantity + 500
+                : product.price * quantity;
 
             return (
               <div
@@ -88,8 +104,19 @@ export function CartView({
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
 
                   {/* Product icon */}
-                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl bg-ink-50 text-4xl">
-                    📦
+                  <div className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-ink-50 text-4xl">
+                    <span>📚</span>
+                    {product.coverImage && (
+                      <img
+                        src={product.coverImage}
+                        alt={`${product.name} cover`}
+                        loading="lazy"
+                        onError={(event) => {
+                          event.currentTarget.style.display = 'none';
+                        }}
+                        className="absolute inset-0 h-full w-full object-contain"
+                      />
+                    )}
                   </div>
 
                   {/* Product details */}
@@ -103,9 +130,23 @@ export function CartView({
                       {product.name}
                     </p>
 
+                    {product.author && (
+                      <p className="mt-1 text-xs text-ink-500">
+                        by {product.author}
+                      </p>
+                    )}
+
                     <p className="mt-1 text-sm text-ink-500">
-                      {formatCurrency(product.price)} each
+                      {item.mode === 'rental'
+                        ? `${formatCurrency(product.rentalPrice ?? 0)} rental fee / ${product.rentalDurationDays ?? 30} days`
+                        : `${formatCurrency(product.price)} each`}
                     </p>
+
+                    {item.mode === 'rental' && (
+                      <p className="mt-1 text-xs text-ink-500">
+                        Includes ₹500 membership/security deposit
+                      </p>
+                    )}
 
                     <div className="mt-2">
                       {product.inStock ? (
@@ -128,7 +169,8 @@ export function CartView({
                       onClick={() =>
                         onUpdateQuantity(
                           product.id,
-                          Math.max(1, quantity - 1)
+                          Math.max(1, quantity - 1),
+                          item.mode
                         )
                       }
                       disabled={quantity <= 1}
@@ -148,7 +190,8 @@ export function CartView({
                           Math.min(
                             product.stockCount,
                             quantity + 1
-                          )
+                          ),
+                          item.mode
                         )
                       }
                       disabled={
@@ -169,7 +212,17 @@ export function CartView({
                     </p>
 
                     <button
-                      onClick={() => onRemove(product.id)}
+                      onClick={() =>
+                        onCheckout(product, quantity, item.mode)
+                      }
+                      className="mt-2 flex items-center gap-1 text-xs font-semibold text-brand-700 hover:text-brand-800"
+                    >
+                      Checkout {item.mode === 'rental' ? 'rental' : 'item'}
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </button>
+
+                    <button
+                      onClick={() => onRemove(product.id, item.mode)}
                       className="mt-2 flex items-center gap-1 text-xs font-medium text-danger-600 hover:text-danger-700 sm:ml-auto"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
@@ -242,24 +295,8 @@ export function CartView({
 
             </div>
 
-            {/* Checkout */}
-            <button
-              onClick={() => {
-                const firstItem = cart[0];
-
-                onCheckout(
-                  firstItem.product,
-                  firstItem.quantity
-                );
-              }}
-              className="btn-primary mt-5 w-full"
-            >
-              Proceed to checkout
-              <ArrowRight className="h-4 w-4" />
-            </button>
-
             <p className="mt-3 text-center text-[11px] text-ink-400">
-              Payment requires your explicit approval.
+              Choose an item to check out. Payment requires your explicit approval.
             </p>
 
           </div>
