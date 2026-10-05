@@ -27,12 +27,17 @@ type Rental = {
   membership_fee: number;
   refund_amount: number;
   refund_status: string;
+  reader_type?: string;
 };
 
 export default function RentalManagementView({
   onBack,
+  newlyCreatedRentalId,
+  isAdmin,
 }: {
   onBack: () => void;
+  newlyCreatedRentalId?: number | null;
+  isAdmin: boolean;
 }) {
   const [rentals, setRentals] = useState<Rental[]>([]);
   const [loading, setLoading] = useState(true);
@@ -131,8 +136,8 @@ export default function RentalManagementView({
   ) => {
     const confirmed = window.confirm(
       decision === 'KEEP'
-        ? 'Keep this book? The ₹500 deposit will be retained. No additional payment is due.'
-        : 'Request a return? BookVision refunds ₹400 of the deposit after receiving the book and retains ₹100.'
+        ? 'Keep this book? The actual purchase price will be recorded for this ownership record.'
+        : 'Request a return? Regular readers receive no refund, while Specific Book Reader plans may receive a ₹300 refund after the book is received.'
     );
 
     if (!confirmed) {
@@ -183,7 +188,7 @@ export default function RentalManagementView({
 
   const completeReturn = async (rentalId: number) => {
     const confirmed = window.confirm(
-      'Confirm that BookVision received the returned book and process the ₹400 refund?'
+      'Confirm that BookVision received the returned book and process the refund for the applicable reader plan?'
     );
 
     if (!confirmed) {
@@ -287,6 +292,12 @@ export default function RentalManagementView({
               {error}
             </p>
           </div>
+        </div>
+      )}
+
+      {newlyCreatedRentalId && rentals.some((rental) => rental.id === newlyCreatedRentalId) && (
+        <div role="status" className="rounded-lg border border-success-200 bg-success-50 p-4 text-sm font-semibold text-success-800">
+          Rental Activated · Rental #{newlyCreatedRentalId} is now in your rentals.
         </div>
       )}
 
@@ -415,7 +426,7 @@ export default function RentalManagementView({
                   <Detail
                     label="Refund after book is received"
                     value={`₹${Number(
-                      rental.refund_amount || 400
+                      rental.refund_amount || (rental.reader_type === 'SPECIFIC_BOOK_READER' ? 300 : 0)
                     ).toLocaleString('en-IN')}`}
                   />
 
@@ -500,7 +511,7 @@ export default function RentalManagementView({
               {/* DELIVERY CONTROLS */}
               {/* ================================================= */}
 
-              <div className="border-t border-ink-100 p-5">
+              {isAdmin && <div className="border-t border-ink-100 p-5">
 
                 <p className="text-sm font-semibold text-ink-900">
                   Delivery status
@@ -550,7 +561,7 @@ export default function RentalManagementView({
 
                 </div>
 
-              </div>
+              </div>}
 
               {/* ================================================= */}
               {/* KEEP / RETURN */}
@@ -570,9 +581,9 @@ export default function RentalManagementView({
 
                       {delivered
                         ? decisionPending
-                          ? 'Keep the book with no additional payment, or return it for a ₹400 deposit refund after receipt.'
+                          ? 'Keep the book or return it. Regular readers receive no early refund, while Specific Book Reader plans may receive a ₹300 refund after receipt.'
                           : decision === 'KEEP'
-                            ? 'This book is yours. The ₹500 deposit is retained; no additional payment is required.'
+                            ? 'This book is yours. The actual purchase price is recorded for the ownership record.'
                             : `Decision: ${decision}`
                         : 'Keep or return options are available after the book is delivered.'}
 
@@ -632,8 +643,7 @@ export default function RentalManagementView({
                     </p>
 
                     <p className="mt-1 text-sm text-brand-700">
-                      The book is yours. ₹500 of your deposit is retained; no
-                      additional payment is required.
+                      The book is yours. The actual purchase price is recorded on the ownership record.
                     </p>
 
                   </div>
@@ -649,17 +659,17 @@ export default function RentalManagementView({
                     </p>
 
                     <p className="mt-1 text-sm text-warning-700">
-                      Return the book to BookVision. ₹400 is refunded after receipt; ₹100 of the deposit is retained. Refund status: {rental.refund_status}.
+                      Return the book to BookVision. For Regular Reader plans there is no refund. For Specific Book Reader plans, a ₹300 refund can be processed after receipt and confirmation. Refund status: {rental.refund_status}.
                     </p>
 
-                    {rental.refund_status === 'PENDING' && (
+                    {isAdmin && rental.refund_status === 'PENDING' && (
                       <button
                         disabled={updating}
                         onClick={() => completeReturn(rental.id)}
                         className="mt-3 rounded-lg bg-warning-700 px-4 py-2 text-sm font-semibold text-white hover:bg-warning-800 disabled:opacity-50"
                       >
-                        Confirm book received and refund ₹
-                        {Number(rental.refund_amount).toLocaleString('en-IN')}
+                        Confirm book received and process refund ₹
+                        {Number(rental.refund_amount || (rental.reader_type === 'SPECIFIC_BOOK_READER' ? 300 : 0)).toLocaleString('en-IN')}
                       </button>
                     )}
 
@@ -667,7 +677,7 @@ export default function RentalManagementView({
                       <p className="mt-2 text-sm font-semibold text-success-700">
                         ₹
                         {Number(rental.refund_amount).toLocaleString('en-IN')}
-                        {' '}refunded after receipt. ₹100 retained by BookVision.
+                        {' '}refunded after receipt for the applicable reader plan.
                       </p>
                     )}
 

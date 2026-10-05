@@ -4,24 +4,33 @@ import {
   ArrowRight,
   BookOpen,
   Check,
+  Heart,
+  Instagram,
   Leaf,
   Library,
+  MapPin,
   ShoppingBag,
   Sparkles,
   Star,
+  Youtube,
 } from 'lucide-react';
 
-import { products as sampleBooks } from '@/data/mockData';
+import jnanaNidhiLogo from '@/assets/jnana-nidhi-hubballi.jpeg';
 import { toBookProduct, type BookApiRecord } from '@/lib/bookProducts';
+import { apiFetch } from '@/lib/api';
 import type { Product, ViewKey } from '@/types';
 import { formatCurrency } from '@/lib/utils';
+import { getCoverPlaceholder } from '@/lib/bookCovers';
 import { RentalGuidelinesSection } from '@/components/RentalGuidelinesSection';
+import { BookCombosSection } from '@/components/BookCombosSection';
 
 interface BookstoreHomeViewProps {
   onNavigate: (view: ViewKey) => void;
   onAddToCart: (product: Product, quantity?: number) => void;
   onAddRentalToCart: (product: Product, quantity?: number) => void;
   onRent: (product: Product, quantity?: number) => void;
+  favoriteIds: ReadonlySet<string>;
+  onToggleFavorite: (product: Product) => void;
 }
 
 export function BookstoreHomeView({
@@ -29,14 +38,18 @@ export function BookstoreHomeView({
   onAddToCart,
   onAddRentalToCart,
   onRent,
+  favoriteIds,
+  onToggleFavorite,
 }: BookstoreHomeViewProps) {
-  const [books, setBooks] = useState<Product[]>(sampleBooks);
+  const [books, setBooks] = useState<Product[]>([]);
+  const [catalogLoading, setCatalogLoading] = useState(true);
+  const [catalogError, setCatalogError] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All books');
 
   useEffect(() => {
     let active = true;
 
-    fetch('http://127.0.0.1:8000/products')
+    apiFetch('/products')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Unable to load the book catalog');
@@ -48,9 +61,20 @@ export function BookstoreHomeView({
         if (active && Array.isArray(records) && records.length > 0) {
           setBooks(records.map(toBookProduct));
         }
+        if (active && Array.isArray(records)) {
+          setCatalogError(false);
+        }
       })
       .catch((error) => {
-        console.error('Book catalog load error:', error);
+        if (active) {
+          console.error('Book catalog load error:', error);
+          setCatalogError(true);
+        }
+      })
+      .finally(() => {
+        if (active) {
+          setCatalogLoading(false);
+        }
       });
 
     return () => {
@@ -170,6 +194,16 @@ export function BookstoreHomeView({
                   <Star className="h-4 w-4 fill-[#bd9853] text-[#bd9853]" /> {featuredBook.rating.toFixed(1)} reader rating
                 </span>
                 <span className="text-sm text-[#68766c]">{featuredBook.stockCount} in stock</span>
+                <button
+                  type="button"
+                  onClick={() => onToggleFavorite(featuredBook)}
+                  aria-label={favoriteIds.has(featuredBook.id) ? `Remove ${featuredBook.name} from favorites` : `Add ${featuredBook.name} to favorites`}
+                  aria-pressed={favoriteIds.has(featuredBook.id)}
+                  title={favoriteIds.has(featuredBook.id) ? 'Remove from favorites' : 'Add to favorites'}
+                  className="inline-flex h-9 w-9 items-center justify-center text-[#55735b] transition hover:text-rose-700"
+                >
+                  <Heart className={`h-4 w-4 ${favoriteIds.has(featuredBook.id) ? 'fill-rose-700 text-rose-700' : ''}`} />
+                </button>
               </div>
               <div className="mt-7 flex flex-wrap items-center gap-3">
                 <span className="mr-2 text-2xl font-semibold text-[#183629]">{formatCurrency(featuredBook.price)}</span>
@@ -232,14 +266,21 @@ export function BookstoreHomeView({
                   book={book}
                   onAddToCart={onAddToCart}
                   onAddRentalToCart={onAddRentalToCart}
+                  isFavorite={favoriteIds.has(book.id)}
+                  onToggleFavorite={onToggleFavorite}
+                  onRent={onRent}
                 />
               ))}
             </div>
           ) : (
-            <p className="py-12 text-center text-sm text-[#68766c]">No books in this category yet.</p>
+            <p className="py-12 text-center text-sm text-[#68766c]">
+              {catalogLoading ? 'Loading the BookVision catalog…' : catalogError ? 'The catalog is unavailable. Please refresh to try again.' : 'No books in this category yet.'}
+            </p>
           )}
         </div>
       </section>
+
+      <BookCombosSection products={books} onAddToCart={onAddToCart} />
 
       <section className="bookstore-section mx-auto max-w-[1440px] px-5 py-14 sm:px-8 sm:py-20 lg:px-14">
         <div className="bookstore-recommendation grid gap-8 overflow-hidden lg:grid-cols-[0.85fr_1.15fr]">
@@ -280,8 +321,8 @@ export function BookstoreHomeView({
               <p className="bookstore-kicker bookstore-kicker--light"><BookOpen className="h-4 w-4" /> Read, return, repeat</p>
               <h2 className="bookstore-display mt-4 text-3xl leading-tight text-[#f6f5eb] sm:text-[42px]">Rent a book. Keep your curiosity.</h2>
               <p className="mt-4 max-w-xl text-sm leading-7 text-[#d1dbcf] sm:text-base">
-                Try a new subject without committing to a shelf. Python Crash
-                Course is available for {featuredBook.rentalDurationDays} days.
+                Try a new subject without committing to a shelf. {featuredBook.name}
+                is available for {featuredBook.rentalDurationDays} days.
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-4">
                 <button
@@ -347,18 +388,79 @@ export function BookstoreHomeView({
         </div>
       </section>
 
-      <footer className="bookstore-footer flex flex-col gap-4 px-5 py-7 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-14">
-        <div>
-          <p className="bookstore-display text-xl text-[#f6f5eb]">BookVision</p>
-          <p className="mt-1 text-xs text-[#c0ccbf]">A little more wonder, every day.</p>
+      <section id="locations" className="bookstore-locations px-5 py-14 sm:px-8 sm:py-20 lg:px-14">
+        <div className="mx-auto grid max-w-[1440px] gap-9 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <p className="bookstore-kicker"><MapPin className="h-4 w-4" /> Find us in Hubli</p>
+            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">Come by the shelves.</h2>
+            <p className="mt-4 max-w-md text-sm leading-7 text-[#68766c]">Visit a Jnana Nidhi location and find your next read in person.</p>
+            <img src={jnanaNidhiLogo} alt="Jnana Nidhi Hubballi" className="mt-7 h-20 w-20 object-contain" />
+          </div>
+          <div className="grid gap-x-8 sm:grid-cols-2">
+            {[
+              'Unkal Cross, Hubli – 580031',
+              'Vidyanagar Cross, Hubli – 580021',
+              'BVB College, Near Hubli – 580031',
+              'Inorbit Mall, Near Hubli – 580030',
+              'Urban Oasis Mall, Near Hubli – 580030',
+              'New Bus Stand, Dharwad – 580008',
+            ].map((location) => (
+              <a
+                key={location}
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex min-h-16 items-center gap-3 border-b border-[#d9dfd3] py-4 text-sm font-medium leading-6 text-[#263a2e] transition hover:text-[#55735b]"
+              >
+                <MapPin className="h-4 w-4 shrink-0 text-[#a08b5e]" />
+                <span>{location}</span>
+                <ArrowRight className="ml-auto h-4 w-4 shrink-0" />
+              </a>
+            ))}
+          </div>
         </div>
-        <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#d1dbcf]">
+      </section>
+
+      <footer className="bookstore-footer grid gap-8 px-5 py-9 sm:grid-cols-2 sm:px-8 lg:grid-cols-[1fr_auto_auto] lg:px-14">
+        <div className="flex items-center gap-4">
+          <img src={jnanaNidhiLogo} alt="Jnana Nidhi Hubballi" className="h-14 w-14 shrink-0 object-contain" />
+          <div>
+            <p className="bookstore-display text-xl text-[#f6f5eb]">Jnana Nidhi · BookVision</p>
+            <p className="mt-1 text-xs text-[#c0ccbf]">A little more wonder, every day.</p>
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[#d1dbcf]">
           <button type="button" onClick={() => onNavigate('ai-buyer')} className="hover:text-white">AI Buyer</button>
           <button type="button" onClick={() => onNavigate('orders')} className="hover:text-white">Orders</button>
           <button type="button" onClick={() => onNavigate('cart')} className="hover:text-white">Reading bag</button>
           <button type="button" onClick={() => onNavigate('rental-management')} className="hover:text-white">Rentals</button>
         </div>
-        <span className="text-xs text-[#9eae9f]">© 2026 BookVision</span>
+        <div className="flex flex-col gap-3 text-sm text-[#d1dbcf]">
+          <a href="tel:7483400665" className="inline-flex items-center gap-2 transition hover:text-white">
+            <span>Call 7483400665 to arrange book collection at your preferred location</span>
+          </a>
+          <a
+            href="https://youtube.com/@jnana_nidhi_hubli?si=ISWLctad-Ps_mtjp"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Visit Our YouTube Channel"
+            className="inline-flex items-center gap-2 transition hover:text-white"
+          >
+            <Youtube className="h-4 w-4 shrink-0" />
+            <span>Visit Our YouTube Channel</span>
+          </a>
+          <a
+            href="https://www.instagram.com/jnana_nidhi_hubli?stkn=MWJtOGJkaGxxb3Z3YQ=="
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Follow Us on Instagram"
+            className="inline-flex items-center gap-2 transition hover:text-white"
+          >
+            <Instagram className="h-4 w-4 shrink-0" />
+            <span>Follow Us on Instagram</span>
+          </a>
+          <span className="mt-1 text-xs text-[#9eae9f]">© 2026 BookVision</span>
+        </div>
       </footer>
     </div>
   );
@@ -379,7 +481,8 @@ function BookCover({
           alt={`${book.name} cover`}
           loading="lazy"
           onError={(event) => {
-            event.currentTarget.style.display = 'none';
+            event.currentTarget.onerror = null;
+            event.currentTarget.src = getCoverPlaceholder(book.name);
           }}
           className="h-full w-full object-cover"
         />
@@ -396,10 +499,16 @@ function BookTile({
   book,
   onAddToCart,
   onAddRentalToCart,
+  isFavorite,
+  onToggleFavorite,
+  onRent,
 }: {
   book: Product;
   onAddToCart: (product: Product, quantity?: number) => void;
   onAddRentalToCart: (product: Product, quantity?: number) => void;
+  isFavorite: boolean;
+  onToggleFavorite: (product: Product) => void;
+  onRent: (product: Product, quantity?: number) => void;
 }) {
   return (
     <article className="book-tile group">
@@ -417,7 +526,19 @@ function BookTile({
         </button>
       </div>
       <div className="pt-3">
-        <p className="text-[11px] font-semibold text-[#6b7d6d]">{book.category}</p>
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-[11px] font-semibold text-[#6b7d6d]">{book.category}</p>
+          <button
+            type="button"
+            onClick={() => onToggleFavorite(book)}
+            aria-label={isFavorite ? `Remove ${book.name} from favorites` : `Add ${book.name} to favorites`}
+            aria-pressed={isFavorite}
+            title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            className="flex h-8 w-8 shrink-0 items-center justify-center text-[#6b7d6d] transition hover:text-rose-700"
+          >
+            <Heart className={`h-4 w-4 ${isFavorite ? 'fill-rose-700 text-rose-700' : ''}`} />
+          </button>
+        </div>
         <h3 className="mt-1 line-clamp-2 min-h-10 text-sm font-semibold leading-5 text-[#20392b]">{book.name}</h3>
         <p className="mt-1 truncate text-xs text-[#68766c]">{book.author}</p>
         <div className="mt-2 flex items-center justify-between gap-2">
@@ -427,13 +548,15 @@ function BookTile({
           </span>
         </div>
         {book.isRentable && (
-          <button
-            type="button"
-            onClick={() => onAddRentalToCart(book, 1)}
-            className="mt-2 text-xs font-semibold text-[#426c4d] hover:text-[#183629]"
-          >
-            Add rental · {formatCurrency(book.rentalPrice)} / {book.rentalDurationDays} days
-          </button>
+          <div className="mt-3 space-y-2">
+            <p className="text-[11px] font-medium text-[#68766c]">
+              Rent {formatCurrency(book.rentalPrice)} · {book.rentalDurationDays} days
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <button type="button" onClick={() => onRent(book, 1)} className="text-xs font-semibold text-[#426c4d] hover:text-[#183629]">Rent now</button>
+              <button type="button" onClick={() => onAddRentalToCart(book, 1)} className="text-xs font-semibold text-[#426c4d] hover:text-[#183629]">Add rental to bag</button>
+            </div>
+          </div>
         )}
       </div>
     </article>

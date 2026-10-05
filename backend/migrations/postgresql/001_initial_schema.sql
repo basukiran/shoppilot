@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS users (
     email         TEXT        NOT NULL UNIQUE,
     phone         TEXT        NOT NULL,
     password_hash TEXT        NOT NULL,
+    role          TEXT        NOT NULL DEFAULT 'CUSTOMER',
     created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
@@ -45,7 +46,14 @@ CREATE TABLE IF NOT EXISTS products (
     rental_duration_days INTEGER,
     author               TEXT,
     cover_image          TEXT,
-    is_book              INTEGER
+    is_book              INTEGER,
+    reserved_count       INTEGER DEFAULT 0,
+    rented_count         INTEGER DEFAULT 0,
+    sold_count           INTEGER DEFAULT 0,
+    damaged_count        INTEGER DEFAULT 0,
+    lost_count           INTEGER DEFAULT 0,
+    condition            TEXT DEFAULT 'GOOD',
+    is_active            INTEGER DEFAULT 1
 );
 
 -- ---------------------------------------------------------------------------
@@ -79,15 +87,18 @@ CREATE TABLE IF NOT EXISTS order_items (
 -- 5. memberships
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS memberships (
-    id                SERIAL PRIMARY KEY,
-    customer_id       TEXT        NOT NULL,
-    plan_name         TEXT        NOT NULL,
-    monthly_fee       REAL        NOT NULL,
-    status            TEXT,
-    start_date        TIMESTAMPTZ,
-    next_billing_date TIMESTAMPTZ,
-    created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    user_id           INTEGER     REFERENCES users(id)
+    id                   SERIAL PRIMARY KEY,
+    customer_id          TEXT        NOT NULL,
+    plan_name            TEXT        NOT NULL,
+    monthly_fee          REAL        NOT NULL,
+    reader_type          TEXT        NOT NULL DEFAULT 'REGULAR_READER',
+    membership_fee       REAL        NOT NULL DEFAULT 500,
+    membership_expires_at TIMESTAMPTZ,
+    status               TEXT,
+    start_date           TIMESTAMPTZ,
+    next_billing_date    TIMESTAMPTZ,
+    created_at           TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    user_id              INTEGER     REFERENCES users(id)
 );
 
 -- ---------------------------------------------------------------------------
@@ -99,6 +110,7 @@ CREATE TABLE IF NOT EXISTS rentals (
     product_id        INTEGER     NOT NULL REFERENCES products(id),
     membership_id     INTEGER     REFERENCES memberships(id),
     rental_fee        REAL        NOT NULL,
+    reader_type       TEXT        NOT NULL DEFAULT 'REGULAR_READER',
     ownership_price   REAL,
     rental_start_date TIMESTAMPTZ,
     rental_end_date   TIMESTAMPTZ,
@@ -107,11 +119,12 @@ CREATE TABLE IF NOT EXISTS rentals (
     customer_decision TEXT,
     payment_status    TEXT,
     created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    membership_fee    REAL,
+    membership_fee     REAL,
     refund_amount     REAL,
     refund_status     TEXT,
     refund_payment_id TEXT,
     rental_payment_id INTEGER,
+    condition         TEXT DEFAULT 'GOOD',
     user_id           INTEGER     REFERENCES users(id)
 );
 
@@ -140,6 +153,7 @@ CREATE TABLE IF NOT EXISTS rental_payments (
     membership_fee      REAL    NOT NULL,
     rental_fee          REAL    NOT NULL,
     total_amount        REAL    NOT NULL,
+    reader_type         TEXT    NOT NULL DEFAULT 'REGULAR_READER',
     status              TEXT,
     razorpay_payment_id TEXT,
     user_id             INTEGER REFERENCES users(id)

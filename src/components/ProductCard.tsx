@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   Star,
   ShoppingCart,
+  Heart,
   Check,
   X,
   TrendingUp,
@@ -12,6 +13,7 @@ import {
 
 import type { Product } from '@/types';
 import { cn, formatCurrency } from '@/lib/utils';
+import { getCoverPlaceholder } from '@/lib/bookCovers';
 
 const iconMap: Record<string, string> = {
   book: '📚',
@@ -24,6 +26,8 @@ export function ProductCard({
   onAddToCart,
   onAddRentalToCart,
   onRent,
+  isFavorite = false,
+  onToggleFavorite,
 }: {
   product: Product;
   compact?: boolean;
@@ -43,6 +47,8 @@ export function ProductCard({
     product: Product,
     quantity: number
   ) => void;
+  isFavorite?: boolean;
+  onToggleFavorite?: (product: Product) => void;
 }) {
   const [quantity, setQuantity] = useState(1);
 
@@ -169,10 +175,24 @@ export function ProductCard({
             alt={`${product.name} cover`}
             loading="lazy"
             onError={(event) => {
-              event.currentTarget.style.display = 'none';
+              event.currentTarget.onerror = null;
+              event.currentTarget.src = getCoverPlaceholder(product.name);
             }}
             className="absolute inset-0 h-full w-full object-contain p-2"
           />
+        )}
+
+        {onToggleFavorite && (
+          <button
+            type="button"
+            onClick={() => onToggleFavorite(product)}
+            aria-label={isFavorite ? `Remove ${product.name} from favorites` : `Add ${product.name} to favorites`}
+            aria-pressed={isFavorite}
+            title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            className="absolute bottom-3 right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-ink-200 bg-white/95 text-ink-500 shadow-sm transition hover:text-danger-600"
+          >
+            <Heart className={`h-4 w-4 ${isFavorite ? 'fill-danger-500 text-danger-500' : ''}`} />
+          </button>
         )}
 
         {/* Discount */}
@@ -352,8 +372,7 @@ export function ProductCard({
 
             <p className="mt-1 text-[11px] text-ink-500">
 
-              Keep the book with no extra payment, or return it for a ₹400
-              deposit refund after BookVision receives it.
+              Select your reader plan at checkout: regular readers keep the annual membership model, while specific-book readers can receive a ₹300 refund after confirmed return.
 
             </p>
 

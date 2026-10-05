@@ -20,6 +20,7 @@ import type {
 } from '@/types';
 
 import { cn, formatCurrency } from '@/lib/utils';
+import { apiFetch } from '@/lib/api';
 
 const typeIcon: Record<AgentActionType, typeof Search> = {
   product_search: Search,
@@ -104,9 +105,7 @@ export function ActivityView() {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        'http://127.0.0.1:8000/orders'
-      );
+      const response = await apiFetch('/orders');
 
       if (!response.ok) {
         throw new Error('Failed to fetch orders');

@@ -12,8 +12,8 @@ import {
   ArrowLeft,
 } from 'lucide-react';
 
-import type { Product } from '@/types';
-import { apiFetch } from '@/lib/api';
+import type { AccountUser, Product } from '@/types';
+import { apiFetch, normalizeProductId } from '@/lib/api';
 import { formatCurrency, cn } from '@/lib/utils';
 
 type Phase = 'review' | 'processing' | 'approved' | 'declined';
@@ -29,10 +29,12 @@ export function PaymentApprovalView({
   onNavigate,
   product,
   quantity,
+  user,
 }: {
   onNavigate: (v: ViewKey) => void;
   product: Product;
   quantity: number;
+  user: AccountUser | null;
 }) {
   const [phase, setPhase] = useState<Phase>('review');
   const [orderResult, setOrderResult] = useState<any>(null);
@@ -76,13 +78,29 @@ export function PaymentApprovalView({
       // --------------------------------------------
       // 1. CREATE RAZORPAY ORDER ON SERVER
       // --------------------------------------------
-
-      const createResponse = await apiFetch(
-        `/payment/create?product_id=${product.id}&quantity=${quantity}`,
-        {
-          method: 'POST',
-        }
-      );
+      const createResponse = product.comboItems?.length
+        ? await apiFetch('/payment/create-combo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: product.name,
+              quantity,
+              items: product.comboItems.map((item) => ({
+                product_id: item.productId,
+                quantity: item.quantity,
+              })),
+            }),
+          })
+        : await (() => {
+            const normalizedProductId = normalizeProductId(product.id);
+            if (normalizedProductId === null) {
+              throw new Error('Invalid product ID for purchase checkout.');
+            }
+            return apiFetch(
+              `/payment/create?product_id=${normalizedProductId}&quantity=${quantity}`,
+              { method: 'POST' }
+            );
+          })();
 
       if (!createResponse.ok) {
         const errorData = await createResponse.json().catch(() => null);
@@ -124,9 +142,9 @@ export function PaymentApprovalView({
         order_id: razorpayOrder.razorpay_order_id,
 
         prefill: {
-          name: 'Alex Morgan',
-          email: 'alex@bookvision.ai',
-          contact: '+919876543210',
+          name: user?.name || '',
+          email: user?.email || '',
+          contact: user?.phone || '',
         },
 
         notes: {
@@ -259,6 +277,11 @@ export function PaymentApprovalView({
 
           <p className="mt-2 text-sm text-ink-500">
             Your Razorpay payment has been verified and your order is confirmed.
+          </p>
+
+          <p className="mt-3 rounded-lg bg-brand-50 p-3 text-sm text-brand-800">
+            To arrange collection at your preferred location, call{' '}
+            <a className="font-semibold underline" href="tel:7483400665">7483400665</a> and share your order ID.
           </p>
 
           <div className="mt-6 rounded-xl bg-ink-50 p-4 text-left text-sm">

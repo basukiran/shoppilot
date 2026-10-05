@@ -15,14 +15,18 @@ import { PaymentApprovalView } from '@/views/PaymentApprovalView';
 import { PaymentFailureView } from '@/views/PaymentFailureView';
 import RentalCheckoutView from './components/RentalCheckoutView';
 import RentalManagementView from './components/RentalManagementView';
+import { FavoritesView } from '@/views/FavoritesView';
+import { CustomersView } from '@/views/CustomersView';
 
 import type { Product } from '@/types';
 import type { AccountUser } from '@/types';
+import { toBookProduct, type BookApiRecord } from '@/lib/bookProducts';
 import { apiFetch } from '@/lib/api';
 
 type ViewKey =
   | 'dashboard'
   | 'account'
+  | 'favorites'
   | 'ai-buyer'
   | 'orders'
   | 'cart'
@@ -31,7 +35,8 @@ type ViewKey =
   | 'payment-approval'
   | 'payment-failure'
   | 'rental-checkout'
-  | 'rental-management';
+  | 'rental-management'
+  | 'customers';
 
 const INTRO_SESSION_KEY = 'bookvision-intro-seen-v1';
 
@@ -55,6 +60,8 @@ function App() {
   const [view, setView] = useState<ViewKey>('dashboard');
   const [accountUser, setAccountUser] = useState<AccountUser | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [favoriteBooks, setFavoriteBooks] = useState<Product[]>([]);
+  const [favoritesLoading, setFavoritesLoading] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -88,6 +95,42 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!accountUser) {
+      setFavoriteBooks([]);
+      setFavoritesLoading(false);
+      return;
+    }
+
+    let active = true;
+    setFavoritesLoading(true);
+    apiFetch('/favorites')
+      .then(async (response) => {
+        const data = await response.json().catch(() => null);
+        if (!response.ok) {
+          throw new Error(data?.detail || 'Unable to load favorites.');
+        }
+        if (active && Array.isArray(data)) {
+          setFavoriteBooks(data.map((book: BookApiRecord) => toBookProduct(book)));
+        }
+      })
+      .catch((error: unknown) => {
+        if (active) {
+          console.error('Favorites load error:', error);
+          setFavoriteBooks([]);
+        }
+      })
+      .finally(() => {
+        if (active) {
+          setFavoritesLoading(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [accountUser]);
+
   const [selectedProduct, setSelectedProduct] =
     useState<Product | null>(null);
 
@@ -106,6 +149,9 @@ function App() {
   const [rentalQuantity, setRentalQuantity] =
   useState(1);
 
+  const [newRentalId, setNewRentalId] =
+    useState<number | null>(null);
+
   const finishIntro = () => {
     try {
       window.sessionStorage.setItem(INTRO_SESSION_KEY, 'true');
@@ -122,8 +168,40 @@ function App() {
 
   const navigate = (v: ViewKey) => {
     setView(v);
+    if (v !== 'rental-management') {
+      setNewRentalId(null);
+    }
     setSidebarOpen(false);
   };
+
+  const toggleFavorite = async (product: Product) => {
+    if (!accountUser) {
+      navigate('account');
+      return;
+    }
+
+    const isFavorite = favoriteBooks.some((book) => book.id === product.id);
+    try {
+      const response = await apiFetch(`/favorites/${encodeURIComponent(product.id)}`, {
+        method: isFavorite ? 'DELETE' : 'POST',
+      });
+      if (!response.ok) {
+        if (response.status === 401) {
+          navigate('account');
+        }
+        throw new Error('Unable to update favorites.');
+      }
+      setFavoriteBooks((current) => isFavorite
+        ? current.filter((book) => book.id !== product.id)
+        : current.some((book) => book.id === product.id)
+          ? current
+          : [product, ...current]);
+    } catch (error) {
+      console.error('Favorites update error:', error);
+    }
+  };
+
+  const favoriteIds = new Set(favoriteBooks.map((product) => product.id));
 
   const logout = async () => {
     try {
@@ -292,6 +370,7 @@ function App() {
         current={view}
         onNavigate={navigate}
         open={sidebarOpen}
+        isAdmin={accountUser?.is_admin === true}
         onClose={() =>
           setSidebarOpen(false)
         }
@@ -332,6 +411,8 @@ function App() {
                   addToCart(product, quantity, 'rental')
                 }
                 onRent={openRentalCheckout}
+                favoriteIds={favoriteIds}
+                onToggleFavorite={toggleFavorite}
               />
             )}
 
@@ -347,6 +428,8 @@ function App() {
               />
             )}
 
+            {view === 'customers' && <CustomersView />}
+
             {/* ========================= */}
             {/* AI BUYER */}
             {/* ========================= */}
@@ -360,7 +443,24 @@ function App() {
     addToCart(product, quantity, 'rental')
   }
   onRent={openRentalCheckout}
+  favoriteIds={favoriteIds}
+  onToggleFavorite={toggleFavorite}
 />
+            )}
+
+            {view === 'favorites' && (
+              <FavoritesView
+                user={accountUser}
+                loading={favoritesLoading}
+                products={favoriteBooks}
+                onNavigate={navigate}
+                onToggleFavorite={toggleFavorite}
+                onAddToCart={addToCart}
+                onAddRentalToCart={(product, quantity = 1) =>
+                  addToCart(product, quantity, 'rental')
+                }
+                onRent={openRentalCheckout}
+              />
             )}
 
             {/* ========================= */}
@@ -395,6 +495,8 @@ function App() {
             {view === 'rental-management' && (
   <RentalManagementView
     onBack={() => navigate('ai-buyer')}
+    newlyCreatedRentalId={newRentalId}
+    isAdmin={accountUser?.is_admin === true}
   />
 )}
 
@@ -424,6 +526,7 @@ function App() {
                   onNavigate={navigate}
                   product={selectedProduct}
                   quantity={selectedQuantity}
+                  user={accountUser}
                 />
               )}
 
@@ -432,6 +535,10 @@ function App() {
     product={rentalProduct}
     quantity={rentalQuantity}
     onBack={() => navigate('ai-buyer')}
+    onSuccess={(data) => {
+      setNewRentalId(Number(data.rental_id));
+      navigate('rental-management');
+    }}
   />
 )}
 

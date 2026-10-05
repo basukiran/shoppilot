@@ -5,7 +5,7 @@ import {
   CreditCard,
 } from 'lucide-react';
 import type { Product } from '../types';
-import { apiFetch } from '../lib/api';
+import { apiFetch, normalizeProductId } from '../lib/api';
 
 interface RentalCheckoutViewProps {
   product: Product;
@@ -32,16 +32,32 @@ export default function RentalCheckoutView({
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [readerType, setReaderType] = useState<'REGULAR_READER' | 'SPECIFIC_BOOK_READER'>('REGULAR_READER');
 
- const membershipFee = 500;
+  const membershipFee = 500;
 
-const rentalFee =
-  (product.rentalPrice ?? 0) * quantity;
+  const rentalFee =
+    (product.rentalPrice ?? 0) * quantity;
 
-const totalAmount =
-  membershipFee + rentalFee;
+  const totalAmount =
+    membershipFee + rentalFee;
   const rentalDuration =
     product.rentalDurationDays ?? 30;
+
+  const readerDetails = {
+    REGULAR_READER: {
+      label: 'Regular Reader',
+      subtitle: 'Annual membership · ₹500',
+      description: 'Access rentals for 1 year with no early refund.',
+      refund: 'No early refund.',
+    },
+    SPECIFIC_BOOK_READER: {
+      label: 'Specific Book Reader',
+      subtitle: '1-month rental plan · ₹500',
+      description: 'Book-specific membership with a ₹300 refund after the returned book is received and verified.',
+      refund: 'Up to ₹300 refund after return confirmation.',
+    },
+  };
 
   const loadRazorpay = () => {
     return new Promise<boolean>((resolve) => {
@@ -67,6 +83,12 @@ const totalAmount =
     setError('');
 
     try {
+      const normalizedProductId = normalizeProductId(product.id);
+
+      if (normalizedProductId === null) {
+        throw new Error('Invalid product ID for rental checkout.');
+      }
+
       const razorpayLoaded = await loadRazorpay();
 
       if (!razorpayLoaded) {
@@ -78,7 +100,7 @@ const totalAmount =
       // ---------------------------------------------
 
       const createResponse = await apiFetch(
-        `/rental/payment/create?product_id=${product.id}&quantity=${quantity}`,
+        `/rental/payment/create?product_id=${normalizedProductId}&quantity=${quantity}&reader_type=${readerType}`,
         {
           method: 'POST',
         }
@@ -114,7 +136,7 @@ const totalAmount =
 
         notes: {
           type: 'rental',
-          product_id: String(product.id),
+          product_id: String(normalizedProductId),
           quantity: String(quantity),
         },
 
@@ -279,12 +301,12 @@ const totalAmount =
 
             <div className="mt-6 rounded-xl border border-blue-200 bg-blue-50 p-5 text-left">
               <p className="font-semibold text-blue-900">
-                Keep or return your book
+                {readerType === 'REGULAR_READER' ? 'Regular Reader' : 'Specific Book Reader'} plan active
               </p>
               <p className="mt-2 text-sm text-blue-800">
-                After delivery, keep the book with no additional payment or
-                return it. Once BookVision receives the book, ₹400 of the
-                ₹500 deposit is refunded and ₹100 is retained.
+                {readerType === 'REGULAR_READER'
+                  ? 'Your membership is valid for 1 year. You pay the rental fee and keep the book as needed, with no early refund.'
+                  : 'Your rental is for one month. When the book is returned and confirmed, a ₹300 refund can be processed for the specific-book plan.'}
               </p>
             </div>
 
@@ -387,10 +409,41 @@ const totalAmount =
             <div className="mt-6 border-t pt-6">
 
               <h3 className="font-semibold text-gray-900">
-                Rental details
+                Reader plan
               </h3>
 
-              <div className="mt-4 space-y-3 text-sm">
+              <div className="mt-4 grid gap-3">
+                {Object.entries(readerDetails).map(([key, plan]) => {
+                  const isSelected = readerType === key;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setReaderType(key as 'REGULAR_READER' | 'SPECIFIC_BOOK_READER')}
+                      className={[
+                        'rounded-xl border p-4 text-left transition',
+                        isSelected
+                          ? 'border-gray-900 bg-gray-900 text-white'
+                          : 'border-gray-200 bg-white text-gray-900 hover:border-gray-300',
+                      ].join(' ')}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div>
+                          <p className="font-semibold">{plan.label}</p>
+                          <p className={isSelected ? 'mt-1 text-sm text-gray-200' : 'mt-1 text-sm text-gray-500'}>{plan.subtitle}</p>
+                        </div>
+                        <span className={[
+                          'rounded-full px-2 py-1 text-xs font-semibold',
+                          isSelected ? 'bg-white/10 text-white' : 'bg-gray-100 text-gray-700',
+                        ].join(' ')}>{plan.refund}</span>
+                      </div>
+                      <p className={isSelected ? 'mt-3 text-sm text-gray-200' : 'mt-3 text-sm text-gray-600'}>{plan.description}</p>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="mt-6 space-y-3 text-sm">
 
                 <div className="flex justify-between">
                   <span className="text-gray-600">
@@ -435,11 +488,11 @@ const totalAmount =
               </p>
 
               <p className="mt-1 text-sm leading-6 text-yellow-800">
-                <strong>Keep:</strong> the book becomes yours. The ₹500 deposit
-                is retained and no additional payment is due.
+                <strong>Keep:</strong> the book becomes yours and the actual purchase price is recorded against the book.
                 <br />
-                <strong>Return:</strong> after BookVision receives the book,
-                ₹400 of the deposit is refunded and ₹100 is retained.
+                <strong>Return:</strong> {readerType === 'REGULAR_READER'
+                  ? 'Regular Reader plans do not receive an early refund.'
+                  : 'Specific Book Reader plans can receive a ₹300 refund after the returned book is received and validated.'}
               </p>
 
             </div>

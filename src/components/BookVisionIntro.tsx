@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
+import jnanaNidhiLogo from '@/assets/jnana-nidhi-hubballi.jpeg';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -7,80 +8,6 @@ import { Volume2, VolumeX } from 'lucide-react';
 
 interface Props {
   onFinish: () => void;
-}
-
-// ---------------------------------------------------------------------------
-// Sound helpers — ambient nature audio via Web Audio API.
-// Autoplay is blocked by browsers until the user has interacted with the page.
-// We attempt to start on first user interaction (pointer/key), never force it.
-// ---------------------------------------------------------------------------
-
-function createAmbientSound(ctx: AudioContext): () => void {
-  const master = ctx.createGain();
-  master.gain.setValueAtTime(0, ctx.currentTime);
-  master.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 2.4);
-  master.connect(ctx.destination);
-
-  const nodes: AudioNode[] = [];
-
-  // Soft wind — filtered white noise
-  const bufferSize = ctx.sampleRate * 3;
-  const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-  const data = noiseBuffer.getChannelData(0);
-  for (let i = 0; i < bufferSize; i++) {
-    data[i] = (Math.random() * 2 - 1) * 0.35;
-  }
-  const noiseSource = ctx.createBufferSource();
-  noiseSource.buffer = noiseBuffer;
-  noiseSource.loop = true;
-  const lowpass = ctx.createBiquadFilter();
-  lowpass.type = 'lowpass';
-  lowpass.frequency.value = 420;
-  lowpass.Q.value = 0.6;
-  noiseSource.connect(lowpass);
-  lowpass.connect(master);
-  noiseSource.start();
-  nodes.push(noiseSource);
-
-  // Page-turn whoosh — short swept bandpass at t=0.7s
-  const whoosh = ctx.createOscillator();
-  whoosh.type = 'sine';
-  whoosh.frequency.setValueAtTime(220, ctx.currentTime + 0.7);
-  whoosh.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 1.35);
-  const whooshGain = ctx.createGain();
-  whooshGain.gain.setValueAtTime(0, ctx.currentTime + 0.7);
-  whooshGain.gain.linearRampToValueAtTime(0.22, ctx.currentTime + 0.85);
-  whooshGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 1.4);
-  whoosh.connect(whooshGain);
-  whooshGain.connect(master);
-  whoosh.start(ctx.currentTime + 0.7);
-  whoosh.stop(ctx.currentTime + 1.5);
-  nodes.push(whoosh);
-
-  // Soft bird chirp — two sine tones at t=1.8s
-  [1800, 2200].forEach((freq, i) => {
-    const bird = ctx.createOscillator();
-    bird.type = 'sine';
-    bird.frequency.value = freq;
-    const bGain = ctx.createGain();
-    const t = ctx.currentTime + 1.8 + i * 0.18;
-    bGain.gain.setValueAtTime(0, t);
-    bGain.gain.linearRampToValueAtTime(0.07, t + 0.06);
-    bGain.gain.linearRampToValueAtTime(0, t + 0.22);
-    bird.connect(bGain);
-    bGain.connect(master);
-    bird.start(t);
-    bird.stop(t + 0.3);
-    nodes.push(bird);
-  });
-
-  return () => {
-    master.gain.setValueAtTime(master.gain.value, ctx.currentTime);
-    master.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.5);
-    nodes.forEach((n) => {
-      try { (n as OscillatorNode | AudioBufferSourceNode).stop(ctx.currentTime + 0.6); } catch { /* already stopped */ }
-    });
-  };
 }
 
 // ---------------------------------------------------------------------------
@@ -94,30 +21,28 @@ export function BookVisionIntro({ onFinish }: Props) {
 
   const finishRef = useRef<() => void>(() => {});
   const skipButtonRef = useRef<HTMLButtonElement>(null);
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const stopSoundRef = useRef<(() => void) | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const introTimerRef = useRef<number | null>(null);
   const soundStartedRef = useRef(false);
 
-  // ---- Sound: start on first interaction (pointer or key) ----------------
-  const startSound = () => {
-    if (soundStartedRef.current || muted) return;
+  const playVoice = () => {
+    const audio = audioRef.current;
+    if (!audio || soundStartedRef.current) return;
     soundStartedRef.current = true;
 
-    try {
-      const ctx = new AudioContext();
-      audioCtxRef.current = ctx;
-      if (ctx.state === 'suspended') {
-        ctx.resume().then(() => {
-          stopSoundRef.current = createAmbientSound(ctx);
-          setSoundReady(true);
-        });
-      } else {
-        stopSoundRef.current = createAmbientSound(ctx);
-        setSoundReady(true);
+    audio.play().then(() => {
+      setSoundReady(true);
+      if (introTimerRef.current !== null) {
+        window.clearTimeout(introTimerRef.current);
+        introTimerRef.current = null;
       }
-    } catch {
-      // Web Audio not available — silent fallback, site still works
-    }
+    }).catch(() => {
+      soundStartedRef.current = false;
+    });
+  };
+
+  const startSound = () => {
+    if (!muted) playVoice();
   };
 
   // ---- Lifecycle ---------------------------------------------------------
@@ -129,29 +54,37 @@ export function BookVisionIntro({ onFinish }: Props) {
       if (finished) return;
       finished = true;
       setLeaving(true);
-      stopSoundRef.current?.();
-      audioCtxRef.current?.close();
+      if (introTimerRef.current !== null) {
+        window.clearTimeout(introTimerRef.current);
+        introTimerRef.current = null;
+      }
+      audioRef.current?.pause();
+      if (audioRef.current) audioRef.current.currentTime = 0;
       finishTimer = window.setTimeout(onFinish, 500);
     };
 
     finishRef.current = finish;
 
-    // Auto-advance after full cinematic sequence (~5 s)
-    const introTimer = window.setTimeout(finish, 5200);
+    introTimerRef.current = window.setTimeout(finish, 5200);
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      startSound();
-      if (e.key === 'Escape') finish();
+      if (e.key === 'Escape') {
+        finish();
+        return;
+      }
+      if (!(e.target instanceof Element) || !e.target.closest('.bv2-controls')) startSound();
     };
 
-    const handlePointer = () => startSound();
+    const handlePointer = (event: PointerEvent) => {
+      if (!(event.target instanceof Element) || !event.target.closest('.bv2-controls')) startSound();
+    };
 
     skipButtonRef.current?.focus();
     window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('pointerdown', handlePointer, { once: true });
+    window.addEventListener('pointerdown', handlePointer);
 
     return () => {
-      window.clearTimeout(introTimer);
+      if (introTimerRef.current !== null) window.clearTimeout(introTimerRef.current);
       window.clearTimeout(finishTimer);
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('pointerdown', handlePointer);
@@ -159,20 +92,20 @@ export function BookVisionIntro({ onFinish }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onFinish]);
 
-  // ---- Mute toggle -------------------------------------------------------
   const toggleMute = () => {
-    setMuted((m) => {
-      const next = !m;
-      if (next) {
-        stopSoundRef.current?.();
-        audioCtxRef.current?.close();
-        audioCtxRef.current = null;
-        stopSoundRef.current = null;
-        soundStartedRef.current = false;
-        setSoundReady(false);
+    const next = !muted;
+    setMuted(next);
+    if (next) {
+      audioRef.current?.pause();
+      if (audioRef.current) audioRef.current.currentTime = 0;
+      soundStartedRef.current = false;
+      setSoundReady(false);
+      if (introTimerRef.current === null) {
+        introTimerRef.current = window.setTimeout(() => finishRef.current(), 5200);
       }
-      return next;
-    });
+    } else {
+      playVoice();
+    }
   };
 
   // ---- Render ------------------------------------------------------------
@@ -184,6 +117,16 @@ export function BookVisionIntro({ onFinish }: Props) {
       aria-label="BookVision opening animation"
       aria-live="polite"
     >
+      <audio
+        ref={audioRef}
+        src="/audio/bookvision-opening.mpeg"
+        preload="auto"
+        muted={muted}
+        onEnded={() => {
+          setSoundReady(false);
+          finishRef.current();
+        }}
+      />
       {/* ── Controls ── */}
       <div className="bv2-controls" aria-hidden="false">
         <button
@@ -272,7 +215,8 @@ export function BookVisionIntro({ onFinish }: Props) {
 
         {/* ── Branding ── */}
         <div className="bv2-brand">
-          <span className="bv2-wordmark">BookVision</span>
+          <img src={jnanaNidhiLogo} alt="Jnana Nidhi Hubballi logo" className="bv2-brand-logo" />
+          <span className="bv2-wordmark">Jnana Nidhi · BookVision</span>
           <span className="bv2-tagline">A little more wonder, every day.</span>
         </div>
 

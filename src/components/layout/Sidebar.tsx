@@ -8,8 +8,11 @@ import {
   RefreshCw,
   BookOpen,
   UserRound,
+  Heart,
+  Users,
 } from 'lucide-react';
 import type { ViewKey } from '@/types';
+import jnanaNidhiLogo from '@/assets/jnana-nidhi-hubballi.jpeg';
 
 interface NavItem {
   key: ViewKey;
@@ -17,6 +20,7 @@ interface NavItem {
   icon: typeof LayoutDashboard;
   group: 'main';
   badge?: string;
+  adminOnly?: boolean;
 }
 
 const navItems: NavItem[] = [
@@ -30,6 +34,19 @@ const navItems: NavItem[] = [
     key: 'account',
     label: 'My Account',
     icon: UserRound,
+    group: 'main',
+  },
+  {
+    key: 'customers',
+    label: 'Customers',
+    icon: Users,
+    group: 'main',
+    adminOnly: true,
+  },
+  {
+    key: 'favorites',
+    label: 'Favorites',
+    icon: Heart,
     group: 'main',
   },
   {
@@ -63,14 +80,16 @@ export function Sidebar({
   current,
   onNavigate,
   open,
+  isAdmin,
   onClose,
 }: {
   current: ViewKey;
   onNavigate: (v: ViewKey) => void;
   open: boolean;
+  isAdmin: boolean;
   onClose: () => void;
 }) {
-  const main = navItems.filter((n) => n.group === 'main');
+  const main = navItems.filter((n) => n.group === 'main' && (!n.adminOnly || isAdmin));
 
   return (
     <>
@@ -90,17 +109,15 @@ export function Sidebar({
       >
         {/* Logo */}
         <div className="flex h-[76px] items-center gap-3 px-5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-700 text-white shadow-soft">
-            <BookOpen className="h-5 w-5" />
-          </div>
+          <img src={jnanaNidhiLogo} alt="Jnana Nidhi Hubballi" className="h-11 w-11 shrink-0 object-contain" />
 
           <div className="leading-tight">
             <p className="font-display text-base font-bold text-ink-900">
-              BookVision
+              Jnana Nidhi
             </p>
 
             <p className="text-[10px] font-medium text-ink-500">
-              Books · Reading · Ideas
+              Hubballi · BookVision
             </p>
           </div>
         </div>

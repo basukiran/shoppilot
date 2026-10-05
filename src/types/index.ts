@@ -1,6 +1,7 @@
 export type ViewKey =
   | 'dashboard'
   | 'account'
+  | 'favorites'
   | 'ai-buyer'
   | 'orders'
   | 'cart'
@@ -9,7 +10,8 @@ export type ViewKey =
   | 'payment-approval'
   | 'payment-failure'
   | 'rental-checkout'
-  | 'rental-management';
+  | 'rental-management'
+  | 'customers';
 export type AgentActionType =
   | 'product_search'
   | 'stock_verification'
@@ -25,6 +27,8 @@ export interface AccountUser {
   email: string;
   phone: string;
   created_at: string;
+  role?: string;
+  is_admin?: boolean;
 }
 
 export interface Product {
@@ -50,6 +54,7 @@ export interface Product {
   rentalPrice: number;
   ownershipPrice?: number;
   rentalDurationDays: number;
+  comboItems?: { productId: string; quantity: number }[];
 }
 
 export interface ChatMessage {

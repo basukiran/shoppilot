@@ -1,4 +1,5 @@
 import type { Product } from '@/types';
+import { getCoverPlaceholder } from '@/lib/bookCovers';
 
 type NumericValue = number | string | null;
 
@@ -30,13 +31,19 @@ export interface BookApiRecord {
 
 export function toBookProduct(book: BookApiRecord): Product {
   const stockCount = Number(book.stock ?? 0);
+  const coverImage = book.cover_image ?? book.coverImage ?? '';
+  const safeCoverImage = /^(https:\/\/|data:image\/)/i.test(coverImage)
+    ? coverImage
+    : getCoverPlaceholder(book.name);
 
   return {
     id: String(book.id),
     name: book.name,
-    author: book.author ?? 'Unknown author',
+    author: book.author && !['BookVision', 'Kannada Classic'].includes(book.author)
+      ? book.author
+      : 'Author unavailable',
     description: book.description ?? '',
-    coverImage: book.cover_image ?? book.coverImage ?? '',
+    coverImage: safeCoverImage,
     brand: book.brand ?? 'BookVision',
     price: Number(book.price ?? 0),
     originalPrice: book.originalPrice

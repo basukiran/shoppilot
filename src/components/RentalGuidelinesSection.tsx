@@ -6,7 +6,7 @@
  *
  * No external animation library. Styles live in index.css under .bvr-*.
  * Pricing values intentionally match the live business model:
- *   ₹500 security deposit · ₹50 rental fee · ₹550 total · ₹400 return refund
+ *   ₹500 membership fee · actual rental fee paid per book · specific-book refund of ₹300 after return confirmation
  */
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
@@ -37,8 +37,8 @@ const cards: GuideCard[] = [
     id: 'deposit',
     icon: <ShieldCheck className="h-6 w-6" strokeWidth={1.6} />,
     step: '01',
-    title: 'Membership & Security Deposit',
-    body: 'A refundable ₹500 security deposit is collected alongside the ₹50 rental fee at checkout. The deposit is held to protect against loss or damage, and is partially refunded on a clean return.',
+    title: 'Reader Membership',
+    body: 'Choose either Regular Reader or Specific Book Reader at checkout. Both plans pay the ₹500 membership fee plus the actual rental fee for the selected title.',
     accent: 'bvr-accent--green',
   },
   {
@@ -61,8 +61,8 @@ const cards: GuideCard[] = [
     id: 'return',
     icon: <RotateCcw className="h-6 w-6" strokeWidth={1.6} />,
     step: '04',
-    title: 'Return Within 30 Days',
-    body: 'The rental period is 30 days from delivery. Return the book within this window to receive a ₹400 refund from your deposit. Decide to keep the book, and no additional payment is required.',
+    title: 'Return & Refund',
+    body: 'Regular Reader plans do not receive an early refund. Specific Book Reader plans can receive a ₹300 refund after the book is returned and the return is confirmed by BookVision.',
     accent: 'bvr-accent--green',
   },
   {

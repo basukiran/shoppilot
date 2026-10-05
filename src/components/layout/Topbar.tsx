@@ -19,6 +19,8 @@ import {
 } from 'lucide-react';
 
 import { apiFetch } from '@/lib/api';
+import { getCoverPlaceholder } from '@/lib/bookCovers';
+import jnanaNidhiLogo from '@/assets/jnana-nidhi-hubballi.jpeg';
 import type { AccountUser } from '@/types';
 
 // ---------------------------------------------------------------------------
@@ -28,13 +30,17 @@ import type { AccountUser } from '@/types';
 type ViewKey =
   | 'dashboard'
   | 'account'
+  | 'favorites'
   | 'ai-buyer'
   | 'cart'
+  | 'growth'
+  | 'activity'
   | 'rental-checkout'
   | 'rental-management'
   | 'orders'
   | 'payment-approval'
-  | 'payment-failure';
+  | 'payment-failure'
+  | 'customers';
 
 interface BackendNotification {
   id: number;
@@ -56,6 +62,14 @@ const titles: Record<ViewKey, { title: string; subtitle: string }> = {
     title: 'My Account',
     subtitle: 'Profile, orders, rentals, payments, and addresses',
   },
+  customers: {
+    title: 'Customers',
+    subtitle: 'Customer accounts, orders, and spending',
+  },
+  favorites: {
+    title: 'Favorites',
+    subtitle: 'Books saved to your reading list',
+  },
   dashboard: {
     title: 'Bookstore',
     subtitle: 'Find a book that feels like yours',
@@ -67,6 +81,14 @@ const titles: Record<ViewKey, { title: string; subtitle: string }> = {
   cart: {
     title: 'Cart',
     subtitle: 'Your reading bag',
+  },
+  growth: {
+    title: 'Growth',
+    subtitle: 'Business performance and opportunities',
+  },
+  activity: {
+    title: 'Activity',
+    subtitle: 'Recent BookVision activity',
   },
   'rental-checkout': {
     title: 'Rental Checkout',
@@ -355,6 +377,14 @@ export function Topbar({
         <Menu className="h-5 w-5" />
       </button>
 
+      {/* LOGO — visible on mobile only (sidebar shows it on desktop) */}
+      <img
+        src={jnanaNidhiLogo}
+        alt="Jnana Nidhi Hubballi"
+        className="h-8 w-8 shrink-0 object-contain lg:hidden"
+        aria-hidden="true"
+      />
+
       {/* PAGE TITLE */}
       <div className="min-w-0 flex-1">
         <h1 className="truncate font-display text-lg font-bold text-ink-900">
@@ -446,6 +476,10 @@ export function Topbar({
                           src={product.cover_image}
                           alt={`${product.name} cover`}
                           loading="lazy"
+                          onError={(event) => {
+                            event.currentTarget.onerror = null;
+                            event.currentTarget.src = getCoverPlaceholder(product.name);
+                          }}
                           className="h-14 w-10 shrink-0 rounded-sm object-cover"
                         />
                       ) : (

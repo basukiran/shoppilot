@@ -28,9 +28,12 @@ Safety rules:
 
 import os
 import sys
+import argparse
 from pathlib import Path
+from urllib.parse import urlsplit
 
 from dotenv import load_dotenv
+from schema import verify_postgresql_schema
 
 load_dotenv()
 
@@ -111,6 +114,14 @@ def main():
     print("\nBookVision — PostgreSQL migration runner")
     print("=" * 44)
 
+    parser = argparse.ArgumentParser(description="Apply or verify BookVision PostgreSQL migrations.")
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="verify the production schema without applying migrations or changing data",
+    )
+    args = parser.parse_args()
+
     # Guard: refuse to run without DATABASE_URL
     if not DATABASE_URL:
         print(
@@ -120,9 +131,14 @@ def main():
         )
         sys.exit(1)
 
-    # Mask credentials in log output
-    safe_url = DATABASE_URL.split("@")[-1] if "@" in DATABASE_URL else DATABASE_URL
-    print(f"\n  Target: ...@{safe_url}")
+    # Report the destination without printing username, password, or query args.
+    parsed_url = urlsplit(DATABASE_URL)
+    safe_target = parsed_url.hostname or "configured PostgreSQL server"
+    if parsed_url.port:
+        safe_target += f":{parsed_url.port}"
+    if parsed_url.path:
+        safe_target += parsed_url.path
+    print(f"\n  Target: {safe_target}")
 
     # Collect migration files sorted by name (numeric prefix ensures order)
     sql_files = sorted(MIGRATIONS_DIR.glob("*.sql"))
@@ -135,6 +151,16 @@ def main():
     conn = _connect()
 
     try:
+        if args.check:
+            problems = verify_postgresql_schema(conn)
+            if problems:
+                print("\n  Schema verification failed:")
+                for problem in problems:
+                    print(f"    - {problem}")
+                sys.exit(1)
+            print("\n  Schema verification passed: required tables, columns, and foreign keys are present and validated.\n")
+            return
+
         _ensure_migrations_table(conn)
         already_applied = _applied_migrations(conn)
 
@@ -171,8 +197,14 @@ def main():
         if failed_count:
             print("  Migration completed with errors. See above.\n")
             sys.exit(1)
-        else:
-            print("  All migrations applied successfully.\n")
+
+        problems = verify_postgresql_schema(conn)
+        if problems:
+            print("  Schema verification failed after migrations:")
+            for problem in problems:
+                print(f"    - {problem}")
+            sys.exit(1)
+        print("  All migrations applied and the required schema verified successfully.\n")
 
     finally:
         conn.close()

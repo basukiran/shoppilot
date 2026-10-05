@@ -1171,6 +1171,17 @@
   letter-spacing: -0.01em;
 }
 
+.bv2-brand-logo {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 10px;
+  border: 2px solid rgba(222,198,144,0.7);
+  border-radius: 50%;
+  background: #f5f0e1;
+  object-fit: contain;
+  padding: 3px;
+}
+
 .bv2-tagline {
   margin-top: 7px;
   color: #a8b8a0;

@@ -24,6 +24,7 @@ import { chatMessages } from '@/data/mockData';
 import { ProductCard } from '@/components/ProductCard';
 import { toBookProduct } from '@/lib/bookProducts';
 import { cn } from '@/lib/utils';
+import { apiFetch } from '@/lib/api';
 
 
 // =====================================================
@@ -82,6 +83,8 @@ export function AIBuyerView({
   onAddToCart,
   onAddRentalToCart,
   onRent,
+  favoriteIds,
+  onToggleFavorite,
 }: {
   onNavigate: (v: any) => void;
 
@@ -104,6 +107,8 @@ export function AIBuyerView({
     product: Product,
     quantity?: number
   ) => void;
+  favoriteIds: ReadonlySet<string>;
+  onToggleFavorite: (product: Product) => void;
 }) {
   const [messages, setMessages] =
     useState<ChatMessage[]>(
@@ -191,8 +196,8 @@ export function AIBuyerView({
       // ==============================================
 
       const response =
-        await fetch(
-          `http://127.0.0.1:8000/ai/chat?message=${encodeURIComponent(
+        await apiFetch(
+          `/ai/chat?message=${encodeURIComponent(
             text
           )}`
         );
@@ -251,9 +256,7 @@ export function AIBuyerView({
       try {
 
         const fullProductsResponse =
-          await fetch(
-            'http://127.0.0.1:8000/products'
-          );
+          await apiFetch('/products');
 
 
         if (
@@ -578,6 +581,10 @@ export function AIBuyerView({
                 onRent={
                   onRent
                 }
+
+                favoriteIds={favoriteIds}
+
+                onToggleFavorite={onToggleFavorite}
               />
 
             )
@@ -735,142 +742,6 @@ export function AIBuyerView({
 
       <div className="space-y-4">
 
-        {/* AGENT CAPABILITIES */}
-
-        <div className="card p-5">
-
-          <h3 className="font-display text-sm font-bold text-ink-900">
-
-            BookVision AI
-
-          </h3>
-
-
-          <p className="mt-1 text-xs text-ink-500">
-
-            Search books, compare catalog details, and check stock.
-
-          </p>
-
-
-          <div className="mt-4 space-y-2">
-
-            {Object.entries(
-              actionLabel
-            ).map(
-              ([key, label]) => {
-
-                const Icon =
-                  actionIcon[
-                    key as AgentActionType
-                  ];
-
-
-                return (
-
-                  <div
-                    key={key}
-                    className="flex items-center gap-3 rounded-xl bg-ink-50 p-3"
-                  >
-
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-soft">
-
-                      <Icon className="h-4 w-4 text-brand-600" />
-
-                    </div>
-
-
-                    <span className="text-sm font-medium text-ink-700">
-
-                      {label}
-
-                    </span>
-
-
-                    <span className="ml-auto h-2 w-2 rounded-full bg-success-500" />
-
-                  </div>
-
-                );
-
-              }
-            )}
-
-          </div>
-
-        </div>
-
-
-        {/* SPENDING GUARDRAILS */}
-
-        <div className="card p-5">
-
-          <h3 className="font-display text-sm font-bold text-ink-900">
-
-            Spending guardrails
-
-          </h3>
-
-
-          <div className="mt-3 flex items-center justify-between text-sm">
-
-            <span className="text-ink-500">
-
-              Monthly limit
-
-            </span>
-
-
-            <span className="font-semibold text-ink-900">
-
-              ₹50,000
-
-            </span>
-
-          </div>
-
-
-          <div className="mt-3 flex items-center justify-between text-sm">
-
-            <span className="text-ink-500">
-
-              Used this month
-
-            </span>
-
-
-            <span className="font-semibold text-ink-900">
-
-              ₹16,200
-
-            </span>
-
-          </div>
-
-
-          <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-ink-100">
-
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-brand-500 to-accent-500"
-
-              style={{
-                width:
-                  '32%',
-              }}
-            />
-
-          </div>
-
-
-          <p className="mt-2 text-xs text-ink-400">
-
-            Agents request approval for any purchase above your threshold.
-
-          </p>
-
-        </div>
-
-
         {/* RENTAL INFO */}
 
         <div className="card border border-brand-100 bg-brand-50/40 p-5">
@@ -915,6 +786,8 @@ function MessageBubble({
   onAddToCart,
   onAddRentalToCart,
   onRent,
+  favoriteIds,
+  onToggleFavorite,
 }: {
   message: ChatMessage;
 
@@ -941,6 +814,8 @@ function MessageBubble({
     product: Product,
     quantity?: number
   ) => void;
+  favoriteIds: ReadonlySet<string>;
+  onToggleFavorite: (product: Product) => void;
 }) {
 
   const isUser =
@@ -1062,6 +937,10 @@ function MessageBubble({
                     key={p.id}
 
                     product={p}
+
+                    isFavorite={favoriteIds.has(p.id)}
+
+                    onToggleFavorite={onToggleFavorite}
 
                     compact
 
