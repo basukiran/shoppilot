@@ -2184,7 +2184,15 @@ def create_rental_payment(
         )
 
     except Exception as error:
-        logging.getLogger("bookvision.payment").error("Razorpay rental order creation failed (%s)", type(error).__name__)
+        # Razorpay's SDK includes its rejection description in the exception
+        # message. Keep it in server logs only so the client response remains
+        # generic and no credentials or customer data are exposed.
+        provider_reason = str(error).replace("\r", " ").replace("\n", " ")[:300]
+        logging.getLogger("bookvision.payment").error(
+            "Razorpay rental order creation failed (%s): %s",
+            type(error).__name__,
+            provider_reason or "No provider description returned",
+        )
 
         raise HTTPException(
             status_code=500,
