@@ -20,7 +20,6 @@ import type {
   Product,
 } from '@/types';
 
-import { chatMessages } from '@/data/mockData';
 import { ProductCard } from '@/components/ProductCard';
 import { toBookProduct } from '@/lib/bookProducts';
 import { cn } from '@/lib/utils';
@@ -111,9 +110,7 @@ export function AIBuyerView({
   onToggleFavorite: (product: Product) => void;
 }) {
   const [messages, setMessages] =
-    useState<ChatMessage[]>(
-      chatMessages
-    );
+    useState<ChatMessage[]>([]);
 
   const [input, setInput] =
     useState('');
@@ -553,6 +550,12 @@ export function AIBuyerView({
         {/* ========================================== */}
 
         <div className="flex-1 space-y-5 overflow-y-auto p-4 scrollbar-thin">
+
+          {messages.length === 0 && !typing && (
+            <p className="rounded-xl bg-brand-50 p-4 text-sm leading-6 text-ink-600">
+              Tell me what you’re looking for, and I’ll find books from the live BookVision catalog.
+            </p>
+          )}
 
           {messages.map(
             (m) => (
