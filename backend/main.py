@@ -486,7 +486,9 @@ def set_session_cookie(response: Response, user_id: int, request: Request):
         max_age=SESSION_MAX_AGE,
         httponly=True,
         secure=IS_PRODUCTION or request.url.scheme == "https",
-        samesite="lax",
+        # The Vercel frontend and Render API are cross-site, so production
+        # session cookies must allow credentialed cross-site requests.
+        samesite="none" if IS_PRODUCTION else "lax",
         path="/",
     )
 
@@ -713,7 +715,7 @@ def logout_user(request: Request, response: Response):
         path="/",
         httponly=True,
         secure=IS_PRODUCTION or request.url.scheme == "https",
-        samesite="lax",
+        samesite="none" if IS_PRODUCTION else "lax",
     )
     return {"success": True}
 
