@@ -81,7 +81,11 @@ app = FastAPI(title="BookVision API")
 
 
 CORS_ORIGINS_ENV = os.getenv("CORS_ORIGINS", "")
-configured_origins = [origin.strip() for origin in CORS_ORIGINS_ENV.split(",") if origin.strip()]
+configured_origins = [
+    origin.strip().rstrip("/")
+    for origin in CORS_ORIGINS_ENV.split(",")
+    if origin.strip()
+]
 development_origins = [
     "http://localhost:5173",
     "https://localhost:5173",
@@ -137,6 +141,13 @@ async def validate_browser_origin(request: Request, call_next):
             and re.fullmatch(r"https?://(localhost|127\.0\.0\.1)(:[0-9]+)?", origin) is not None
         )
         if not same_origin and origin not in allowed_origins and not local_development_origin:
+            safe_origin = origin.replace("\r", " ").replace("\n", " ")[:255]
+            logging.getLogger("bookvision.security").warning(
+                "Rejected browser origin for %s %s: origin=%r",
+                request.method,
+                request.url.path,
+                safe_origin,
+            )
             return JSONResponse(
                 status_code=403,
                 content={"detail": "Request origin is not allowed."},

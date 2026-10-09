@@ -25,6 +25,8 @@ def main() -> None:
 
         os.environ["DATABASE_URL"] = ""
         os.environ["APP_ENV"] = "development"
+        # Include the common trailing slash form to verify origin normalization.
+        os.environ["CORS_ORIGINS"] = "https://bookvision-six.vercel.app/"
         os.environ["RAZORPAY_KEY_ID"] = "rzp_test_bookvision_smoke"
         secret = f"smoke-only-{uuid.uuid4().hex}"
         os.environ["RAZORPAY_KEY_SECRET"] = secret
@@ -114,6 +116,7 @@ def main() -> None:
             check(books.status_code == 200 and bool(books.json()), "book seed data")
             check(client.get("/orders").status_code == 401, "orders require authentication")
             check(client.get("/rentals").status_code == 401, "rentals require authentication")
+            check(client.get("/account/overview").status_code == 401, "account data requires authentication")
             check(client.post("/payment/create", params={"product_id": 1, "quantity": 1}).status_code == 401, "checkout requires authentication")
             check(client.post("/auth/logout", headers={"Origin": "https://attacker.example"}).status_code == 403, "cross-origin state changes rejected")
             book = next(item for item in books.json() if int(item.get("stock") or 0) > 0)
@@ -127,7 +130,20 @@ def main() -> None:
             }
             check(client.post("/auth/register", json=account).status_code == 201, "user creation")
             client.post("/auth/logout")
-            check(client.post("/auth/login", json={"email": account["email"], "password": account["password"]}).status_code == 200, "login")
+            frontend_origin = {"Origin": "https://bookvision-six.vercel.app"}
+            invalid_login = client.post(
+                "/auth/login",
+                json={"email": account["email"], "password": "incorrect-password"},
+                headers=frontend_origin,
+            )
+            check(invalid_login.status_code == 401, "invalid credentials rejected after origin check")
+            login = client.post(
+                "/auth/login",
+                json={"email": account["email"], "password": account["password"]},
+                headers=frontend_origin,
+            )
+            check(login.status_code == 200, "login with allowed frontend origin")
+            check(client.get("/auth/me").status_code == 200, "authenticated profile access")
             check(client.post(f"/favorites/{book['id']}").status_code == 201, "favorite creation")
             check(bool(client.get("/favorites").json()), "favorite retrieval")
 
