@@ -20,7 +20,7 @@ import {
 
 import { apiFetch } from '@/lib/api';
 import { getCoverPlaceholder } from '@/lib/bookCovers';
-import jnanaNidhiLogo from '@/assets/jnana-nidhi-hubballi.jpeg';
+import { getApprovedBookCover } from '@/lib/bookProducts';
 import type { AccountUser } from '@/types';
 
 // ---------------------------------------------------------------------------
@@ -379,8 +379,8 @@ export function Topbar({
 
       {/* LOGO — visible on mobile only (sidebar shows it on desktop) */}
       <img
-        src={jnanaNidhiLogo}
-        alt="Jnana Nidhi Hubballi"
+        src="/bookvision.svg"
+        alt="BookVision logo"
         className="h-8 w-8 shrink-0 object-contain lg:hidden"
         aria-hidden="true"
       />
@@ -471,9 +471,9 @@ export function Topbar({
                       key={product.id}
                       className="flex gap-3 border-t border-ink-100 px-4 py-3 transition hover:bg-ink-50"
                     >
-                      {product.cover_image ? (
+                      {product.cover_image || getApprovedBookCover(product.name) ? (
                         <img
-                          src={product.cover_image}
+                          src={getApprovedBookCover(product.name) ?? product.cover_image}
                           alt={`${product.name} cover`}
                           loading="lazy"
                           onError={(event) => {

@@ -12,7 +12,6 @@ import {
   Users,
 } from 'lucide-react';
 import type { ViewKey } from '@/types';
-import jnanaNidhiLogo from '@/assets/jnana-nidhi-hubballi.jpeg';
 
 interface NavItem {
   key: ViewKey;
@@ -109,7 +108,7 @@ export function Sidebar({
       >
         {/* Logo */}
         <div className="flex h-[76px] items-center gap-3 px-5">
-          <img src={jnanaNidhiLogo} alt="Jnana Nidhi Hubballi" className="h-11 w-11 shrink-0 object-contain" />
+          <img src="/bookvision.svg" alt="BookVision logo" className="h-11 w-11 shrink-0 object-contain" />
 
           <div className="leading-tight">
             <p className="font-display text-base font-bold text-ink-900">

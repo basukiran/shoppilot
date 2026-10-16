@@ -29,12 +29,45 @@ export interface BookApiRecord {
   rentalDurationDays?: NumericValue;
 }
 
+// Owner-provided catalog photos. These local assets take precedence over
+// stale cover URLs stored in existing production database rows.
+const approvedCoverByTitle: Record<string, string> = {
+  'psychology of money': '/covers/psychology-of-money.jpeg',
+  ikigai: '/covers/ikigai.jpeg',
+  secret: '/covers/secret.jpeg',
+  'india s struggle for independence 1857 1947': '/covers/indias-struggle-for-independence.jpeg',
+  'deep work': '/covers/deep-work.jpeg',
+  'badukuva dari': '/covers/badukuva-dari.jpeg',
+  'detox your ego': '/covers/detox-your-ego.jpeg',
+  'heli hogu kaarana': '/covers/heli-hogu-kaarana.jpeg',
+  'vektitva vikasana': '/covers/vektitva-vikasana.jpeg',
+  'why i am an atheist and other writings': '/covers/why-i-am-an-atheist.jpeg',
+  avalu: '/covers/avalu.jpeg',
+  vakalat: '/covers/vakalat.jpeg',
+  'mukajjiya kanasugalu': '/covers/mukajjiya-kanasugalu.jpeg',
+  'swara mata laya pita': '/covers/swara-mata-laya-pita.jpeg',
+};
+
+function normalizeBookTitle(title: string): string {
+  return title
+    .normalize('NFKD')
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim()
+    .replace(/\s+/g, ' ');
+}
+
+export function getApprovedBookCover(title: string): string | undefined {
+  return approvedCoverByTitle[normalizeBookTitle(title)];
+}
+
 export function toBookProduct(book: BookApiRecord): Product {
   const stockCount = Number(book.stock ?? 0);
   const coverImage = book.cover_image ?? book.coverImage ?? '';
-  const safeCoverImage = /^(https:\/\/|data:image\/)/i.test(coverImage)
+  const approvedCover = getApprovedBookCover(book.name);
+  const safeCoverImage = approvedCover ?? (/^(https:\/\/|data:image\/)/i.test(coverImage)
     ? coverImage
-    : getCoverPlaceholder(book.name);
+    : getCoverPlaceholder(book.name));
 
   return {
     id: String(book.id),

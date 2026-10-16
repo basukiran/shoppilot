@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
-import jnanaNidhiLogo from '@/assets/jnana-nidhi-hubballi.jpeg';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -215,7 +214,7 @@ export function BookVisionIntro({ onFinish }: Props) {
 
         {/* ── Branding ── */}
         <div className="bv2-brand">
-          <img src={jnanaNidhiLogo} alt="Jnana Nidhi Hubballi logo" className="bv2-brand-logo" />
+          <img src="/bookvision.svg" alt="BookVision logo" className="bv2-brand-logo" />
           <span className="bv2-wordmark">Jnana Nidhi · BookVision</span>
           <span className="bv2-tagline">A little more wonder, every day.</span>
         </div>

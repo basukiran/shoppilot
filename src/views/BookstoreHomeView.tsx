@@ -15,7 +15,6 @@ import {
   Youtube,
 } from 'lucide-react';
 
-import jnanaNidhiLogo from '@/assets/jnana-nidhi-hubballi.jpeg';
 import { toBookProduct, type BookApiRecord } from '@/lib/bookProducts';
 import { apiFetch } from '@/lib/api';
 import type { Product, ViewKey } from '@/types';
@@ -394,7 +393,7 @@ export function BookstoreHomeView({
             <p className="bookstore-kicker"><MapPin className="h-4 w-4" /> Find us in Hubli</p>
             <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">Come by the shelves.</h2>
             <p className="mt-4 max-w-md text-sm leading-7 text-[#68766c]">Visit a Jnana Nidhi location and find your next read in person.</p>
-            <img src={jnanaNidhiLogo} alt="Jnana Nidhi Hubballi" className="mt-7 h-20 w-20 object-contain" />
+            <img src="/bookvision.svg" alt="BookVision logo" className="mt-7 h-20 w-20 object-contain" />
           </div>
           <div className="grid gap-x-8 sm:grid-cols-2">
             {[
@@ -423,7 +422,7 @@ export function BookstoreHomeView({
 
       <footer className="bookstore-footer grid gap-8 px-5 py-9 sm:grid-cols-2 sm:px-8 lg:grid-cols-[1fr_auto_auto] lg:px-14">
         <div className="flex items-center gap-4">
-          <img src={jnanaNidhiLogo} alt="Jnana Nidhi Hubballi" className="h-14 w-14 shrink-0 object-contain" />
+          <img src="/bookvision.svg" alt="BookVision logo" className="h-14 w-14 shrink-0 object-contain" />
           <div>
             <p className="bookstore-display text-xl text-[#f6f5eb]">Jnana Nidhi · BookVision</p>
             <p className="mt-1 text-xs text-[#c0ccbf]">A little more wonder, every day.</p>
