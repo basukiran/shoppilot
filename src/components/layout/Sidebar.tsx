@@ -108,7 +108,7 @@ export function Sidebar({
       >
         {/* Logo */}
         <div className="flex h-[76px] items-center gap-3 px-5">
-          <img src="/bookvision.svg" alt="BookVision logo" className="h-11 w-11 shrink-0 object-contain" />
+          <img src="/bookvision-logo.webp" alt="Jnana Nidhi Hubballi logo" className="h-11 w-11 shrink-0 object-contain" />
 
           <div className="leading-tight">
             <p className="font-display text-base font-bold text-ink-900">

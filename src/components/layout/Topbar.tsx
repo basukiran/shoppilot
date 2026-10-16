@@ -380,8 +380,8 @@ export function Topbar({
 
       {/* LOGO — visible on mobile only (sidebar shows it on desktop) */}
       <img
-        src="/bookvision.svg"
-        alt="BookVision logo"
+        src="/bookvision-logo.webp"
+        alt="Jnana Nidhi Hubballi logo"
         className="h-8 w-8 shrink-0 object-contain lg:hidden"
         aria-hidden="true"
       />

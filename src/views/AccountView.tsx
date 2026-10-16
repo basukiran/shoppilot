@@ -359,7 +359,7 @@ export function AccountView({
                 <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 right-20 h-52 w-52 rounded-full border-[18px] border-[#d7ad57]/10" />
                 <div className="relative">
                   <header className="flex items-center gap-3 border-b border-[#d7ad57]/35 pb-4">
-                    <img src="/bookvision.svg" alt="BookVision logo" className="h-14 w-14 shrink-0 rounded-full bg-[#f8f2df] object-contain p-1" />
+                    <img src="/bookvision-logo.webp" alt="Jnana Nidhi Hubballi logo" className="h-14 w-14 shrink-0 rounded-full bg-[#f8f2df] object-contain p-1" />
                     <div className="min-w-0 flex-1">
                       <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#e1c579]">Jnana Nidhi Hubballi</p>
                       <p className="mt-1 font-display text-lg font-bold text-white">BookVision</p>
