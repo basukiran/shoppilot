@@ -9,6 +9,7 @@ import {
 
 import type { Product } from '@/types';
 import { formatCurrency, cn } from '@/lib/utils';
+import { AuthorByline } from '@/components/AuthorByline';
 
 export interface CartItem {
   product: Product;
@@ -131,9 +132,7 @@ export function CartView({
                     </p>
 
                     {product.author && (
-                      <p className="mt-1 text-xs text-ink-500">
-                        by {product.author}
-                      </p>
+                      <AuthorByline author={product.author} className="mt-1 text-xs text-ink-500" />
                     )}
 
                     <p className="mt-1 text-sm text-ink-500">

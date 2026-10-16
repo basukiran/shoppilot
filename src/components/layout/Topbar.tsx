@@ -21,6 +21,7 @@ import {
 import { apiFetch } from '@/lib/api';
 import { getCoverPlaceholder } from '@/lib/bookCovers';
 import { getApprovedBookCover } from '@/lib/bookProducts';
+import { AuthorByline } from '@/components/AuthorByline';
 import type { AccountUser } from '@/types';
 
 // ---------------------------------------------------------------------------
@@ -493,9 +494,7 @@ export function Topbar({
                             {product.name}
                           </p>
                           {product.author && (
-                            <p className="truncate text-xs text-ink-500">
-                              by {product.author}
-                            </p>
+                            <AuthorByline author={product.author} className="text-xs text-ink-500" />
                           )}
                           <p className="text-xs text-ink-400">{product.category}</p>
                         </div>

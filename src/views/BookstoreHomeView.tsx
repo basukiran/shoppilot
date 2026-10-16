@@ -22,6 +22,7 @@ import { formatCurrency } from '@/lib/utils';
 import { getCoverPlaceholder } from '@/lib/bookCovers';
 import { RentalGuidelinesSection } from '@/components/RentalGuidelinesSection';
 import { BookCombosSection } from '@/components/BookCombosSection';
+import { AuthorByline } from '@/components/AuthorByline';
 
 interface BookstoreHomeViewProps {
   onNavigate: (view: ViewKey) => void;
@@ -184,7 +185,7 @@ export function BookstoreHomeView({
               <h3 className="bookstore-display mt-4 max-w-2xl text-3xl leading-tight text-[#183629] sm:text-[42px]">
                 {featuredBook.name}
               </h3>
-              <p className="mt-2 text-base text-[#68766c]">by {featuredBook.author}</p>
+              <AuthorByline author={featuredBook.author} className="mt-2 text-base text-[#68766c]" />
               <p className="mt-5 max-w-xl text-sm leading-7 text-[#52665a] sm:text-base">
                 {featuredBook.description}
               </p>
@@ -306,7 +307,7 @@ export function BookstoreHomeView({
               <div key={book.id} className={`bookstore-recommendation__book is-${index + 1}`}>
                 <BookCover book={book} className="bookstore-recommendation__cover" />
                 <p className="mt-3 line-clamp-2 text-xs font-semibold leading-5 text-[#263a2e] sm:text-sm">{book.name}</p>
-                <p className="mt-1 truncate text-[11px] text-[#68766c] sm:text-xs">{book.author}</p>
+                <AuthorByline author={book.author} className="mt-1 text-[11px] text-[#68766c] sm:text-xs" />
               </div>
             ))}
           </div>
@@ -539,7 +540,7 @@ function BookTile({
           </button>
         </div>
         <h3 className="mt-1 line-clamp-2 min-h-10 text-sm font-semibold leading-5 text-[#20392b]">{book.name}</h3>
-        <p className="mt-1 truncate text-xs text-[#68766c]">{book.author}</p>
+        <AuthorByline author={book.author} className="mt-1 text-xs text-[#68766c]" />
         <div className="mt-2 flex items-center justify-between gap-2">
           <span className="font-semibold text-[#20392b]">{formatCurrency(book.price)}</span>
           <span className="inline-flex items-center gap-1 text-xs text-[#68766c]">

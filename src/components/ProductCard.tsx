@@ -14,6 +14,7 @@ import {
 import type { Product } from '@/types';
 import { cn, formatCurrency } from '@/lib/utils';
 import { getCoverPlaceholder } from '@/lib/bookCovers';
+import { AuthorByline } from '@/components/AuthorByline';
 
 const iconMap: Record<string, string> = {
   book: '📚',
@@ -273,7 +274,7 @@ export function ProductCard({
         </p>
 
         {product.author && (
-          <p className="text-xs text-ink-500">by {product.author}</p>
+          <AuthorByline author={product.author} className="text-xs text-ink-500" />
         )}
 
         {product.description && (

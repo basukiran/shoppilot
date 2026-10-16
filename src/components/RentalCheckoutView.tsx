@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import type { Product } from '../types';
 import { apiFetch, normalizeProductId } from '../lib/api';
+import { AuthorByline } from './AuthorByline';
 
 interface RentalCheckoutViewProps {
   product: Product;
@@ -388,10 +389,11 @@ export default function RentalCheckoutView({
 
                 </div>
 
-                <p className="mt-1 text-sm text-gray-500">
-                  {product.author && `by ${product.author} · `}
-                  Quantity: {quantity}
-                </p>
+                {product.author && (
+                  <AuthorByline author={product.author} className="mt-1 text-sm text-gray-500" />
+                )}
+
+                <p className="mt-1 text-sm text-gray-500">Quantity: {quantity}</p>
 
                 <p className="mt-3 text-sm text-gray-600">
                   Rental period:

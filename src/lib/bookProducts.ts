@@ -70,6 +70,13 @@ const approvedCoverByTitle: Record<string, string> = {
   'prachina bharatada maharshigalu': '/covers/prachina-bharatada-maharshigalu.jpg',
 };
 
+const knownAuthorByTitle: Record<string, string> = {
+  'zero to hero': 'Robin Sharma',
+  'the book of elon': 'Walter Isaacson',
+  'mukajjiya kanasugalu': 'K. Shivaram Karanth',
+  'winning people without losing yourself': 'Ankur Warikoo',
+};
+
 function normalizeBookTitle(title: string): string {
   return title
     .normalize('NFKD')
@@ -87,6 +94,7 @@ export function toBookProduct(book: BookApiRecord): Product {
   const stockCount = Number(book.stock ?? 0);
   const coverImage = book.cover_image ?? book.coverImage ?? '';
   const approvedCover = getApprovedBookCover(book.name);
+  const knownAuthor = knownAuthorByTitle[normalizeBookTitle(book.name)];
   const safeCoverImage = approvedCover ?? (/^(https:\/\/|data:image\/)/i.test(coverImage)
     ? coverImage
     : getCoverPlaceholder(book.name));
@@ -94,9 +102,9 @@ export function toBookProduct(book: BookApiRecord): Product {
   return {
     id: String(book.id),
     name: book.name,
-    author: book.author && !['BookVision', 'Kannada Classic'].includes(book.author)
+    author: knownAuthor ?? (book.author && !['BookVision', 'Kannada Classic'].includes(book.author)
       ? book.author
-      : 'Author unavailable',
+      : 'Author unavailable'),
     description: book.description ?? '',
     coverImage: safeCoverImage,
     brand: book.brand ?? 'BookVision',
