@@ -721,6 +721,54 @@
   }
 }
 
+/* Slow-moving color fields give the page an animated, illustrated backdrop. */
+.bookstore-hero {
+  background-size: 180% 180%;
+  animation: bookstore-gradient-drift 24s ease-in-out infinite alternate;
+}
+
+.bookstore-hero__art {
+  background-size: 160% 160%, auto;
+  animation: bookstore-art-glow 20s ease-in-out infinite alternate;
+}
+
+.bookstore-band,
+.bookstore-why {
+  background-size: 180% 180%;
+  animation: bookstore-gradient-drift 30s ease-in-out infinite alternate;
+}
+
+.bookstore-recommendation {
+  background-size: 180% 180%;
+  animation: bookstore-gradient-drift 26s ease-in-out infinite alternate-reverse;
+}
+
+.bookstore-rental {
+  background-size: 180% 180%, auto;
+  background-position: 0% 50%, 0 0;
+  animation: bookstore-rental-glow 28s ease-in-out infinite alternate;
+}
+
+.bookstore-footer {
+  background-size: 180% 180%;
+  animation: bookstore-gradient-drift 32s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes bookstore-gradient-drift {
+  from { background-position: 0% 50%; }
+  to { background-position: 100% 50%; }
+}
+
+@keyframes bookstore-art-glow {
+  from { background-position: 30% 30%, 0 0; }
+  to { background-position: 75% 70%, 0 0; }
+}
+
+@keyframes bookstore-rental-glow {
+  from { background-position: 0% 50%, 0 0; }
+  to { background-position: 100% 50%, 0 0; }
+}
+
 @keyframes bookstore-float-left {
   0%, 100% { transform: rotate(-14deg) translateY(5px); }
   50% { transform: rotate(-11deg) translateY(-9px); }
