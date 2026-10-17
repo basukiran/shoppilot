@@ -2283,3 +2283,17 @@
 .bv-app-sidebar .text-success-700 { color: #6540a4; }
 .bv-app-sidebar .bg-success-100 { background-color: #eee8ff; }
 .bv-app-sidebar .bg-success-500 { background-color: #8c67ce; }
+.bv-theme-sidebar {
+  border-color: #d3c9eb !important;
+  background: linear-gradient(180deg, #e9e3ff 0%, #f0efff 55%, #e8f1ff 100%) !important;
+}
+#rental-guidelines.bvr-section {
+  border-color: #d9d0ee !important;
+  background: linear-gradient(135deg, #e9e2ff 0%, #e9f1ff 52%, #faeafa 100%) !important;
+}
+#rental-guidelines #bvr-heading { color: #38285f !important; }
+#rental-guidelines .bvr-header__sub,
+#rental-guidelines .bvr-note { color: #514b69 !important; }
+#rental-guidelines .bvr-card { border-color: #d8d0ea; background: rgba(255,255,255,0.96); }
+#rental-guidelines .bvr-card__title { color: #352858; }
+#rental-guidelines .bvr-card__body { color: #514b69; }

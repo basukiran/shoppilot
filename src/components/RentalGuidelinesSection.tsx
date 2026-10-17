@@ -148,7 +148,7 @@ function GuideCardItem({
 
 export function RentalGuidelinesSection() {
   return (
-    <section className="bvr-section" aria-labelledby="bvr-heading">
+    <section id="rental-guidelines" className="bvr-section" aria-labelledby="bvr-heading">
       {/* Section header */}
       <div className="bvr-header">
         <p className="bookstore-kicker">
