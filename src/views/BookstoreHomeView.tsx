@@ -8,7 +8,9 @@ import {
   Instagram,
   Leaf,
   Library,
+  MessageCircle,
   MapPin,
+  Phone,
   ShoppingBag,
   Sparkles,
   Star,
@@ -462,6 +464,37 @@ export function BookstoreHomeView({
           <span className="mt-1 text-xs text-[#9eae9f]">© 2026 BookVision</span>
         </div>
       </footer>
+
+      <section aria-labelledby="website-services-title" className="bg-[#eeefe7] px-5 py-12 sm:px-8 sm:py-16 lg:px-14">
+        <div className="mx-auto grid max-w-[1100px] items-center gap-8 rounded-3xl bg-white p-6 shadow-sm sm:p-10 lg:grid-cols-[1fr_auto]">
+          <div className="max-w-xl">
+            <p className="bookstore-kicker"><MessageCircle className="h-4 w-4" /> Website services</p>
+            <h2 id="website-services-title" className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">
+              Need a website like this?
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-[#52665a] sm:text-base">
+              Contact me to build a website for your business. We would be happy to help.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href="https://wa.me/918431823367" target="_blank" rel="noreferrer" className="bookstore-button bookstore-button--dark">
+                <MessageCircle className="h-4 w-4" /> WhatsApp 8431823367
+              </a>
+              <a href="tel:+918431823367" className="bookstore-button bookstore-button--outline">
+                <Phone className="h-4 w-4" /> Call 8431823367
+              </a>
+            </div>
+          </div>
+          <figure className="mx-auto w-full max-w-[280px] text-center">
+            <img
+              src="/whatsapp-business-qr.png"
+              alt="Scan this QR code to start a WhatsApp chat with Jnana Nidhi Hubli"
+              loading="lazy"
+              className="h-auto w-full rounded-2xl"
+            />
+            <figcaption className="mt-2 text-xs text-[#68766c]">Scan to chat with Jnana Nidhi Hubli</figcaption>
+          </figure>
+        </div>
+      </section>
     </div>
   );
 }
