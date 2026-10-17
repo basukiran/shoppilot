@@ -970,6 +970,85 @@
 .bookstore-home > section[aria-labelledby="website-services-title"] [class~="text-[#52665a]"] { color: #17152b; }
 .bookstore-home > section[aria-labelledby="website-services-title"] .bookstore-kicker { color: #762fa3; background: #f0e8ff; }
 
+/* Share the cinematic background with every app view, not just the storefront. */
+.bv-app-shell {
+  position: relative;
+  isolation: isolate;
+  color: #f5f2ff;
+  background: #070817;
+}
+
+.bv-app-shell::before,
+.bv-app-shell::after {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  content: '';
+  pointer-events: none;
+}
+
+.bv-app-shell::before {
+  background-image:
+    radial-gradient(ellipse at 18% 24%, rgba(102, 38, 202, 0.62), transparent 42%),
+    radial-gradient(ellipse at 79% 35%, rgba(27, 82, 216, 0.5), transparent 40%),
+    radial-gradient(ellipse at 55% 76%, rgba(200, 35, 142, 0.34), transparent 38%),
+    linear-gradient(145deg, #070817, #11112d 54%, #090b20);
+  background-size: 150% 150%, 140% 140%, 135% 135%, 100% 100%;
+  background-position: 0% 25%, 100% 30%, 45% 100%, center;
+  animation: bookstore-nebula-drift 34s ease-in-out infinite alternate;
+}
+
+.bv-app-shell::after {
+  opacity: 0.8;
+  background-image:
+    radial-gradient(1.5px 1.5px at 11% 16%, rgba(255,255,255,0.9) 98%, transparent),
+    radial-gradient(1px 1px at 28% 61%, rgba(185,177,255,0.9) 98%, transparent),
+    radial-gradient(2px 2px at 46% 31%, rgba(255,255,255,0.86) 98%, transparent),
+    radial-gradient(1px 1px at 64% 74%, rgba(255,180,235,0.88) 98%, transparent),
+    radial-gradient(1.5px 1.5px at 82% 21%, rgba(255,255,255,0.9) 98%, transparent),
+    radial-gradient(1px 1px at 91% 58%, rgba(177,199,255,0.9) 98%, transparent);
+  animation: bookstore-star-twinkle 6s ease-in-out infinite alternate;
+}
+
+.bv-app-main { min-width: 0; color: #f5f2ff; background: transparent; }
+.bv-app-main > .animate-fade-in > h1,
+.bv-app-main > .animate-fade-in > div > h1 { color: #f5f2ff; }
+.bv-app-main .min-h-full.bg-gray-50 { background: transparent; }
+
+.bv-app-sidebar {
+  border-color: rgba(205,190,255,0.18);
+  color: #f5f2ff;
+  background: rgba(7,8,23,0.92);
+  backdrop-filter: blur(18px);
+}
+
+.bv-app-sidebar .text-ink-900 { color: #f5f2ff; }
+.bv-app-sidebar .text-ink-500 { color: #c9c2e8; }
+.bv-app-sidebar .text-ink-400 { color: #aaa1ce; }
+.bv-app-sidebar button[class~="text-ink-600"] { color: #e4def8; }
+.bv-app-sidebar button[class~="text-ink-600"]:hover { color: #ffffff; background: rgba(111,70,177,0.34); }
+.bv-app-sidebar button[class~="bg-brand-50"] { color: #ffffff; background: linear-gradient(110deg,rgba(91,53,157,0.82),rgba(157,39,117,0.72)); }
+.bv-app-sidebar button[class~="text-brand-700"] svg,
+.bv-app-sidebar button[class~="text-brand-600"] svg { color: #f2b8e4; }
+
+.bv-app-topbar {
+  border-color: rgba(205,190,255,0.18);
+  color: #f5f2ff;
+  background: rgba(7,8,23,0.82);
+  backdrop-filter: blur(18px);
+}
+
+.bv-app-topbar h1,
+.bv-app-topbar .text-ink-900 { color: #f5f2ff; }
+.bv-app-topbar .text-ink-500,
+.bv-app-topbar .text-ink-400 { color: #c9c2e8; }
+.bv-app-topbar .btn-ghost { color: #e4def8; }
+.bv-app-topbar .btn-ghost:hover { color: #ffffff; background: rgba(111,70,177,0.34); }
+
+.bookstore-home { background: transparent; }
+.bookstore-home::before,
+.bookstore-home::after { display: none; }
+
 @keyframes bookstore-nebula-drift {
   from { background-position: 0% 25%, 100% 30%, 45% 100%, center; }
   to { background-position: 50% 55%, 30% 65%, 80% 30%, center; }
@@ -981,6 +1060,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .bv-app-shell::before,
+  .bv-app-shell::after,
   .bookstore-home::before,
   .bookstore-home::after { animation: none !important; }
 }

@@ -366,7 +366,7 @@ export function Topbar({
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-ink-200/70 bg-white/80 px-4 backdrop-blur-md sm:px-6">
+    <header className="bv-app-topbar sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-ink-200/70 bg-white/80 px-4 backdrop-blur-md sm:px-6">
 
       {/* MOBILE MENU */}
       <button

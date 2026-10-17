@@ -362,7 +362,7 @@ function App() {
 
       <div
         aria-hidden={showIntro}
-        className="flex min-h-screen bg-ink-50"
+        className="bv-app-shell flex min-h-screen"
       >
 
       {/* SIDEBAR */}
@@ -390,7 +390,7 @@ function App() {
           onNavigate={navigate}
         />
 
-        <main className={`flex-1 overflow-y-auto scrollbar-thin ${
+        <main className={`bv-app-main flex-1 overflow-y-auto scrollbar-thin ${
           view === 'dashboard' ? '' : 'p-4 sm:p-6'
         }`}>
 
