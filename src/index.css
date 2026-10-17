@@ -2248,3 +2248,14 @@
 #book-combos article ul,
 #book-combos article span:not(.grid) { color: #535a73; }
 #book-combos > div > .bookstore-section-heading > p { color: #535a73; }
+
+.bv-account-auth-panel { color: #252542; background: #ffffff; }
+.bv-account-auth-panel h2,
+.bv-account-auth-panel .text-ink-900 { color: #20213b; }
+.bv-account-auth-panel p,
+.bv-account-auth-panel label,
+.bv-account-auth-panel .text-ink-500,
+.bv-account-auth-panel .text-ink-600,
+.bv-account-auth-panel .text-ink-700 { color: #4d4b65; }
+.bv-account-auth-panel .text-ink-400 { color: #69657f; }
+.bv-account-auth-panel input { color: #20213b; background: #ffffff; }

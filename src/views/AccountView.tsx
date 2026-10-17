@@ -270,7 +270,7 @@ export function AccountView({
           </div>
         </div>
 
-        <section className="rounded-md border border-ink-200 bg-white p-6 shadow-soft sm:p-8">
+        <section className="bv-account-auth-panel rounded-md border border-ink-200 bg-white p-6 shadow-soft sm:p-8">
           <div className="flex gap-2 border-b border-ink-100 pb-4">
             {(['login', 'register'] as const).map((authMode) => (
               <button
