@@ -2259,3 +2259,27 @@
 .bv-account-auth-panel .text-ink-700 { color: #4d4b65; }
 .bv-account-auth-panel .text-ink-400 { color: #69657f; }
 .bv-account-auth-panel input { color: #20213b; background: #ffffff; }
+
+/* Keep the rental explainer and sidebar aligned with the violet light theme. */
+.bvr-section {
+  background: linear-gradient(145deg, #f0edff, #edf4ff 58%, #fbf0fa);
+  border-color: #ddd7f0;
+}
+.bvr-header__title,
+.bvr-card__title { color: #292345; }
+.bvr-header__sub,
+.bvr-card__body,
+.bvr-note { color: #5b5872; }
+.bvr-card { border-color: #dfd9ef; background: rgba(255,255,255,0.94); }
+.bvr-card:hover { border-color: #a997d1; }
+.bvr-card::before { border-color: transparent #d8ccef transparent transparent; }
+.bvr-card:hover::before { border-color: transparent #a997d1 transparent transparent; }
+.bvr-card__step { color: #877aa9; }
+.bvr-accent--green { color: #66439f; background: #eee8ff; }
+.bvr-accent--amber { color: #71519b; background: #f2eaff; }
+.bvr-accent--blue { color: #365f9a; background: #e4efff; }
+.bvr-accent--red { color: #9b4779; background: #fbe8f4; }
+.bv-app-sidebar .bg-gradient-to-br { background: linear-gradient(135deg, #eee8ff, #e9f2ff); }
+.bv-app-sidebar .text-success-700 { color: #6540a4; }
+.bv-app-sidebar .bg-success-100 { background-color: #eee8ff; }
+.bv-app-sidebar .bg-success-500 { background-color: #8c67ce; }
