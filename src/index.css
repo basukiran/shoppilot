@@ -522,6 +522,205 @@
   background: linear-gradient(110deg, #162d22, #203e42 62%, #2d3659);
 }
 
+/* BookVision storefront palette from the supplied reference: teal, aqua, and rust. */
+.bookstore-home {
+  --bookstore-paper: #f3fbfb;
+  --bookstore-forest: #003135;
+  --bookstore-sage: #024950;
+  color: #003135;
+  background:
+    radial-gradient(ellipse at 5% 15%, rgba(15, 164, 175, 0.12), transparent 32rem),
+    radial-gradient(ellipse at 96% 44%, rgba(175, 221, 229, 0.42), transparent 38rem),
+    #f3fbfb;
+}
+
+.bookstore-home .bookstore-display,
+.bookstore-home [class~="text-[#183629]"],
+.bookstore-home [class~="text-[#263a2e]"] {
+  color: #003135;
+}
+
+.bookstore-home [class~="text-[#52665a]"],
+.bookstore-home [class~="text-[#68766c]"],
+.bookstore-home [class~="text-[#6b7d6d]"] {
+  color: #024950;
+}
+
+.bookstore-hero {
+  background: linear-gradient(112deg, #afdde5 0%, #e5f7f7 52%, #0fa4af 100%);
+}
+
+.bookstore-hero__inner::before {
+  background-image: repeating-linear-gradient(34deg, transparent 0 31px, rgba(2, 73, 80, 0.18) 32px, transparent 33px 64px);
+}
+
+.bookstore-kicker {
+  border-color: rgba(150, 71, 52, 0.22);
+  color: #964734;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.bookstore-kicker--light {
+  color: #afdde5;
+  background: rgba(0, 49, 53, 0.54);
+}
+
+.bookstore-button--dark {
+  background: linear-gradient(120deg, #003135, #024950);
+}
+
+.bookstore-button--dark:hover:not(:disabled) {
+  background: linear-gradient(120deg, #024950, #0fa4af);
+}
+
+.bookstore-button--light,
+.bookstore-button--outline {
+  border-color: rgba(2, 73, 80, 0.36);
+  color: #024950;
+}
+
+.bookstore-button--cream {
+  color: #003135;
+  background: #afdde5;
+}
+
+.bookstore-button--cream:hover:not(:disabled) {
+  background: #0fa4af;
+}
+
+.bookstore-hero__art {
+  background-image:
+    radial-gradient(circle at 50% 25%, rgba(255,255,255,0.78), transparent 37%),
+    repeating-linear-gradient(145deg, transparent 0 28px, rgba(0,49,53,0.11) 29px, transparent 30px 58px);
+}
+
+.bookstore-hero__arch {
+  border-color: rgba(0, 49, 53, 0.22);
+  background: linear-gradient(145deg, #afdde5, #0fa4af 58%, #024950);
+  box-shadow: 0 28px 70px rgba(0, 49, 53, 0.2);
+}
+
+.bookstore-hero__note {
+  border-color: rgba(2, 73, 80, 0.2);
+  color: #003135;
+  background: #f3fbfb;
+}
+
+.bookstore-hero__note-icon {
+  color: #003135;
+  background: #afdde5;
+}
+
+.bookstore-hero__footnote {
+  border-color: rgba(0, 49, 53, 0.2);
+  color: #024950;
+}
+
+.bookstore-featured {
+  border-color: rgba(2, 73, 80, 0.22);
+  background: linear-gradient(115deg, #ffffff 52%, #e7f7f8);
+}
+
+.bookstore-featured__visual {
+  background: linear-gradient(145deg, #afdde5, #0fa4af 58%, #024950);
+}
+
+.bookstore-featured__wash {
+  border-color: rgba(0, 49, 53, 0.24);
+  background-image: repeating-linear-gradient(33deg, transparent 0 23px, rgba(0,49,53,0.12) 24px, transparent 25px 47px);
+}
+
+.bookstore-ribbon {
+  background: #964734;
+}
+
+.bookstore-band {
+  background: linear-gradient(125deg, #f3fbfb, #afdde5 56%, #e7f7f8);
+}
+
+.bookstore-text-link,
+.bookstore-text-link:hover {
+  color: #964734;
+}
+
+.bookstore-category {
+  border-color: rgba(2, 73, 80, 0.22);
+  color: #024950;
+  background: rgba(255,255,255,0.72);
+}
+
+.bookstore-category:hover,
+.bookstore-category.is-active {
+  border-color: #003135;
+  color: #ffffff;
+  background: #003135;
+}
+
+.book-cover {
+  background: #afdde5;
+  box-shadow: 0 14px 30px rgba(0,49,53,0.2), 2px 0 0 rgba(255,255,255,0.38) inset;
+}
+
+.book-tile__cover-wrap {
+  border-color: rgba(0, 49, 53, 0.14);
+  background: linear-gradient(145deg, #afdde5, #e7f7f8 58%, #0fa4af);
+  box-shadow: 0 12px 25px rgba(0,49,53,0.13);
+}
+
+.book-tile:hover .book-tile__cover-wrap {
+  box-shadow: 0 20px 32px rgba(0,49,53,0.24);
+}
+
+.book-tile__quick-add {
+  border-color: rgba(0,49,53,0.18);
+  color: #003135;
+  background: #f3fbfb;
+}
+
+.book-tile__quick-add:hover {
+  background: #964734;
+}
+
+.bookstore-recommendation {
+  border-color: rgba(2, 73, 80, 0.2);
+  background: linear-gradient(125deg, #e7f7f8, #afdde5 52%, #f3fbfb);
+  box-shadow: 0 16px 42px rgba(0,49,53,0.12);
+}
+
+.bookstore-rental {
+  background-color: #003135;
+  background-image: linear-gradient(112deg, rgba(0,49,53,0.94), rgba(2,73,80,0.94) 66%, rgba(15,164,175,0.7)),
+    repeating-linear-gradient(145deg, transparent 0 35px, rgba(175,221,229,0.08) 36px, transparent 37px 72px);
+}
+
+.bookstore-category-tile {
+  border-color: rgba(0, 49, 53, 0.15);
+  color: #003135;
+  background: linear-gradient(145deg, #afdde5, #e7f7f8);
+}
+
+.bookstore-category-tile:hover {
+  border-color: #0fa4af;
+}
+
+.bookstore-category-tile.tone-1 { background: linear-gradient(145deg, #0fa4af, #afdde5); }
+.bookstore-category-tile.tone-2 { background: linear-gradient(145deg, #f1ddd7, #964734); color: #ffffff; }
+.bookstore-category-tile.tone-3 { background: linear-gradient(145deg, #024950, #003135); color: #ffffff; }
+
+.bookstore-why {
+  background: linear-gradient(125deg, #e7f7f8, #afdde5 52%, #f3fbfb);
+}
+
+.bookstore-footer {
+  background: linear-gradient(110deg, #003135, #024950 62%, #0fa4af);
+}
+
+@media (max-width: 639px) {
+  .bookstore-hero {
+    background: linear-gradient(145deg, #afdde5, #e5f7f7 70%, #0fa4af);
+  }
+}
+
 @keyframes bookstore-float-left {
   0%, 100% { transform: rotate(-14deg) translateY(5px); }
   50% { transform: rotate(-11deg) translateY(-9px); }
