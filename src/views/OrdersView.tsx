@@ -82,9 +82,9 @@ export function OrdersView({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="bv-cosmic-page space-y-6">
 
-      <div className="flex items-center justify-between">
+      <div className="bv-cosmic-page-heading flex items-center justify-between">
         <div>
           <h1 className="font-display text-2xl font-bold text-ink-900">
             Orders

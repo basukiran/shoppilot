@@ -255,8 +255,8 @@ export function AccountView({
 
   if (!user) {
     return (
-      <div className="mx-auto grid min-h-[68vh] max-w-5xl items-center gap-10 py-8 lg:grid-cols-[1fr_0.8fr]">
-        <div className="max-w-xl">
+      <div className="bv-cosmic-page mx-auto grid min-h-[68vh] max-w-5xl items-center gap-10 py-8 lg:grid-cols-[1fr_0.8fr]">
+        <div className="bv-cosmic-page-intro max-w-xl">
           <p className="bookstore-kicker"><BookOpen className="h-4 w-4" /> Your BookVision shelf</p>
           <h1 className="bookstore-display mt-4 text-4xl leading-tight text-[#183629] sm:text-5xl">
             Your books, all in one place.
@@ -323,8 +323,8 @@ export function AccountView({
   const data = overview;
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 py-5">
-      <header className="flex flex-wrap items-end justify-between gap-4">
+    <div className="bv-cosmic-page mx-auto max-w-6xl space-y-6 py-5">
+      <header className="bv-cosmic-page-heading flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="bookstore-kicker"><UserRound className="h-4 w-4" /> BookVision account</p>
           <h1 className="bookstore-display mt-2 text-4xl text-[#183629]">Hello, {user.name}</h1>
@@ -333,7 +333,7 @@ export function AccountView({
         <button type="button" onClick={onLogout} className="btn-secondary">Sign out</button>
       </header>
 
-      <nav className="flex gap-2 overflow-x-auto border-b border-ink-200 pb-3" aria-label="Account sections">
+      <nav className="bv-cosmic-page-nav flex gap-2 overflow-x-auto border-b border-ink-200 pb-3" aria-label="Account sections">
         {sections.map(({ id, label, icon: Icon }) => (
           <button
             type="button"
