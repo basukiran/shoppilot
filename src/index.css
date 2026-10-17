@@ -2284,9 +2284,13 @@
 .bv-app-sidebar .bg-success-100 { background-color: #eee8ff; }
 .bv-app-sidebar .bg-success-500 { background-color: #8c67ce; }
 .bv-theme-sidebar {
-  border-color: #d3c9eb !important;
-  background: linear-gradient(180deg, #e9e3ff 0%, #f0efff 55%, #e8f1ff 100%) !important;
+  border-color: #c5b2ed !important;
+  background: linear-gradient(180deg, #ded0ff 0%, #e8ddff 52%, #e5e4ff 100%) !important;
 }
+.bookstore-rental .bookstore-display { color: #30224e !important; }
+.bookstore-rental__inner > div:first-child > p:not(.bookstore-kicker),
+.bookstore-rental [class~="text-[#d1dbcf]"],
+.bookstore-rental__inner > div:last-child { color: #514b69 !important; }
 #rental-guidelines.bvr-section {
   border-color: #d9d0ee !important;
   background: linear-gradient(135deg, #e9e2ff 0%, #e9f1ff 52%, #faeafa 100%) !important;
