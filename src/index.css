@@ -2362,11 +2362,12 @@
   .storybook-wing { animation: none !important; }
 }
 
-/* Immersive storybook world: layered landscape, atmospheric depth, 3D books. */
-.bookstore-hero { isolation: isolate; background: #dff1ee; }
+/* Immersive storybook world: site-wide cube video, atmospheric depth, 3D books. */
+.bv-app-shell { background: transparent; }
+.bv-app-scene-video { position: fixed; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: .66; filter: saturate(1.2) contrast(1.04); pointer-events: none; }
 .storybook-world { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; transform: translate3d(var(--scene-shift-x,0px),var(--scene-shift-y,0px),0); transition: transform 450ms ease-out; }
-.storybook-world__art { position: absolute; inset: 0; width: 100%; height: 100%; transform: scale(1.04); animation: storybook-world-breathe 24s ease-in-out infinite alternate; }
-.storybook-world__veil { position: absolute; inset: 0; background: linear-gradient(90deg,rgba(247,249,255,.9) 0%,rgba(247,249,255,.76) 33%,rgba(247,249,255,.1) 71%,rgba(247,249,255,.04) 100%),linear-gradient(0deg,rgba(250,246,255,.24),transparent 34%); }
+.storybook-world__art { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .24; transform: scale(1.04); animation: storybook-world-breathe 24s ease-in-out infinite alternate; }
+.storybook-world__veil { position: absolute; inset: 0; background: linear-gradient(90deg,rgba(247,249,255,.96) 0%,rgba(247,249,255,.9) 31%,rgba(247,249,255,.58) 48%,rgba(247,249,255,.12) 73%,rgba(247,249,255,.04) 100%),linear-gradient(0deg,rgba(250,246,255,.28),transparent 42%); }
 .storybook-cloud { transform-box: fill-box; animation: storybook-cloud-drift 42s ease-in-out infinite alternate; }
 .storybook-cloud--two { animation-duration: 55s; animation-direction: alternate-reverse; }
 .bookstore-hero__inner { position: relative; z-index: 1; }
@@ -2400,7 +2401,7 @@
 @keyframes bookstore-float-center-3d { 0%,100% { transform: rotateY(-3deg) rotateX(4deg) rotateZ(-1deg) translate3d(0,-2px,30px); } 50% { transform: rotateY(4deg) rotateX(1deg) rotateZ(1deg) translate3d(0,-14px,44px); } }
 
 @media (max-width: 639px) {
-  .storybook-world__veil { background: linear-gradient(90deg,rgba(247,249,255,.88),rgba(247,249,255,.42) 68%,rgba(247,249,255,.08)),linear-gradient(0deg,rgba(250,246,255,.25),transparent 40%); }
+  .storybook-world__veil { background: linear-gradient(180deg,rgba(247,249,255,.96) 0%,rgba(247,249,255,.89) 42%,rgba(247,249,255,.62) 64%,rgba(247,249,255,.18) 100%),linear-gradient(0deg,rgba(250,246,255,.25),transparent 40%); }
   .bookstore-hero__art { perspective: 800px; }
   .bookstore-hero__cover--back { left: 15%; }
   .bookstore-hero__cover--middle { right: 15%; }
@@ -2409,6 +2410,8 @@
   .book-tile:hover .book-tile__cover-wrap { transform: translateY(-3px); }
 }
 @media (prefers-reduced-motion: reduce) {
+  .bv-app-scene-video { display: none; }
+  .storybook-world__art { opacity: 1; }
   .storybook-world__art,
   .storybook-cloud,
   .storybook-world,
@@ -2418,3 +2421,78 @@
   .book-tile,
   .book-tile__cover-wrap { animation: none !important; transition: none !important; }
 }
+
+/* Carry the cube-world through every route while keeping page content legible. */
+.bv-app-shell::before {
+  background-image:
+    radial-gradient(ellipse at 18% 24%, rgba(190, 164, 255, .16), transparent 43%),
+    radial-gradient(ellipse at 79% 35%, rgba(145, 192, 255, .17), transparent 42%),
+    radial-gradient(ellipse at 55% 76%, rgba(255, 174, 222, .14), transparent 40%),
+    linear-gradient(145deg, rgba(247,245,255,.78), rgba(240,247,255,.72) 54%, rgba(255,245,251,.8));
+}
+.bv-app-scene-video { opacity: .72; }
+.bv-floating-books { position: fixed; inset: 0; z-index: -1; overflow: hidden; perspective: 1200px; pointer-events: none; transform-style: preserve-3d; translate: var(--books-drift,0px 0px); transition: translate 420ms ease-out; }
+.bv-floating-book { position: absolute; width: clamp(54px,6.5vw,96px); aspect-ratio: .68; opacity: .42; transform-style: preserve-3d; filter: drop-shadow(0 18px 16px rgba(38,30,78,.22)); }
+.bv-floating-book img { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 2px; object-fit: cover; transform: translateZ(7px); box-shadow: inset 3px 0 5px rgba(0,0,0,.24); }
+.bv-floating-book::before { position: absolute; top: 3px; bottom: 3px; left: -8px; width: 9px; border-radius: 2px 0 0 2px; background: linear-gradient(90deg,rgba(18,20,48,.88),rgba(255,255,255,.12)); content: ''; transform: rotateY(-82deg); transform-origin: right center; }
+.bv-floating-book::after { position: absolute; top: 4px; right: -7px; bottom: 4px; width: 8px; border-radius: 0 2px 2px 0; background: repeating-linear-gradient(180deg,#fffdf3 0 2px,#d8d1c5 2px 3px); content: ''; transform: rotateY(72deg); transform-origin: left center; }
+.bv-floating-book--one { top: 16%; left: 17%; animation: bv-background-book-one 9s ease-in-out infinite; }
+.bv-floating-book--two { top: 21%; right: 8%; width: clamp(64px,7.4vw,112px); animation: bv-background-book-two 11s ease-in-out infinite; }
+.bv-floating-book--three { bottom: 13%; left: 27%; width: clamp(56px,6vw,86px); animation: bv-background-book-three 10s ease-in-out infinite; }
+.bv-floating-book--four { right: 19%; bottom: 12%; width: clamp(60px,6.7vw,100px); animation: bv-background-book-four 12s ease-in-out infinite; }
+.bv-floating-book--five { top: 7%; right: 35%; width: clamp(46px,4.8vw,72px); opacity: .3; animation: bv-background-book-five 8s ease-in-out infinite; }
+.bookstore-hero { background: linear-gradient(118deg,rgba(247,243,255,.82),rgba(231,238,255,.72) 55%,rgba(255,235,247,.76)); }
+.bookstore-band,
+.bookstore-why,
+.bookstore-locations { background-image: linear-gradient(130deg,rgba(248,246,255,.8),rgba(235,242,255,.76) 54%,rgba(255,241,249,.8)); }
+.bookstore-rental { background-image: linear-gradient(112deg,rgba(244,240,255,.8),rgba(228,236,255,.77) 62%,rgba(255,232,247,.8)),repeating-linear-gradient(145deg,transparent 0 35px,rgba(115,92,165,.08) 36px,transparent 37px 72px); }
+#rental-guidelines.bvr-section { background: linear-gradient(145deg,rgba(240,237,255,.84),rgba(237,244,255,.8) 58%,rgba(251,240,250,.84)); }
+
+/* Pointer-aware tilt makes shared cards and storefront tiles feel touchable. */
+.bv-app-main .card,
+.bookstore-featured,
+.bookstore-recommendation,
+.bookstore-category-tile,
+.book-tile,
+.bvr-card,
+.bookstore-locations a { transform-style: preserve-3d; }
+.bv-app-main .card.is-pointer-tilting,
+.bookstore-featured.is-pointer-tilting,
+.bookstore-recommendation.is-pointer-tilting,
+.bookstore-category-tile.is-pointer-tilting,
+.book-tile.is-pointer-tilting,
+.bvr-card.is-pointer-tilting,
+.bookstore-locations a.is-pointer-tilting {
+  transform: perspective(1100px) rotateX(var(--pointer-tilt-y,0deg)) rotateY(var(--pointer-tilt-x,0deg)) translateY(-3px) translateZ(8px);
+  box-shadow: 0 22px 42px rgba(66,53,112,.2);
+  transition: transform 90ms ease-out, box-shadow 180ms ease-out;
+}
+.bv-app-main .card:active,
+.bookstore-category-tile:active,
+.book-tile:active { scale: .99; }
+@media (hover: hover) and (pointer: fine) {
+  .bv-app-main .card,
+  .bookstore-featured,
+  .bookstore-recommendation,
+  .bookstore-category-tile,
+  .book-tile,
+  .bvr-card,
+  .bookstore-locations a { transition: transform 220ms ease, box-shadow 220ms ease; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bv-app-scene-video { display: none; }
+  .bv-floating-book { animation: none !important; }
+  .bv-app-main .card.is-pointer-tilting,
+  .bookstore-featured.is-pointer-tilting,
+  .bookstore-recommendation.is-pointer-tilting,
+  .bookstore-category-tile.is-pointer-tilting,
+  .book-tile.is-pointer-tilting,
+  .bvr-card.is-pointer-tilting,
+  .bookstore-locations a.is-pointer-tilting { transform: none; box-shadow: inherit; }
+}
+
+@keyframes bv-background-book-one { 0%,100% { transform: translate3d(0,0,-10px) rotateX(8deg) rotateY(-22deg) rotateZ(-9deg); } 50% { transform: translate3d(8px,-22px,30px) rotateX(13deg) rotateY(-9deg) rotateZ(-3deg); } }
+@keyframes bv-background-book-two { 0%,100% { transform: translate3d(0,0,24px) rotateX(-4deg) rotateY(18deg) rotateZ(8deg); } 50% { transform: translate3d(-11px,-18px,-12px) rotateX(5deg) rotateY(30deg) rotateZ(2deg); } }
+@keyframes bv-background-book-three { 0%,100% { transform: translate3d(0,0,-20px) rotateX(9deg) rotateY(-14deg) rotateZ(7deg); } 50% { transform: translate3d(10px,15px,22px) rotateX(-2deg) rotateY(-26deg) rotateZ(1deg); } }
+@keyframes bv-background-book-four { 0%,100% { transform: translate3d(0,0,12px) rotateX(-7deg) rotateY(21deg) rotateZ(-8deg); } 50% { transform: translate3d(-8px,-20px,36px) rotateX(7deg) rotateY(11deg) rotateZ(-1deg); } }
+@keyframes bv-background-book-five { 0%,100% { transform: translate3d(0,0,-28px) rotateX(11deg) rotateY(-18deg) rotateZ(10deg); } 50% { transform: translate3d(12px,18px,12px) rotateX(-4deg) rotateY(-6deg) rotateZ(2deg); } }

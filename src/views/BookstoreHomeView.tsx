@@ -8,9 +8,9 @@ import {
   Instagram,
   Leaf,
   Library,
+  Mail,
   MessageCircle,
   MapPin,
-  Phone,
   ShoppingBag,
   Sparkles,
   Star,
@@ -564,25 +564,22 @@ export function BookstoreHomeView({
               Need a website like this?
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#52665a] sm:text-base">
-              Contact me to build a website for your business. We would be happy to help.
+              Need a website for your business? Email us or scan the WhatsApp code to discuss your project.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a href="https://wa.me/918431823367" target="_blank" rel="noreferrer" className="bookstore-button bookstore-button--dark">
-                <MessageCircle className="h-4 w-4" /> WhatsApp 8431823367
-              </a>
-              <a href="tel:+918431823367" className="bookstore-button bookstore-button--outline">
-                <Phone className="h-4 w-4" /> Call 8431823367
+              <a href="mailto:kiranbasu30@gmail.com" className="bookstore-button bookstore-button--dark">
+                <Mail className="h-4 w-4" /> kiranbasu30@gmail.com
               </a>
             </div>
           </div>
           <figure className="mx-auto w-full max-w-[280px] text-center">
             <img
               src="/whatsapp-business-qr.png"
-              alt="Scan this QR code to start a WhatsApp chat with Jnana Nidhi Hubli"
+              alt="Scan to start a WhatsApp chat with Jnana Nidhi Hubli about website services"
               loading="lazy"
               className="h-auto w-full rounded-2xl"
             />
-            <figcaption className="mt-2 text-xs text-[#68766c]">Scan to chat with Jnana Nidhi Hubli</figcaption>
+            <figcaption className="mt-2 text-xs text-[#68766c]">Scan to discuss website services with Jnana Nidhi Hubli</figcaption>
           </figure>
         </div>
       </section>

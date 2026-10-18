@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type PointerEvent } from 'react';
 
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Topbar } from '@/components/layout/Topbar';
@@ -56,12 +56,47 @@ function shouldPlayIntro() {
 }
 
 function App() {
+  const active3dCard = useRef<HTMLElement | null>(null);
   const [showIntro, setShowIntro] = useState(shouldPlayIntro);
   const [view, setView] = useState<ViewKey>('dashboard');
   const [accountUser, setAccountUser] = useState<AccountUser | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [favoriteBooks, setFavoriteBooks] = useState<Product[]>([]);
   const [favoritesLoading, setFavoritesLoading] = useState(false);
+
+  const reset3dCard = () => {
+    active3dCard.current?.classList.remove('is-pointer-tilting');
+    active3dCard.current?.style.removeProperty('--pointer-tilt-x');
+    active3dCard.current?.style.removeProperty('--pointer-tilt-y');
+    active3dCard.current = null;
+    document.querySelector<HTMLElement>('.bv-floating-books')?.style.removeProperty('--books-drift');
+  };
+
+  const move3dCard = (event: PointerEvent<HTMLElement>) => {
+    if (event.pointerType === 'touch' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const driftX = ((event.clientX / window.innerWidth) - 0.5) * -16;
+    const driftY = ((event.clientY / window.innerHeight) - 0.5) * -12;
+    event.currentTarget.closest('.bv-app-shell')
+      ?.querySelector<HTMLElement>('.bv-floating-books')
+      ?.style.setProperty('--books-drift', `${driftX}px ${driftY}px`);
+    const target = event.target instanceof Element
+      ? event.target.closest<HTMLElement>('.bv-app-main .card, .bookstore-featured, .bookstore-recommendation, .bookstore-category-tile, .book-tile, .bvr-card, .bookstore-locations a')
+      : null;
+    if (!target) {
+      reset3dCard();
+      return;
+    }
+    if (active3dCard.current !== target) {
+      reset3dCard();
+      active3dCard.current = target;
+      target.classList.add('is-pointer-tilting');
+    }
+    const rect = target.getBoundingClientRect();
+    const relativeX = (event.clientX - rect.left) / rect.width - 0.5;
+    const relativeY = (event.clientY - rect.top) / rect.height - 0.5;
+    target.style.setProperty('--pointer-tilt-x', `${relativeX * 7}deg`);
+    target.style.setProperty('--pointer-tilt-y', `${relativeY * -7}deg`);
+  };
 
   useEffect(() => {
     let active = true;
@@ -364,6 +399,16 @@ function App() {
         aria-hidden={showIntro}
         className="bv-app-shell flex min-h-screen"
       >
+      <video className="bv-app-scene-video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" tabIndex={-1}>
+        <source src="/video/cube-tunnel.mp4" type="video/mp4" />
+      </video>
+      <div className="bv-floating-books" aria-hidden="true">
+        <div className="bv-floating-book bv-floating-book--one"><img src="/covers/zero-to-hero.jpg" alt="" /></div>
+        <div className="bv-floating-book bv-floating-book--two"><img src="/covers/rich-dad-poor-dad.jpg" alt="" /></div>
+        <div className="bv-floating-book bv-floating-book--three"><img src="/covers/wings-of-fire.jpg" alt="" /></div>
+        <div className="bv-floating-book bv-floating-book--four"><img src="/covers/grit.jpg" alt="" /></div>
+        <div className="bv-floating-book bv-floating-book--five"><img src="/covers/courage-to-be-disliked.jpg" alt="" /></div>
+      </div>
 
       {/* SIDEBAR */}
       <Sidebar
@@ -390,7 +435,7 @@ function App() {
           onNavigate={navigate}
         />
 
-        <main className={`bv-app-main flex-1 overflow-y-auto scrollbar-thin ${
+        <main onPointerMove={move3dCard} onPointerLeave={reset3dCard} className={`bv-app-main flex-1 overflow-y-auto scrollbar-thin ${
           view === 'dashboard' ? '' : 'p-4 sm:p-6'
         }`}>
 
