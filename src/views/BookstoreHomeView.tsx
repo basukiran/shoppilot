@@ -531,14 +531,14 @@ export function BookstoreHomeView({
             <p className="mt-1 text-xs text-[#5c5273]">A little more wonder, every day.</p>
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[#d1dbcf]">
-          <button type="button" onClick={() => onNavigate('ai-buyer')} className="hover:text-white">AI Buyer</button>
-          <button type="button" onClick={() => onNavigate('orders')} className="hover:text-white">Orders</button>
-          <button type="button" onClick={() => onNavigate('cart')} className="hover:text-white">Reading bag</button>
-          <button type="button" onClick={() => onNavigate('rental-management')} className="hover:text-white">Rentals</button>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[#40355f]">
+          <button type="button" onClick={() => onNavigate('ai-buyer')} className="transition hover:text-[#6d3ba8]">AI Buyer</button>
+          <button type="button" onClick={() => onNavigate('orders')} className="transition hover:text-[#6d3ba8]">Orders</button>
+          <button type="button" onClick={() => onNavigate('cart')} className="transition hover:text-[#6d3ba8]">Reading bag</button>
+          <button type="button" onClick={() => onNavigate('rental-management')} className="transition hover:text-[#6d3ba8]">Rentals</button>
         </div>
         <div className="flex flex-col gap-3 text-sm text-[#40355f]">
-          <a href="tel:7483400665" className="inline-flex items-center gap-2 transition hover:text-white">
+          <a href="tel:7483400665" className="inline-flex items-center gap-2 transition hover:text-[#6d3ba8]">
             <span>Call 7483400665 to arrange book collection at your preferred location</span>
           </a>
           <a
