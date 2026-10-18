@@ -488,6 +488,15 @@ export function BookstoreHomeView({
             <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">Come by the shelves.</h2>
             <p className="mt-4 max-w-md text-sm leading-7 text-[#68766c]">Visit a Jnana Nidhi location and find your next read in person.</p>
             <img src="/bookvision-logo.webp" alt="Jnana Nidhi Hubballi logo" className="mt-7 h-20 w-20 object-contain" />
+            <figure className="mt-6 w-full max-w-[220px] text-center">
+              <img
+                src="/whatsapp-business-qr.png"
+                alt="Scan to start a WhatsApp chat with Jnana Nidhi Hubli"
+                loading="lazy"
+                className="h-auto w-full rounded-2xl"
+              />
+              <figcaption className="mt-2 text-xs text-[#68766c]">Scan to WhatsApp Jnana Nidhi about books and locations</figcaption>
+            </figure>
           </div>
           <div className="grid gap-x-8 sm:grid-cols-2">
             {[
@@ -564,7 +573,7 @@ export function BookstoreHomeView({
               Need a website like this?
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#52665a] sm:text-base">
-              Need a website for your business? Email us or scan the WhatsApp code to discuss your project.
+              Need a website for your business? Email us to discuss your project.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a href="mailto:kiranbasu30@gmail.com" className="bookstore-button bookstore-button--dark">
@@ -572,15 +581,6 @@ export function BookstoreHomeView({
               </a>
             </div>
           </div>
-          <figure className="mx-auto w-full max-w-[280px] text-center">
-            <img
-              src="/whatsapp-business-qr.png"
-              alt="Scan to start a WhatsApp chat with Jnana Nidhi Hubli about website services"
-              loading="lazy"
-              className="h-auto w-full rounded-2xl"
-            />
-            <figcaption className="mt-2 text-xs text-[#68766c]">Scan to discuss website services with Jnana Nidhi Hubli</figcaption>
-          </figure>
         </div>
       </section>
     </div>
