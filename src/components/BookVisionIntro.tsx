@@ -17,6 +17,7 @@ export function BookVisionIntro({ onFinish }: Props) {
   const [leaving, setLeaving] = useState(false);
   const [muted, setMuted] = useState(false);
   const [soundReady, setSoundReady] = useState(false);
+  const mutedRef = useRef(muted);
 
   const finishRef = useRef<() => void>(() => {});
   const skipButtonRef = useRef<HTMLButtonElement>(null);
@@ -41,7 +42,7 @@ export function BookVisionIntro({ onFinish }: Props) {
   };
 
   const startSound = () => {
-    if (!muted) playVoice();
+    if (!mutedRef.current) playVoice();
   };
 
   // ---- Lifecycle ---------------------------------------------------------
@@ -93,6 +94,7 @@ export function BookVisionIntro({ onFinish }: Props) {
 
   const toggleMute = () => {
     const next = !muted;
+    mutedRef.current = next;
     setMuted(next);
     if (next) {
       audioRef.current?.pause();
