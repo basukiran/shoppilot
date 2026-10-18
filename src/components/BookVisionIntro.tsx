@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { Volume2, VolumeX } from 'lucide-react';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -15,9 +14,6 @@ interface Props {
 
 export function BookVisionIntro({ onFinish }: Props) {
   const [leaving, setLeaving] = useState(false);
-  const [muted, setMuted] = useState(false);
-  const [soundReady, setSoundReady] = useState(false);
-  const mutedRef = useRef(muted);
 
   const finishRef = useRef<() => void>(() => {});
   const skipButtonRef = useRef<HTMLButtonElement>(null);
@@ -31,7 +27,6 @@ export function BookVisionIntro({ onFinish }: Props) {
     soundStartedRef.current = true;
 
     audio.play().then(() => {
-      setSoundReady(true);
       if (introTimerRef.current !== null) {
         window.clearTimeout(introTimerRef.current);
         introTimerRef.current = null;
@@ -42,7 +37,7 @@ export function BookVisionIntro({ onFinish }: Props) {
   };
 
   const startSound = () => {
-    if (!mutedRef.current) playVoice();
+    playVoice();
   };
 
   // ---- Lifecycle ---------------------------------------------------------
@@ -92,23 +87,6 @@ export function BookVisionIntro({ onFinish }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onFinish]);
 
-  const toggleMute = () => {
-    const next = !muted;
-    mutedRef.current = next;
-    setMuted(next);
-    if (next) {
-      audioRef.current?.pause();
-      if (audioRef.current) audioRef.current.currentTime = 0;
-      soundStartedRef.current = false;
-      setSoundReady(false);
-      if (introTimerRef.current === null) {
-        introTimerRef.current = window.setTimeout(() => finishRef.current(), 5200);
-      }
-    } else {
-      playVoice();
-    }
-  };
-
   // ---- Render ------------------------------------------------------------
   return (
     <div
@@ -122,26 +100,12 @@ export function BookVisionIntro({ onFinish }: Props) {
         ref={audioRef}
         src="/audio/bookvision-opening.mpeg"
         preload="auto"
-        muted={muted}
         onEnded={() => {
-          setSoundReady(false);
           finishRef.current();
         }}
       />
       {/* ── Controls ── */}
       <div className="bv2-controls" aria-hidden="false">
-        <button
-          type="button"
-          onClick={toggleMute}
-          className="bv2-btn-icon"
-          aria-label={muted ? 'Unmute intro sound' : 'Mute intro sound'}
-          title={muted ? 'Unmute' : 'Mute'}
-        >
-          {muted || !soundReady
-            ? <VolumeX size={14} strokeWidth={1.8} />
-            : <Volume2 size={14} strokeWidth={1.8} />}
-        </button>
-
         <button
           ref={skipButtonRef}
           type="button"
