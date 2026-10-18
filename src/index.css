@@ -2301,3 +2301,63 @@
 #rental-guidelines .bvr-card { border-color: #d8d0ea; background: rgba(255,255,255,0.96); }
 #rental-guidelines .bvr-card__title { color: #352858; }
 #rental-guidelines .bvr-card__body { color: #514b69; }
+
+/* A playful dimensional garden around the floating book covers. */
+.bookstore-hero__art { perspective: 1000px; transform-style: preserve-3d; }
+.storybook-garden { position: absolute; inset: 0; z-index: 1; pointer-events: none; transform-style: preserve-3d; }
+.storybook-tree {
+  position: absolute;
+  bottom: 1%;
+  width: 32%;
+  max-width: 176px;
+  height: 76%;
+  overflow: visible;
+  filter: drop-shadow(0 14px 12px rgba(52,74,87,0.16));
+  transform-origin: 50% 100%;
+  animation: storybook-tree-sway 7s ease-in-out infinite alternate;
+}
+.storybook-tree--left { left: 0; transform: translateZ(-28px) rotateY(16deg) rotate(-2deg); }
+.storybook-tree--right { right: 0; animation-delay: -3.2s; transform: translateZ(-46px) rotateY(-18deg) rotate(2deg) scale(.9); }
+.storybook-butterfly {
+  position: absolute;
+  width: clamp(25px, 6vw, 42px);
+  height: auto;
+  filter: drop-shadow(0 4px 4px rgba(86,62,125,0.2));
+  transform-style: preserve-3d;
+  animation: storybook-butterfly-float 7s ease-in-out infinite;
+}
+.storybook-butterfly--1 { top: 18%; left: 18%; }
+.storybook-butterfly--2 { top: 35%; right: 12%; width: clamp(22px, 5vw, 34px); animation-delay: -2.2s; }
+.storybook-butterfly--3 { top: 8%; right: 34%; width: clamp(20px, 4vw, 30px); animation-delay: -4.3s; }
+.storybook-wing { transform-box: fill-box; }
+.storybook-wing--left { transform-origin: 100% 50%; animation: storybook-wing-flap 420ms ease-in-out infinite alternate; }
+.storybook-wing--right { transform-origin: 0% 50%; animation: storybook-wing-flap 420ms ease-in-out infinite alternate-reverse; }
+.bookstore-hero__cover--back,
+.bookstore-hero__cover--middle { z-index: 2; }
+.bookstore-hero__cover--front { z-index: 3; }
+.bookstore-hero__note { z-index: 4; }
+
+@keyframes storybook-tree-sway {
+  from { margin-bottom: 0; }
+  to { margin-bottom: 5px; }
+}
+@keyframes storybook-butterfly-float {
+  0%, 100% { translate: 0 0; rotate: -7deg; }
+  50% { translate: 14px -20px; rotate: 8deg; }
+}
+@keyframes storybook-wing-flap {
+  from { scale: 1 1; }
+  to { scale: 0.22 1; }
+}
+@media (max-width: 639px) {
+  .storybook-tree { width: 26%; height: 61%; }
+  .storybook-tree--left { left: -1%; }
+  .storybook-tree--right { right: -1%; }
+  .storybook-butterfly--1 { left: 12%; }
+  .storybook-butterfly--2 { right: 8%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .storybook-tree,
+  .storybook-butterfly,
+  .storybook-wing { animation: none !important; }
+}

@@ -147,6 +147,44 @@ export function BookstoreHomeView({
           </div>
 
           <div className="bookstore-hero__art relative mx-auto flex h-[300px] w-full max-w-[560px] items-center justify-center sm:h-[390px]">
+            <div className="storybook-garden" aria-hidden="true">
+              <svg className="storybook-tree storybook-tree--left" viewBox="0 0 180 240" fill="none">
+                <ellipse cx="91" cy="221" rx="72" ry="12" fill="#7c69a5" opacity=".16" />
+                <path d="M81 218c11-41 4-73 1-107h23c-4 39-5 71 11 107H81Z" fill="url(#tree-trunk-left)" />
+                <path d="M92 143 58 98m48 35 31-45M91 112 82 69" stroke="#94694f" strokeWidth="9" strokeLinecap="round" />
+                <g fill="url(#tree-leaf-left)">
+                  <circle cx="47" cy="91" r="35" /><circle cx="83" cy="68" r="39" />
+                  <circle cx="127" cy="84" r="36" /><circle cx="65" cy="119" r="34" />
+                  <circle cx="112" cy="119" r="38" /><circle cx="90" cy="94" r="39" />
+                </g>
+                <defs>
+                  <linearGradient id="tree-trunk-left" x1="82" y1="110" x2="116" y2="220" gradientUnits="userSpaceOnUse"><stop stopColor="#bc8a65" /><stop offset="1" stopColor="#805b54" /></linearGradient>
+                  <radialGradient id="tree-leaf-left" cx="0" cy="0" r="1" gradientTransform="matrix(75 85 -91 80 67 50)" gradientUnits="userSpaceOnUse"><stop stopColor="#94d8bd" /><stop offset=".65" stopColor="#57a88f" /><stop offset="1" stopColor="#377d78" /></radialGradient>
+                </defs>
+              </svg>
+              <svg className="storybook-tree storybook-tree--right" viewBox="0 0 180 240" fill="none">
+                <ellipse cx="91" cy="221" rx="72" ry="12" fill="#7c69a5" opacity=".16" />
+                <path d="M82 218c10-41 5-71 2-104h23c-3 39-4 69 11 104H82Z" fill="url(#tree-trunk-right)" />
+                <path d="m94 145-36-44m49 30 29-46M94 111l-5-43" stroke="#94694f" strokeWidth="9" strokeLinecap="round" />
+                <g fill="url(#tree-leaf-right)">
+                  <circle cx="48" cy="94" r="36" /><circle cx="83" cy="67" r="39" />
+                  <circle cx="128" cy="84" r="35" /><circle cx="66" cy="121" r="34" />
+                  <circle cx="111" cy="119" r="38" /><circle cx="91" cy="94" r="39" />
+                </g>
+                <defs>
+                  <linearGradient id="tree-trunk-right" x1="82" y1="110" x2="116" y2="220" gradientUnits="userSpaceOnUse"><stop stopColor="#bc8a65" /><stop offset="1" stopColor="#805b54" /></linearGradient>
+                  <radialGradient id="tree-leaf-right" cx="0" cy="0" r="1" gradientTransform="matrix(75 85 -91 80 67 50)" gradientUnits="userSpaceOnUse"><stop stopColor="#c5d68e" /><stop offset=".65" stopColor="#82b879" /><stop offset="1" stopColor="#498d7b" /></radialGradient>
+                </defs>
+              </svg>
+              {[0, 1, 2].map((butterfly) => (
+                <svg key={butterfly} className={`storybook-butterfly storybook-butterfly--${butterfly + 1}`} viewBox="0 0 48 42">
+                  <g className="storybook-wing storybook-wing--left"><path d="M23 21C14 4 2 4 4 16c1 7 9 11 18 8 4-1 4-1 1-3Z" fill="#a679e8" /><path d="M22 23C12 19 8 25 12 31c3 5 10 4 12-4l-2-4Z" fill="#ed91c9" /></g>
+                  <g className="storybook-wing storybook-wing--right"><path d="M25 21C34 4 46 4 44 16c-1 7-9 11-18 8-4-1-4-1-1-3Z" fill="#7b8fe4" /><path d="M26 23c10-4 14 2 10 8-3 5-10 4-12-4l2-4Z" fill="#f2b1d8" /></g>
+                  <path d="m23 20-2-5m4 5 3-5m-4 8v9" stroke="#49396f" strokeWidth="1.7" strokeLinecap="round" />
+                  <ellipse cx="24" cy="22" rx="2" ry="5" fill="#49396f" />
+                </svg>
+              ))}
+            </div>
             <div className="bookstore-hero__arch" aria-hidden="true" />
             <BookCover book={books[1] ?? featuredBook} className="bookstore-hero__cover bookstore-hero__cover--back" />
             <BookCover book={books[2] ?? featuredBook} className="bookstore-hero__cover bookstore-hero__cover--middle" />
