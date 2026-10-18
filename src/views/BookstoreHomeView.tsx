@@ -527,8 +527,8 @@ export function BookstoreHomeView({
         <div className="flex items-center gap-4">
           <img src="/bookvision-logo.webp" alt="Jnana Nidhi Hubballi logo" className="h-14 w-14 shrink-0 object-contain" />
           <div>
-            <p className="bookstore-display text-xl text-[#f6f5eb]">Jnana Nidhi</p>
-            <p className="mt-1 text-xs text-[#c0ccbf]">A little more wonder, every day.</p>
+            <p className="bookstore-display text-xl text-[#30224e]">Jnana Nidhi</p>
+            <p className="mt-1 text-xs text-[#5c5273]">A little more wonder, every day.</p>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[#d1dbcf]">
@@ -537,7 +537,7 @@ export function BookstoreHomeView({
           <button type="button" onClick={() => onNavigate('cart')} className="hover:text-white">Reading bag</button>
           <button type="button" onClick={() => onNavigate('rental-management')} className="hover:text-white">Rentals</button>
         </div>
-        <div className="flex flex-col gap-3 text-sm text-[#d1dbcf]">
+        <div className="flex flex-col gap-3 text-sm text-[#40355f]">
           <a href="tel:7483400665" className="inline-flex items-center gap-2 transition hover:text-white">
             <span>Call 7483400665 to arrange book collection at your preferred location</span>
           </a>
@@ -546,7 +546,7 @@ export function BookstoreHomeView({
             target="_blank"
             rel="noreferrer"
             aria-label="Visit Our YouTube Channel"
-            className="inline-flex items-center gap-2 transition hover:text-white"
+            className="inline-flex items-center gap-2 transition hover:text-[#6d3ba8]"
           >
             <Youtube className="h-4 w-4 shrink-0" />
             <span>Visit Our YouTube Channel</span>
@@ -556,12 +556,12 @@ export function BookstoreHomeView({
             target="_blank"
             rel="noreferrer"
             aria-label="Follow Us on Instagram"
-            className="inline-flex items-center gap-2 transition hover:text-white"
+            className="inline-flex items-center gap-2 transition hover:text-[#6d3ba8]"
           >
             <Instagram className="h-4 w-4 shrink-0" />
             <span>Follow Us on Instagram</span>
           </a>
-          <span className="mt-1 text-xs text-[#9eae9f]">© 2026 Jnana Nidhi</span>
+          <span className="mt-1 text-xs text-[#5c5273]">© 2026 Jnana Nidhi</span>
         </div>
       </footer>
 
