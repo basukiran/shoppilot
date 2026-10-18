@@ -77,6 +77,9 @@ export function BookVisionIntro({ onFinish }: Props) {
     skipButtonRef.current?.focus();
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('pointerdown', handlePointer);
+    // Try autoplay where the browser permits it. Browsers that block it will
+    // fall back to the first user interaction handled above.
+    playVoice();
 
     return () => {
       if (introTimerRef.current !== null) window.clearTimeout(introTimerRef.current);
