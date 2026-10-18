@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import {
   ArrowDown,
   ArrowRight,
@@ -106,9 +106,62 @@ export function BookstoreHomeView({
     });
   };
 
+  const moveStorybookScene = (event: ReactPointerEvent<HTMLElement>) => {
+    if (event.pointerType === 'touch' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+    const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+    const world = event.currentTarget.querySelector<HTMLElement>('.storybook-world');
+    const bookScene = event.currentTarget.querySelector<HTMLElement>('.bookstore-hero__art');
+    world?.style.setProperty('--scene-shift-x', `${x * -12}px`);
+    world?.style.setProperty('--scene-shift-y', `${y * -8}px`);
+    bookScene?.style.setProperty('--scene-tilt-x', `${x * 3}deg`);
+    bookScene?.style.setProperty('--scene-tilt-y', `${y * -3}deg`);
+  };
+
+  const resetStorybookScene = (event: ReactPointerEvent<HTMLElement>) => {
+    const world = event.currentTarget.querySelector<HTMLElement>('.storybook-world');
+    const bookScene = event.currentTarget.querySelector<HTMLElement>('.bookstore-hero__art');
+    world?.style.removeProperty('--scene-shift-x');
+    world?.style.removeProperty('--scene-shift-y');
+    bookScene?.style.removeProperty('--scene-tilt-x');
+    bookScene?.style.removeProperty('--scene-tilt-y');
+  };
+
   return (
     <div className="bookstore-home">
-      <section className="bookstore-hero relative overflow-hidden">
+      <section className="bookstore-hero relative overflow-hidden" onPointerMove={moveStorybookScene} onPointerLeave={resetStorybookScene}>
+        <div className="storybook-world" aria-hidden="true">
+          <svg viewBox="0 0 1600 720" preserveAspectRatio="xMidYMid slice" className="storybook-world__art">
+            <defs>
+              <linearGradient id="storybook-sky" x1="800" y1="0" x2="800" y2="720" gradientUnits="userSpaceOnUse"><stop stopColor="#8dd8dc" /><stop offset=".48" stopColor="#c8eef0" /><stop offset="1" stopColor="#ffe2c7" /></linearGradient>
+              <linearGradient id="storybook-mountain" x1="800" y1="260" x2="800" y2="540" gradientUnits="userSpaceOnUse"><stop stopColor="#92c6c7" /><stop offset="1" stopColor="#93c5a9" /></linearGradient>
+              <linearGradient id="storybook-hill" x1="800" y1="390" x2="800" y2="720" gradientUnits="userSpaceOnUse"><stop stopColor="#8dc39a" /><stop offset="1" stopColor="#488f78" /></linearGradient>
+              <linearGradient id="storybook-path" x1="800" y1="470" x2="820" y2="720" gradientUnits="userSpaceOnUse"><stop stopColor="#e8d5b2" /><stop offset="1" stopColor="#c79d73" /></linearGradient>
+              <radialGradient id="storybook-sun"><stop stopColor="#fffce0" /><stop offset=".58" stopColor="#fff2bb" /><stop offset="1" stopColor="#fff2bb" stopOpacity="0" /></radialGradient>
+            </defs>
+            <path fill="url(#storybook-sky)" d="M0 0h1600v720H0z" />
+            <circle cx="1170" cy="130" r="126" fill="url(#storybook-sun)" />
+            <circle cx="1170" cy="130" r="38" fill="#fff8d5" />
+            <g className="storybook-cloud storybook-cloud--one" fill="#fff" opacity=".56">
+              <ellipse cx="285" cy="164" rx="92" ry="25" /><ellipse cx="245" cy="151" rx="40" ry="36" /><ellipse cx="300" cy="140" rx="53" ry="46" /><ellipse cx="348" cy="155" rx="42" ry="29" />
+            </g>
+            <g className="storybook-cloud storybook-cloud--two" fill="#fff" opacity=".44">
+              <ellipse cx="1400" cy="250" rx="110" ry="23" /><ellipse cx="1351" cy="239" rx="46" ry="31" /><ellipse cx="1409" cy="229" rx="55" ry="42" /><ellipse cx="1462" cy="244" rx="46" ry="28" />
+            </g>
+            <path fill="url(#storybook-mountain)" d="m0 475 179-202 111 118 185-239 186 239 116-108 151 191 176-244 195 244 138-137 163 153v230H0z" />
+            <path fill="#f4ffff" opacity=".58" d="m475 152 75 98-53-20-34 30-35-24-47 37zM1004 230l72 90-49-17-31 25-37-24-45 25zM291 273l50 55-34-10-21 18-25-18-31 12z" />
+            <path fill="#bbdfbd" d="M0 461c179-81 328-44 482 6 166 53 304 32 474-18 235-69 445-57 644 17v254H0z" />
+            <path fill="url(#storybook-hill)" d="M0 518c163-61 324-28 461 27 161 65 320 63 470-1 212-90 431-107 669-24v200H0z" />
+            <path fill="#66a98b" d="M0 604c209-93 423-56 586 5 169 63 305 53 461-20 184-85 348-60 553-7v138H0z" />
+            <path fill="url(#storybook-path)" d="M680 720c69-85 128-137 149-191 16-41 5-70-31-103h112c50 48 51 87 13 133-42 50-73 95-97 161z" />
+            <g fill="#3d826d" opacity=".8">
+              <path d="M79 517c-23-72-17-127 18-169 35 42 42 97 18 169z"/><path d="M116 518c-7-89 11-151 56-188 19 58 1 121-56 188z"/><path d="M1480 493c-15-72-6-129 28-170 30 46 31 101 3 165z"/><path d="M1513 499c1-82 25-138 71-168 10 56-14 111-71 168z"/>
+            </g>
+            <g fill="#f8d79b" opacity=".85"><circle cx="250" cy="628" r="5"/><circle cx="287" cy="650" r="4"/><circle cx="1335" cy="610" r="5"/><circle cx="1307" cy="641" r="4"/><circle cx="427" cy="587" r="4"/><circle cx="1195" cy="571" r="4"/></g>
+          </svg>
+          <div className="storybook-world__veil" />
+        </div>
         <div className="bookstore-hero__inner mx-auto grid max-w-[1440px] items-center gap-8 px-5 py-12 sm:px-8 sm:py-16 lg:min-h-[500px] lg:grid-cols-[1.05fr_0.95fr] lg:px-14 lg:py-20">
           <div className="relative z-10 max-w-2xl">
             <p className="bookstore-kicker">
