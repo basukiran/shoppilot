@@ -216,7 +216,7 @@ export function AIBuyerView({
       );
 
       console.log(
-        'BOOKVISION AI RESPONSE:',
+        'JNANA NIDHI AI RESPONSE:',
         data
       );
 
@@ -445,7 +445,7 @@ export function AIBuyerView({
     } catch (error) {
 
       console.error(
-        'BookVision AI Error:',
+        'Jnana Nidhi assistant error:',
         error
       );
 
@@ -460,7 +460,7 @@ export function AIBuyerView({
           'agent',
 
         content:
-          'Sorry, I could not connect to the BookVision agent. Please make sure the FastAPI backend is running on port 8000.',
+          'Sorry, I could not connect to the Jnana Nidhi assistant. Please make sure the FastAPI backend is running on port 8000.',
 
         timestamp:
           new Date().toLocaleTimeString(
@@ -520,7 +520,7 @@ export function AIBuyerView({
 
             <p className="font-display text-sm font-bold text-ink-900">
 
-              BookVision Buyer Agent
+              Jnana Nidhi Book Assistant
 
             </p>
 
@@ -553,7 +553,7 @@ export function AIBuyerView({
 
           {messages.length === 0 && !typing && (
             <p className="rounded-xl bg-brand-50 p-4 text-sm leading-6 text-ink-600">
-              Tell me what you’re looking for, and I’ll find books from the live BookVision catalog.
+              Tell me what you’re looking for, and I’ll find books from the live Jnana Nidhi catalog.
             </p>
           )}
 

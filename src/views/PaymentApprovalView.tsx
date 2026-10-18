@@ -135,7 +135,7 @@ export function PaymentApprovalView({
 
         currency: razorpayOrder.currency,
 
-        name: 'BookVision',
+        name: 'Jnana Nidhi',
 
         description: `${product.name} × ${quantity}`,
 

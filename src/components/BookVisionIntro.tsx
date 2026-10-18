@@ -113,7 +113,7 @@ export function BookVisionIntro({ onFinish }: Props) {
       className={`bv2-intro${leaving ? ' is-leaving' : ''}`}
       role="dialog"
       aria-modal="true"
-      aria-label="BookVision opening animation"
+      aria-label="Jnana Nidhi opening animation"
       aria-live="polite"
     >
       <audio
@@ -215,7 +215,7 @@ export function BookVisionIntro({ onFinish }: Props) {
         {/* ── Branding ── */}
         <div className="bv2-brand">
           <img src="/bookvision-logo.webp" alt="Jnana Nidhi Hubballi logo" className="bv2-brand-logo" />
-          <span className="bv2-wordmark">Jnana Nidhi · BookVision</span>
+          <span className="bv2-wordmark">Jnana Nidhi</span>
           <span className="bv2-tagline">A little more wonder, every day.</span>
         </div>
 

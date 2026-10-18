@@ -50,7 +50,7 @@ const navItems: NavItem[] = [
   },
   {
     key: 'ai-buyer',
-    label: 'Ask BookVision',
+    label: 'Ask Jnana Nidhi',
     icon: Bot,
     group: 'main',
     badge: 'Live',
@@ -116,7 +116,7 @@ export function Sidebar({
             </p>
 
             <p className="text-[10px] font-medium text-ink-500">
-              Hubballi · BookVision
+              Hubballi · Jnana Nidhi
             </p>
           </div>
         </div>
@@ -153,7 +153,7 @@ export function Sidebar({
               </div>
 
               <p className="text-sm font-semibold text-ink-900">
-                BookVision AI ready
+                Jnana Nidhi assistant ready
               </p>
             </div>
 

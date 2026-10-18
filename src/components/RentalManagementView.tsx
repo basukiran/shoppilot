@@ -188,7 +188,7 @@ export default function RentalManagementView({
 
   const completeReturn = async (rentalId: number) => {
     const confirmed = window.confirm(
-      'Confirm that BookVision received the returned book and process the refund for the applicable reader plan?'
+      'Confirm that Jnana Nidhi received the returned book and process the refund for the applicable reader plan?'
     );
 
     if (!confirmed) {
@@ -659,7 +659,7 @@ export default function RentalManagementView({
                     </p>
 
                     <p className="mt-1 text-sm text-warning-700">
-                      Return the book to BookVision. For Regular Reader plans there is no refund. For Specific Book Reader plans, a ₹300 refund can be processed after receipt and confirmation. Refund status: {rental.refund_status}.
+                      Return the book to Jnana Nidhi. For Regular Reader plans there is no refund. For Specific Book Reader plans, a ₹300 refund can be processed after receipt and confirmation. Refund status: {rental.refund_status}.
                     </p>
 
                     {isAdmin && rental.refund_status === 'PENDING' && (

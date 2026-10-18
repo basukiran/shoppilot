@@ -23,7 +23,7 @@ export function BookCombosSection({
             <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">Book Combos</h2>
           </div>
           <p className="max-w-md text-sm leading-6 text-[#68766c] sm:text-base">
-            Thoughtful groupings from the approved BookVision collection.
+            Thoughtful groupings from the approved Jnana Nidhi collection.
           </p>
         </div>
 
@@ -40,10 +40,10 @@ export function BookCombosSection({
             const comboProduct: Product = {
               id: `combo-${combo.id}`,
               name: combo.name,
-              author: 'BookVision collection',
+              author: 'Jnana Nidhi collection',
               description: combo.description,
               coverImage: includedBooks[0]?.coverImage || getCoverPlaceholder(combo.name),
-              brand: 'BookVision',
+              brand: 'Jnana Nidhi',
               price: comboPrice,
               originalPrice: individualTotal,
               rating: includedBooks.length

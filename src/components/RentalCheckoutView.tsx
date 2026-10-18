@@ -127,7 +127,7 @@ export default function RentalCheckoutView({
 
         currency: createData.currency,
 
-        name: 'BookVision',
+        name: 'Jnana Nidhi',
 
         description:
           `Rental of ${createData.product}`,

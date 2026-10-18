@@ -89,7 +89,7 @@ const titles: Record<ViewKey, { title: string; subtitle: string }> = {
   },
   activity: {
     title: 'Activity',
-    subtitle: 'Recent BookVision activity',
+    subtitle: 'Recent Jnana Nidhi activity',
   },
   'rental-checkout': {
     title: 'Rental Checkout',
@@ -179,7 +179,7 @@ export function Topbar({
   onNavigate?: (v: 'orders' | 'rental-management') => void;
 }) {
   const { title, subtitle } = titles[view] ?? {
-    title: 'BookVision',
+    title: 'Jnana Nidhi',
     subtitle: 'Your reading companion',
   };
 
@@ -679,7 +679,7 @@ export function Topbar({
               {user?.name ?? 'Your account'}
             </p>
             <p className="text-[11px] text-ink-400">
-              {user ? 'BookVision member' : 'Sign in or register'}
+              {user ? 'Jnana Nidhi member' : 'Sign in or register'}
             </p>
           </div>
           <ChevronDown className="hidden h-4 w-4 text-ink-400 sm:block" />

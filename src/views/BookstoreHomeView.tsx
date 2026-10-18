@@ -134,7 +134,7 @@ export function BookstoreHomeView({
                 onClick={() => onNavigate('ai-buyer')}
                 className="bookstore-button bookstore-button--light"
               >
-                <Sparkles className="h-4 w-4" /> Ask BookVision
+                <Sparkles className="h-4 w-4" /> Ask Jnana Nidhi
               </button>
             </div>
             <button
@@ -159,7 +159,7 @@ export function BookstoreHomeView({
         </div>
         <div className="bookstore-hero__footnote">
           <span>Good books. Better days.</span>
-          <span>BOOKVISION · EST. FOR THE CURIOUS</span>
+          <span>JNANA NIDHI · EST. FOR THE CURIOUS</span>
         </div>
       </section>
 
@@ -276,7 +276,7 @@ export function BookstoreHomeView({
             </div>
           ) : (
             <p className="py-12 text-center text-sm text-[#68766c]">
-              {catalogLoading ? 'Loading the BookVision catalog…' : catalogError ? 'The catalog is unavailable. Please refresh to try again.' : 'No books in this category yet.'}
+              {catalogLoading ? 'Loading the Jnana Nidhi catalog…' : catalogError ? 'The catalog is unavailable. Please refresh to try again.' : 'No books in this category yet.'}
             </p>
           )}
         </div>
@@ -292,7 +292,7 @@ export function BookstoreHomeView({
               AI recommended books
             </h2>
             <p className="mt-4 max-w-lg text-sm leading-7 text-[#52665a] sm:text-base">
-              Tell BookVision what you love, what you are learning, or what mood
+              Tell Jnana Nidhi what you love, what you are learning, or what mood
               you are in. Your Buyer Agent can search the catalog and help you
               find a book that fits.
             </p>
@@ -380,7 +380,7 @@ export function BookstoreHomeView({
         <div className="mx-auto max-w-[1440px]">
           <div className="max-w-2xl">
             <p className="bookstore-kicker"><Leaf className="h-4 w-4" /> A bookstore for the curious</p>
-            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">Why BookVision</h2>
+            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">Why Jnana Nidhi</h2>
           </div>
           <div className="mt-9 grid gap-8 border-t border-[#d9dfd3] pt-7 md:grid-cols-3 md:gap-12">
             <ValuePoint number="01" title="A shelf with a point of view" text="Explore books chosen for clear ideas, memorable stories, and the questions they leave with you." />
@@ -427,7 +427,7 @@ export function BookstoreHomeView({
         <div className="flex items-center gap-4">
           <img src="/bookvision-logo.webp" alt="Jnana Nidhi Hubballi logo" className="h-14 w-14 shrink-0 object-contain" />
           <div>
-            <p className="bookstore-display text-xl text-[#f6f5eb]">Jnana Nidhi · BookVision</p>
+            <p className="bookstore-display text-xl text-[#f6f5eb]">Jnana Nidhi</p>
             <p className="mt-1 text-xs text-[#c0ccbf]">A little more wonder, every day.</p>
           </div>
         </div>
@@ -461,7 +461,7 @@ export function BookstoreHomeView({
             <Instagram className="h-4 w-4 shrink-0" />
             <span>Follow Us on Instagram</span>
           </a>
-          <span className="mt-1 text-xs text-[#9eae9f]">© 2026 BookVision</span>
+          <span className="mt-1 text-xs text-[#9eae9f]">© 2026 Jnana Nidhi</span>
         </div>
       </footer>
 

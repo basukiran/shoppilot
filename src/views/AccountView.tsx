@@ -257,7 +257,7 @@ export function AccountView({
     return (
       <div className="bv-cosmic-page mx-auto grid min-h-[68vh] max-w-5xl items-center gap-10 py-8 lg:grid-cols-[1fr_0.8fr]">
         <div className="bv-cosmic-page-intro max-w-xl">
-          <p className="bookstore-kicker"><BookOpen className="h-4 w-4" /> Your BookVision shelf</p>
+          <p className="bookstore-kicker"><BookOpen className="h-4 w-4" /> Your Jnana Nidhi shelf</p>
           <h1 className="bookstore-display mt-4 text-4xl leading-tight text-[#183629] sm:text-5xl">
             Your books, all in one place.
           </h1>
@@ -286,7 +286,7 @@ export function AccountView({
           </div>
 
           <h2 className="bookstore-display mt-5 text-2xl text-ink-900">
-            {mode === 'login' ? 'Welcome back' : 'Join BookVision'}
+            {mode === 'login' ? 'Welcome back' : 'Join Jnana Nidhi'}
           </h2>
           <p className="mt-1 text-sm text-ink-500">
             {mode === 'login' ? 'Sign in to view your account.' : 'Create an account to keep your reading history together.'}
@@ -314,7 +314,7 @@ export function AccountView({
               {submitting ? 'Please wait…' : mode === 'login' ? 'Sign in' : 'Create account'}
             </button>
           </form>
-          <p className="mt-4 text-center text-xs text-ink-400">Your password is securely hashed and never returned by BookVision.</p>
+          <p className="mt-4 text-center text-xs text-ink-400">Your password is securely hashed and never returned by Jnana Nidhi.</p>
         </section>
       </div>
     );
@@ -326,7 +326,7 @@ export function AccountView({
     <div className="bv-cosmic-page mx-auto max-w-6xl space-y-6 py-5">
       <header className="bv-cosmic-page-heading flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="bookstore-kicker"><UserRound className="h-4 w-4" /> BookVision account</p>
+          <p className="bookstore-kicker"><UserRound className="h-4 w-4" /> Jnana Nidhi account</p>
           <h1 className="bookstore-display mt-2 text-4xl text-[#183629]">Hello, {user.name}</h1>
           <p className="mt-1 text-sm text-ink-500">Your profile and reading activity.</p>
         </div>
@@ -362,7 +362,7 @@ export function AccountView({
                     <img src="/bookvision-logo.webp" alt="Jnana Nidhi Hubballi logo" className="h-14 w-14 shrink-0 rounded-full bg-[#f8f2df] object-contain p-1" />
                     <div className="min-w-0 flex-1">
                       <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#e1c579]">Jnana Nidhi Hubballi</p>
-                      <p className="mt-1 font-display text-lg font-bold text-white">BookVision</p>
+                    <p className="mt-1 font-display text-lg font-bold text-white">Jnana Nidhi</p>
                     </div>
                     <ShieldCheck className="h-6 w-6 shrink-0 text-[#e1c579]" aria-hidden="true" />
                   </header>
@@ -447,7 +447,7 @@ export function AccountView({
 
           {section === 'payments' && (
             <HistoryList
-              empty="Your BookVision payments will appear here."
+              empty="Your Jnana Nidhi payments will appear here."
               items={data.payments}
               render={(payment) => (
                 <HistoryRow

@@ -102,12 +102,12 @@ export function toBookProduct(book: BookApiRecord): Product {
   return {
     id: String(book.id),
     name: book.name,
-    author: knownAuthor ?? (book.author && !['BookVision', 'Kannada Classic'].includes(book.author)
+    author: knownAuthor ?? (book.author && !['BookVision', 'Jnana Nidhi', 'Kannada Classic'].includes(book.author)
       ? book.author
       : 'Author unavailable'),
     description: book.description ?? '',
     coverImage: safeCoverImage,
-    brand: book.brand ?? 'BookVision',
+    brand: book.brand === 'BookVision' ? 'Jnana Nidhi' : book.brand ?? 'Jnana Nidhi',
     price: Number(book.price ?? 0),
     originalPrice: book.originalPrice
       ? Number(book.originalPrice)

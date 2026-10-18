@@ -54,7 +54,7 @@ const cards: GuideCard[] = [
     icon: <Truck className="h-6 w-6" strokeWidth={1.6} />,
     step: '03',
     title: 'Delivery & Pickup',
-    body: 'BookVision arranges delivery to your address and pickup on return, subject to our service areas and schedule. You will be notified as your book moves through each step.',
+    body: 'Jnana Nidhi arranges delivery to your address and pickup on return, subject to our service areas and schedule. You will be notified as your book moves through each step.',
     accent: 'bvr-accent--blue',
   },
   {
@@ -62,7 +62,7 @@ const cards: GuideCard[] = [
     icon: <RotateCcw className="h-6 w-6" strokeWidth={1.6} />,
     step: '04',
     title: 'Return & Refund',
-    body: 'Regular Reader plans do not receive an early refund. Specific Book Reader plans can receive a ₹300 refund after the book is returned and the return is confirmed by BookVision.',
+    body: 'Regular Reader plans do not receive an early refund. Specific Book Reader plans can receive a ₹300 refund after the book is returned and the return is confirmed by Jnana Nidhi.',
     accent: 'bvr-accent--green',
   },
   {
@@ -78,7 +78,7 @@ const cards: GuideCard[] = [
     icon: <MapPin className="h-6 w-6" strokeWidth={1.6} />,
     step: '06',
     title: 'Pickup & Drop-off Points',
-    body: 'BookVision supports designated pickup and drop-off points within our service zones. Select a convenient location at checkout or request a home pickup when arranging your return.',
+    body: 'Jnana Nidhi supports designated pickup and drop-off points within our service zones. Select a convenient location at checkout or request a home pickup when arranging your return.',
     accent: 'bvr-accent--amber',
   },
 ];
@@ -158,7 +158,7 @@ export function RentalGuidelinesSection() {
           id="bvr-heading"
           className="bookstore-display bvr-header__title"
         >
-          How BookVision Rental Works
+          How Jnana Nidhi Rentals Work
         </h2>
         <p className="bvr-header__sub">
           Everything you need to know before you rent — from deposit to
@@ -176,7 +176,7 @@ export function RentalGuidelinesSection() {
       {/* Bottom note */}
       <p className="bvr-note">
         Questions about your rental? Use the{' '}
-        <strong>Ask BookVision</strong> AI to get answers instantly.
+        <strong>Ask Jnana Nidhi</strong> AI to get answers instantly.
       </p>
     </section>
   );

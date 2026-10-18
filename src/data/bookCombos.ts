@@ -55,7 +55,7 @@ export const bookCombos: BookComboDefinition[] = [
   {
     id: 'kannada-books',
     name: 'Kannada Books Combo',
-    description: 'A selection of Kannada titles from the BookVision shelf.',
+    description: 'A selection of Kannada titles from the Jnana Nidhi shelf.',
     bookTitles: [
       'BADUKUVA DARI',
       'Heli Hogu Kaarana',

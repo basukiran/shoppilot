@@ -88,7 +88,7 @@ export function ProductCard({
     );
 
     console.log(
-      'BOOKVISION RENT BUTTON CLICKED'
+      'JNANA NIDHI RENT BUTTON CLICKED'
     );
 
     console.log(

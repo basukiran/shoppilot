@@ -29,7 +29,7 @@ export function FavoritesView({
       <section className="mx-auto flex min-h-[60vh] max-w-lg flex-col items-center justify-center text-center">
         <UserRound className="h-9 w-9 text-brand-600" />
         <h1 className="bookstore-display mt-4 text-3xl text-[#183629]">Sign in to see your favorites</h1>
-        <p className="mt-2 text-sm leading-6 text-ink-500">Your saved books stay with your BookVision account.</p>
+        <p className="mt-2 text-sm leading-6 text-ink-500">Your saved books stay with your Jnana Nidhi account.</p>
         <button type="button" onClick={() => onNavigate('account')} className="btn-primary mt-6">Go to account</button>
       </section>
     );
