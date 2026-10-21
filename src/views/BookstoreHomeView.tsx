@@ -168,7 +168,7 @@ export function BookstoreHomeView({
               <Leaf className="h-4 w-4" /> A little more wonder, every day
             </p>
             <h1 className="bookstore-display mt-5 max-w-[650px] text-[42px] leading-[1.05] text-[#183629] sm:text-[56px] lg:text-[64px]">
-              Find a book that <em>feels like yours.</em>
+              Books for Everyone, Rich or Poor, Everyone Deserves the Power of Knowledge.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#52665a] sm:text-lg">
               Thoughtful reads for curious minds. Explore stories, ideas, and

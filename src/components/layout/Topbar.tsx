@@ -73,7 +73,7 @@ const titles: Record<ViewKey, { title: string; subtitle: string }> = {
   },
   dashboard: {
     title: 'Bookstore',
-    subtitle: 'Find a book that feels like yours',
+    subtitle: 'Books for Everyone, Rich or Poor, Everyone Deserves the Power of Knowledge.',
   },
   'ai-buyer': {
     title: 'AI Buyer',
