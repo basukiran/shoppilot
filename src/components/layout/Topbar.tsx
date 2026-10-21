@@ -23,6 +23,7 @@ import { getCoverPlaceholder } from '@/lib/bookCovers';
 import { getApprovedBookCover } from '@/lib/bookProducts';
 import { AuthorByline } from '@/components/AuthorByline';
 import type { AccountUser } from '@/types';
+import { useLanguage } from '@/lib/language';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -178,10 +179,13 @@ export function Topbar({
   onLogout: () => void;
   onNavigate?: (v: 'orders' | 'rental-management') => void;
 }) {
-  const { title, subtitle } = titles[view] ?? {
+  const { language, setLanguage, t } = useLanguage();
+  const pageTitle = titles[view] ?? {
     title: 'Jnana Nidhi',
     subtitle: 'Your reading companion',
   };
+  const title = t(pageTitle.title);
+  const subtitle = t(pageTitle.subtitle);
 
   const initials = user
     ? user.name
@@ -395,6 +399,17 @@ export function Topbar({
           {subtitle}
         </p>
       </div>
+
+      <label className="sr-only" htmlFor="site-language">{t('Language')}</label>
+      <select
+        id="site-language"
+        value={language}
+        onChange={(event) => setLanguage(event.target.value as 'en' | 'kn')}
+        className="input w-[88px] shrink-0 px-2 py-2 text-xs sm:w-[112px]"
+      >
+        <option value="en">English</option>
+        <option value="kn">ಕನ್ನಡ</option>
+      </select>
 
       {/* ── SEARCH ─────────────────────────────────────────────────────── */}
       <div ref={searchRef} className="relative hidden md:block">

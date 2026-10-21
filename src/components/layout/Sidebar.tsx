@@ -12,6 +12,7 @@ import {
   Users,
 } from 'lucide-react';
 import type { ViewKey } from '@/types';
+import { useLanguage } from '@/lib/language';
 
 interface NavItem {
   key: ViewKey;
@@ -88,6 +89,7 @@ export function Sidebar({
   isAdmin: boolean;
   onClose: () => void;
 }) {
+  const { t } = useLanguage();
   const main = navItems.filter((n) => n.group === 'main' && (!n.adminOnly || isAdmin));
 
   return (
@@ -127,7 +129,7 @@ export function Sidebar({
           {/* Workspace */}
           <div>
             <p className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-wider text-ink-400">
-              Workspace
+              {t('Workspace')}
             </p>
 
             <div className="space-y-1">
@@ -135,6 +137,7 @@ export function Sidebar({
                 <NavButton
                   key={item.key}
                   item={item}
+                  label={t(item.label)}
                   active={current === item.key}
                   onClick={() => onNavigate(item.key)}
                 />
@@ -153,19 +156,19 @@ export function Sidebar({
               </div>
 
               <p className="text-sm font-semibold text-ink-900">
-                Jnana Nidhi assistant ready
+                {t('Jnana Nidhi assistant ready')}
               </p>
             </div>
 
             <p className="mt-2 text-xs text-ink-600">
-              Search by title, author, subject, or mood.
+              {t('Search by title, author, subject, or mood.')}
             </p>
 
             <div className="mt-3 flex items-center gap-1.5">
               <span className="h-2 w-2 animate-pulse-soft rounded-full bg-success-500" />
 
               <span className="text-[11px] font-medium text-success-700">
-                All systems operational
+                {t('All systems operational')}
               </span>
             </div>
 
@@ -178,10 +181,12 @@ export function Sidebar({
 
 function NavButton({
   item,
+  label,
   active,
   onClick,
 }: {
   item: NavItem;
+  label: string;
   active: boolean;
   onClick: () => void;
 }) {
@@ -208,7 +213,7 @@ function NavButton({
       />
 
       <span className="flex-1 text-left">
-        {item.label}
+        {label}
       </span>
 
       {item.badge && (

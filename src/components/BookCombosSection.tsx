@@ -4,6 +4,7 @@ import { bookCombos } from '@/data/bookCombos';
 import { getCoverPlaceholder } from '@/lib/bookCovers';
 import { formatCurrency } from '@/lib/utils';
 import type { Product } from '@/types';
+import { useLanguage } from '@/lib/language';
 
 export function BookCombosSection({
   products,
@@ -12,6 +13,7 @@ export function BookCombosSection({
   products: Product[];
   onAddToCart: (product: Product, quantity?: number) => void;
 }) {
+  const { t } = useLanguage();
   const productsByName = new Map(products.map((product) => [product.name.trim().toLowerCase(), product]));
 
   return (
@@ -19,11 +21,11 @@ export function BookCombosSection({
       <div className="mx-auto max-w-[1440px]">
         <div className="bookstore-section-heading">
           <div>
-            <p className="bookstore-kicker"><Layers3 className="h-4 w-4" /> Curated reading sets</p>
-            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">Book Combos</h2>
+            <p className="bookstore-kicker"><Layers3 className="h-4 w-4" /> {t('Curated reading sets')}</p>
+            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">{t('Book Combos')}</h2>
           </div>
           <p className="max-w-md text-sm leading-6 text-[#68766c] sm:text-base">
-            Thoughtful groupings from the approved Jnana Nidhi collection.
+            {t('Thoughtful groupings from the approved Jnana Nidhi collection.')}
           </p>
         </div>
 
@@ -70,8 +72,8 @@ export function BookCombosSection({
                     <BookOpen className="h-4 w-4" />
                   </span>
                   <div className="min-w-0">
-                    <h3 className="bookstore-display text-xl leading-snug text-[#20392b]">{combo.name}</h3>
-                    <p className="mt-1 text-xs leading-5 text-[#68766c]">{combo.description}</p>
+                    <h3 className="bookstore-display text-xl leading-snug text-[#20392b]">{t(combo.name)}</h3>
+                    <p className="mt-1 text-xs leading-5 text-[#68766c]">{t(combo.description)}</p>
                   </div>
                 </div>
 
@@ -90,7 +92,7 @@ export function BookCombosSection({
                       className="h-16 w-11 shrink-0 border border-[#e3e1d5] bg-[#f5f1e8] object-cover"
                     />
                   ))}
-                  <span className="ml-2 text-xs text-[#68766c]">{includedBooks.length} books</span>
+                  <span className="ml-2 text-xs text-[#68766c]">{includedBooks.length} {t('books')}</span>
                 </div>
 
                 <ul className="mt-4 flex-1 space-y-1.5 border-t border-[#e7e8df] pt-4 text-xs leading-5 text-[#52665a]">
@@ -104,11 +106,11 @@ export function BookCombosSection({
 
                 <div className="mt-4 flex flex-wrap items-end justify-between gap-3 border-t border-[#e7e8df] pt-4">
                   <div>
-                    <p className="text-[10px] font-semibold uppercase text-[#68766c]">Individual total</p>
+                    <p className="text-[10px] font-semibold uppercase text-[#68766c]">{t('Individual total')}</p>
                     <p className="mt-1 text-sm font-medium text-[#263a2e]">{formatCurrency(individualTotal)}</p>
-                    <p className="mt-2 text-[10px] font-semibold uppercase text-[#68766c]">Combo price</p>
+                    <p className="mt-2 text-[10px] font-semibold uppercase text-[#68766c]">{t('Combo price')}</p>
                     <p className="mt-1 text-lg font-semibold text-[#183629]">{formatCurrency(comboPrice)}</p>
-                    {savings > 0 && <p className="mt-1 text-xs font-semibold text-[#55735b]">Save {formatCurrency(savings)}</p>}
+                    {savings > 0 && <p className="mt-1 text-xs font-semibold text-[#55735b]">{t('Save')} {formatCurrency(savings)}</p>}
                   </div>
                   <button
                     type="button"
@@ -116,10 +118,10 @@ export function BookCombosSection({
                     onClick={() => onAddToCart(comboProduct, 1)}
                     className="bookstore-button bookstore-button--dark disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    Add Combo to Cart <ArrowRight className="h-4 w-4" />
+                    {t('Add Combo to Cart')} <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
-                {!complete && <p className="mt-3 text-xs text-rose-700">A book in this combo is unavailable.</p>}
+                {!complete && <p className="mt-3 text-xs text-rose-700">{t('A book in this combo is unavailable.')}</p>}
               </article>
             );
           })}

@@ -25,6 +25,7 @@ import { getCoverPlaceholder } from '@/lib/bookCovers';
 import { RentalGuidelinesSection } from '@/components/RentalGuidelinesSection';
 import { BookCombosSection } from '@/components/BookCombosSection';
 import { AuthorByline } from '@/components/AuthorByline';
+import { useLanguage } from '@/lib/language';
 
 interface BookstoreHomeViewProps {
   onNavigate: (view: ViewKey) => void;
@@ -43,6 +44,7 @@ export function BookstoreHomeView({
   favoriteIds,
   onToggleFavorite,
 }: BookstoreHomeViewProps) {
+  const { t } = useLanguage();
   const [books, setBooks] = useState<Product[]>([]);
   const [catalogLoading, setCatalogLoading] = useState(true);
   const [catalogError, setCatalogError] = useState(false);
@@ -183,14 +185,13 @@ export function BookstoreHomeView({
         <div className="bookstore-hero__inner mx-auto grid max-w-[1440px] items-center gap-8 px-5 py-12 sm:px-8 sm:py-16 lg:min-h-[500px] lg:grid-cols-[1.05fr_0.95fr] lg:px-14 lg:py-20">
           <div className="relative z-10 max-w-2xl">
             <p className="bookstore-kicker">
-              <Leaf className="h-4 w-4" /> A little more wonder, every day
+              <Leaf className="h-4 w-4" /> {t('A little more wonder, every day')}
             </p>
             <h1 className="bookstore-display mt-5 max-w-[650px] text-[42px] leading-[1.05] text-[#183629] sm:text-[56px] lg:text-[64px]">
-              Books for Everyone, Rich or Poor, Everyone Deserves the Power of Knowledge.
+              {t('Books for Everyone, Rich or Poor, Everyone Deserves the Power of Knowledge.')}
             </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#52665a] sm:text-lg">
-              Thoughtful reads for curious minds. Explore stories, ideas, and
-              practical knowledge, then bring your next favorite home.
+              {t('Thoughtful reads for curious minds. Explore stories, ideas, and practical knowledge, then bring your next favorite home.')}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <button
@@ -198,14 +199,14 @@ export function BookstoreHomeView({
                 onClick={() => scrollTo('featured-books')}
                 className="bookstore-button bookstore-button--dark"
               >
-                Explore the shelves <ArrowRight className="h-4 w-4" />
+                {t('Explore the shelves')} <ArrowRight className="h-4 w-4" />
               </button>
               <button
                 type="button"
                 onClick={() => onNavigate('ai-buyer')}
                 className="bookstore-button bookstore-button--light"
               >
-                <Sparkles className="h-4 w-4" /> Ask Jnana Nidhi
+                <Sparkles className="h-4 w-4" /> {t('Ask Jnana Nidhi')}
               </button>
             </div>
             <button
@@ -213,7 +214,7 @@ export function BookstoreHomeView({
               onClick={() => scrollTo('popular-books')}
               className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[#52665a] transition hover:text-[#183629]"
             >
-              <ArrowDown className="h-4 w-4" /> Browse by category
+              <ArrowDown className="h-4 w-4" /> {t('Browse by category')}
             </button>
           </div>
 
@@ -345,18 +346,18 @@ export function BookstoreHomeView({
         <div className="mx-auto max-w-[1440px]">
           <div className="bookstore-section-heading">
             <div>
-              <p className="bookstore-kicker"><Library className="h-4 w-4" /> Reader-loved</p>
-              <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">Popular books</h2>
+              <p className="bookstore-kicker"><Library className="h-4 w-4" /> {t('Reader-loved')}</p>
+              <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">{t('Popular books')}</h2>
             </div>
             <button
               type="button"
               onClick={() => onNavigate('ai-buyer')}
               className="bookstore-text-link"
             >
-              Find your next read <ArrowRight className="h-4 w-4" />
+              {t('Find your next read')} <ArrowRight className="h-4 w-4" />
             </button>
           </div>
-          <div className="bookstore-categories mt-7" aria-label="Book categories">
+          <div className="bookstore-categories mt-7" aria-label={t('Book categories')}>
             {['All books', ...categories].map((category) => (
               <button
                 type="button"
@@ -365,7 +366,7 @@ export function BookstoreHomeView({
                 onClick={() => setSelectedCategory(category)}
                 className={`bookstore-category ${selectedCategory === category ? 'is-active' : ''}`}
               >
-                {category}
+                {t(category)}
               </button>
             ))}
           </div>
@@ -385,7 +386,7 @@ export function BookstoreHomeView({
             </div>
           ) : (
             <p className="py-12 text-center text-sm text-[#68766c]">
-              {catalogLoading ? 'Loading the Jnana Nidhi catalog…' : catalogError ? 'The catalog is unavailable. Please refresh to try again.' : 'No books in this category yet.'}
+              {catalogLoading ? t('Loading the Jnana Nidhi catalog…') : catalogError ? t('The catalog is unavailable. Please refresh to try again.') : t('No books in this category yet.')}
             </p>
           )}
         </div>
@@ -396,21 +397,19 @@ export function BookstoreHomeView({
       <section className="bookstore-section mx-auto max-w-[1440px] px-5 py-14 sm:px-8 sm:py-20 lg:px-14">
         <div className="bookstore-recommendation grid gap-8 overflow-hidden lg:grid-cols-[0.85fr_1.15fr]">
           <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-14">
-            <p className="bookstore-kicker"><Sparkles className="h-4 w-4" /> A thoughtful starting point</p>
+            <p className="bookstore-kicker"><Sparkles className="h-4 w-4" /> {t('A thoughtful starting point')}</p>
             <h2 className="bookstore-display mt-4 text-3xl leading-tight text-[#183629] sm:text-[40px]">
-              AI recommended books
+              {t('AI recommended books')}
             </h2>
             <p className="mt-4 max-w-lg text-sm leading-7 text-[#52665a] sm:text-base">
-              Tell Jnana Nidhi what you love, what you are learning, or what mood
-              you are in. Your Buyer Agent can search the catalog and help you
-              find a book that fits.
+              {t('Tell Jnana Nidhi what you love, what you are learning, or what mood you are in. Your Buyer Agent can search the catalog and help you find a book that fits.')}
             </p>
             <button
               type="button"
               onClick={() => onNavigate('ai-buyer')}
               className="bookstore-button bookstore-button--dark mt-7 w-fit"
             >
-              <Sparkles className="h-4 w-4" /> Get a recommendation <ArrowRight className="h-4 w-4" />
+              <Sparkles className="h-4 w-4" /> {t('Get a recommendation')} <ArrowRight className="h-4 w-4" />
             </button>
           </div>
           <div className="grid grid-cols-3 items-center gap-3 p-5 sm:gap-5 sm:p-8 lg:p-10">
@@ -429,8 +428,8 @@ export function BookstoreHomeView({
         <section className="bookstore-rental px-5 py-12 sm:px-8 sm:py-16 lg:px-14">
           <div className="bookstore-rental__inner mx-auto grid max-w-[1440px] items-center gap-8 sm:grid-cols-[1fr_auto]">
             <div className="max-w-2xl">
-              <p className="bookstore-kicker bookstore-kicker--light"><BookOpen className="h-4 w-4" /> Read, return, repeat</p>
-              <h2 className="bookstore-display mt-4 text-3xl leading-tight text-[#f6f5eb] sm:text-[42px]">Rent a book. Keep your curiosity.</h2>
+              <p className="bookstore-kicker bookstore-kicker--light"><BookOpen className="h-4 w-4" /> {t('Read, return, repeat')}</p>
+              <h2 className="bookstore-display mt-4 text-3xl leading-tight text-[#f6f5eb] sm:text-[42px]">{t('Rent a book. Keep your curiosity.')}</h2>
               <p className="mt-4 max-w-xl text-sm leading-7 text-[#d1dbcf] sm:text-base">
                 Try a new subject without committing to a shelf. {featuredBook.name}
                 is available for {featuredBook.rentalDurationDays} days.
@@ -462,10 +461,10 @@ export function BookstoreHomeView({
       <section className="bookstore-section mx-auto max-w-[1440px] px-5 py-14 sm:px-8 sm:py-20 lg:px-14">
         <div className="bookstore-section-heading">
           <div>
-            <p className="bookstore-kicker"><BookOpen className="h-4 w-4" /> Browse categories</p>
-            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">Find your kind of story</h2>
+            <p className="bookstore-kicker"><BookOpen className="h-4 w-4" /> {t('Browse categories')}</p>
+            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">{t('Find your kind of story')}</h2>
           </div>
-          <p className="max-w-md text-sm leading-6 text-[#68766c] sm:text-base">Wander by subject, follow a question, and see where a good book takes you.</p>
+          <p className="max-w-md text-sm leading-6 text-[#68766c] sm:text-base">{t('Wander by subject, follow a question, and see where a good book takes you.')}</p>
         </div>
         <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {categories.map((category, index) => (
@@ -478,7 +477,7 @@ export function BookstoreHomeView({
               }}
               className={`bookstore-category-tile tone-${index % 4}`}
             >
-              <span>{category}</span>
+              <span>{t(category)}</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           ))}
@@ -488,13 +487,13 @@ export function BookstoreHomeView({
       <section className="bookstore-why px-5 py-14 sm:px-8 sm:py-18 lg:px-14">
         <div className="mx-auto max-w-[1440px]">
           <div className="max-w-2xl">
-            <p className="bookstore-kicker"><Leaf className="h-4 w-4" /> A bookstore for the curious</p>
-            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">Why Jnana Nidhi</h2>
+            <p className="bookstore-kicker"><Leaf className="h-4 w-4" /> {t('A bookstore for the curious')}</p>
+            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">{t('Why Jnana Nidhi')}</h2>
           </div>
           <div className="mt-9 grid gap-8 border-t border-[#d9dfd3] pt-7 md:grid-cols-3 md:gap-12">
-            <ValuePoint number="01" title="A shelf with a point of view" text="Explore books chosen for clear ideas, memorable stories, and the questions they leave with you." />
-            <ValuePoint number="02" title="Find a better fit" text="Ask the AI Buyer for help by subject, author, budget, or the kind of reading you are in the mood for." />
-            <ValuePoint number="03" title="Read at your own pace" text="Buy a book for your shelves or rent an eligible title and decide what to do after reading." />
+            <ValuePoint number="01" title={t('A shelf with a point of view')} text={t('Explore books chosen for clear ideas, memorable stories, and the questions they leave with you.')} />
+            <ValuePoint number="02" title={t('Find a better fit')} text={t('Ask the AI Buyer for help by subject, author, budget, or the kind of reading you are in the mood for.')} />
+            <ValuePoint number="03" title={t('Read at your own pace')} text={t('Buy a book for your shelves or rent an eligible title and decide what to do after reading.')} />
           </div>
         </div>
       </section>
@@ -502,25 +501,25 @@ export function BookstoreHomeView({
       <section aria-labelledby="about-us-title" className="bookstore-about px-5 py-14 sm:px-8 sm:py-20 lg:px-14">
         <div className="mx-auto grid max-w-[1440px] gap-9 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
-            <p className="bookstore-kicker"><BookOpen className="h-4 w-4" /> Our story</p>
-            <h2 id="about-us-title" className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">About Us</h2>
+            <p className="bookstore-kicker"><BookOpen className="h-4 w-4" /> {t('Our story')}</p>
+            <h2 id="about-us-title" className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">{t('About Us')}</h2>
             <p className="mt-5 text-sm leading-7 text-[#52665a] sm:text-base">
-              Welcome to Jnana Nidhi Hubballi, an online bookstore founded by Krishna. Our core vision is rooted in a powerful belief:
+              {t('Welcome to Jnana Nidhi Hubballi, an online bookstore founded by Krishna. Our core vision is rooted in a powerful belief:')}
             </p>
             <p className="mt-4 rounded-2xl border border-[#dfd9ef] bg-white/80 p-5 text-base font-semibold leading-7 text-[#34225d] shadow-sm sm:text-lg">
-              “Books for Everyone, Rich or Poor, Everyone Deserves the Power of Knowledge.”
+              “{t('Books for Everyone, Rich or Poor, Everyone Deserves the Power of Knowledge.')}”
             </p>
             <p className="mt-5 text-sm leading-7 text-[#52665a] sm:text-base">
-              We understand that buying every book you wish to read can be expensive. That is why we are here to bridge the gap—making reading affordable and accessible to all without heavy costs. We bring original, high-quality, branded books straight to your hands at a minimal cost, ensuring that financial constraints never stand between you and a great story.
+              {t('We understand that buying every book you wish to read can be expensive. That is why we are here to bridge the gap—making reading affordable and accessible to all without heavy costs. We bring original, high-quality, branded books straight to your hands at a minimal cost, ensuring that financial constraints never stand between you and a great story.')}
             </p>
           </div>
           <div className="grid gap-4">
-            <p className="bookstore-kicker"><Sparkles className="h-4 w-4" /> Special Quotes</p>
+            <p className="bookstore-kicker"><Sparkles className="h-4 w-4" /> {t('Special Quotes')}</p>
             <blockquote className="rounded-2xl border border-[#dfd9ef] bg-white/85 p-5 text-sm font-medium leading-7 text-[#34225d] shadow-sm sm:p-6 sm:text-base">
-              “No need to buy expensive books anymore! At a lesser cost, we bring books right to your doorstep for reading.”
+              {t('“No need to buy expensive books anymore! At a lesser cost, we bring books right to your doorstep for reading.”')}
             </blockquote>
             <blockquote className="rounded-2xl border border-[#dfd9ef] bg-white/85 p-5 text-sm font-medium leading-7 text-[#34225d] shadow-sm sm:p-6 sm:text-base">
-              “Worry less about money and keep reading... because what you read matters to us!”
+              {t('“Worry less about money and keep reading... because what you read matters to us!”')}
             </blockquote>
           </div>
         </div>
@@ -529,9 +528,9 @@ export function BookstoreHomeView({
       <section id="locations" className="bookstore-locations px-5 py-14 sm:px-8 sm:py-20 lg:px-14">
         <div className="mx-auto grid max-w-[1440px] gap-9 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
-            <p className="bookstore-kicker"><MapPin className="h-4 w-4" /> Find us in Hubli</p>
-            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">Come by the shelves.</h2>
-            <p className="mt-4 max-w-md text-sm leading-7 text-[#68766c]">Visit a Jnana Nidhi location and find your next read in person.</p>
+            <p className="bookstore-kicker"><MapPin className="h-4 w-4" /> {t('Find us in Hubli')}</p>
+            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">{t('Come by the shelves.')}</h2>
+            <p className="mt-4 max-w-md text-sm leading-7 text-[#68766c]">{t('Visit a Jnana Nidhi location and find your next read in person.')}</p>
             <img src="/bookvision-logo.webp" alt="Jnana Nidhi Hubballi logo" className="mt-7 h-20 w-20 object-contain" />
             <figure className="mt-6 w-full max-w-[220px] text-center">
               <img
@@ -540,7 +539,7 @@ export function BookstoreHomeView({
                 loading="lazy"
                 className="h-auto w-full rounded-2xl"
               />
-              <figcaption className="mt-2 text-xs text-[#68766c]">Scan to WhatsApp Jnana Nidhi about books and locations</figcaption>
+              <figcaption className="mt-2 text-xs text-[#68766c]">{t('Scan to WhatsApp Jnana Nidhi about books and locations')}</figcaption>
             </figure>
           </div>
           <div className="grid gap-x-8 sm:grid-cols-2">
@@ -573,18 +572,18 @@ export function BookstoreHomeView({
           <img src="/bookvision-logo.webp" alt="Jnana Nidhi Hubballi logo" className="h-14 w-14 shrink-0 object-contain" />
           <div>
             <p className="bookstore-display text-xl text-[#30224e]">Jnana Nidhi</p>
-            <p className="mt-1 text-xs text-[#5c5273]">A little more wonder, every day.</p>
+            <p className="mt-1 text-xs text-[#5c5273]">{t('A little more wonder, every day')}</p>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[#40355f]">
-          <button type="button" onClick={() => onNavigate('ai-buyer')} className="transition hover:text-[#6d3ba8]">AI Buyer</button>
-          <button type="button" onClick={() => onNavigate('orders')} className="transition hover:text-[#6d3ba8]">Orders</button>
-          <button type="button" onClick={() => onNavigate('cart')} className="transition hover:text-[#6d3ba8]">Reading bag</button>
-          <button type="button" onClick={() => onNavigate('rental-management')} className="transition hover:text-[#6d3ba8]">Rentals</button>
+          <button type="button" onClick={() => onNavigate('ai-buyer')} className="transition hover:text-[#6d3ba8]">{t('AI Buyer')}</button>
+          <button type="button" onClick={() => onNavigate('orders')} className="transition hover:text-[#6d3ba8]">{t('Orders')}</button>
+          <button type="button" onClick={() => onNavigate('cart')} className="transition hover:text-[#6d3ba8]">{t('Reading bag')}</button>
+          <button type="button" onClick={() => onNavigate('rental-management')} className="transition hover:text-[#6d3ba8]">{t('Rentals')}</button>
         </div>
         <div className="flex flex-col gap-3 text-sm text-[#40355f]">
           <a href="tel:7483400665" className="inline-flex items-center gap-2 transition hover:text-[#6d3ba8]">
-            <span>Call 7483400665 to arrange book collection at your preferred location</span>
+            <span>{t('Call 7483400665 to arrange book collection at your preferred location')}</span>
           </a>
           <a
             href="https://youtube.com/@jnana_nidhi_hubli?si=ISWLctad-Ps_mtjp"
@@ -594,7 +593,7 @@ export function BookstoreHomeView({
             className="inline-flex items-center gap-2 transition hover:text-[#6d3ba8]"
           >
             <Youtube className="h-4 w-4 shrink-0" />
-            <span>Visit Our YouTube Channel</span>
+            <span>{t('Visit Our YouTube Channel')}</span>
           </a>
           <a
             href="https://www.instagram.com/jnana_nidhi_hubli?stkn=MWJtOGJkaGxxb3Z3YQ=="
@@ -604,7 +603,7 @@ export function BookstoreHomeView({
             className="inline-flex items-center gap-2 transition hover:text-[#6d3ba8]"
           >
             <Instagram className="h-4 w-4 shrink-0" />
-            <span>Follow Us on Instagram</span>
+            <span>{t('Follow Us on Instagram')}</span>
           </a>
           <span className="mt-1 text-xs text-[#5c5273]">© 2026 Jnana Nidhi</span>
         </div>
@@ -613,12 +612,12 @@ export function BookstoreHomeView({
       <section aria-labelledby="website-services-title" className="bg-[#eeefe7] px-5 py-12 sm:px-8 sm:py-16 lg:px-14">
         <div className="mx-auto grid max-w-[1100px] items-center gap-8 rounded-3xl bg-white p-6 shadow-sm sm:p-10 lg:grid-cols-[1fr_auto]">
           <div className="max-w-xl">
-            <p className="bookstore-kicker"><MessageCircle className="h-4 w-4" /> Website services</p>
+            <p className="bookstore-kicker"><MessageCircle className="h-4 w-4" /> {t('Website services')}</p>
             <h2 id="website-services-title" className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">
-              Need a website like this?
+              {t('Need a website like this?')}
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#52665a] sm:text-base">
-              Need a website for your business? Email us to discuss your project.
+              {t('Need a website for your business? Email us to discuss your project.')}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a href="mailto:kiranbasu30@gmail.com" className="bookstore-button bookstore-button--dark">

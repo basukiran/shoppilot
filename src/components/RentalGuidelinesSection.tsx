@@ -18,6 +18,7 @@ import {
   AlertTriangle,
   MapPin,
 } from 'lucide-react';
+import { useLanguage } from '@/lib/language';
 
 // ---------------------------------------------------------------------------
 // Data
@@ -90,9 +91,11 @@ const cards: GuideCard[] = [
 function GuideCardItem({
   card,
   index,
+  t,
 }: {
   card: GuideCard;
   index: number;
+  t: (text: string) => string;
 }) {
   const ref = useRef<HTMLLIElement>(null);
   const [visible, setVisible] = useState(false);
@@ -136,8 +139,8 @@ function GuideCardItem({
       </div>
 
       {/* Content */}
-      <h3 className="bvr-card__title">{card.title}</h3>
-      <p className="bvr-card__body">{card.body}</p>
+      <h3 className="bvr-card__title">{t(card.title)}</h3>
+      <p className="bvr-card__body">{t(card.body)}</p>
     </li>
   );
 }
@@ -147,36 +150,36 @@ function GuideCardItem({
 // ---------------------------------------------------------------------------
 
 export function RentalGuidelinesSection() {
+  const { t } = useLanguage();
   return (
     <section id="rental-guidelines" className="bvr-section" aria-labelledby="bvr-heading">
       {/* Section header */}
       <div className="bvr-header">
         <p className="bookstore-kicker">
-          <BookOpen className="h-4 w-4" /> Rental guidelines
+          <BookOpen className="h-4 w-4" /> {t('Rental guidelines')}
         </p>
         <h2
           id="bvr-heading"
           className="bookstore-display bvr-header__title"
         >
-          How Jnana Nidhi Rentals Work
+          {t('How Jnana Nidhi Rentals Work')}
         </h2>
         <p className="bvr-header__sub">
-          Everything you need to know before you rent — from deposit to
-          return, delivery to drop-off.
+          {t('Everything you need to know before you rent — from deposit to return, delivery to drop-off.')}
         </p>
       </div>
 
       {/* Cards grid */}
       <ul className="bvr-grid" role="list">
         {cards.map((card, i) => (
-          <GuideCardItem key={card.id} card={card} index={i} />
+          <GuideCardItem key={card.id} card={card} index={i} t={t} />
         ))}
       </ul>
 
       {/* Bottom note */}
       <p className="bvr-note">
-        Questions about your rental? Use the{' '}
-        <strong>Ask Jnana Nidhi</strong> AI to get answers instantly.
+        {t('Questions about your rental? Use the')} {' '}
+        <strong>{t('Ask Jnana Nidhi')}</strong> {t('AI to get answers instantly.')}
       </p>
     </section>
   );
