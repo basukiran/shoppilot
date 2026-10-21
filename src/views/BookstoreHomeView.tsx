@@ -481,6 +481,33 @@ export function BookstoreHomeView({
         </div>
       </section>
 
+      <section aria-labelledby="about-us-title" className="bookstore-about px-5 py-14 sm:px-8 sm:py-20 lg:px-14">
+        <div className="mx-auto grid max-w-[1440px] gap-9 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div>
+            <p className="bookstore-kicker"><BookOpen className="h-4 w-4" /> Our story</p>
+            <h2 id="about-us-title" className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">About Us</h2>
+            <p className="mt-5 text-sm leading-7 text-[#52665a] sm:text-base">
+              Welcome to Jnana Nidhi Hubballi, an online bookstore founded by Krishna. Our core vision is rooted in a powerful belief:
+            </p>
+            <p className="mt-4 rounded-2xl border border-[#dfd9ef] bg-white/80 p-5 text-base font-semibold leading-7 text-[#34225d] shadow-sm sm:text-lg">
+              “Books for Everyone, Rich or Poor, Everyone Deserves the Power of Knowledge.”
+            </p>
+            <p className="mt-5 text-sm leading-7 text-[#52665a] sm:text-base">
+              We understand that buying every book you wish to read can be expensive. That is why we are here to bridge the gap—making reading affordable and accessible to all without heavy costs. We bring original, high-quality, branded books straight to your hands at a minimal cost, ensuring that financial constraints never stand between you and a great story.
+            </p>
+          </div>
+          <div className="grid gap-4">
+            <p className="bookstore-kicker"><Sparkles className="h-4 w-4" /> Special Quotes</p>
+            <blockquote className="rounded-2xl border border-[#dfd9ef] bg-white/85 p-5 text-sm font-medium leading-7 text-[#34225d] shadow-sm sm:p-6 sm:text-base">
+              “No need to buy expensive books anymore! At a lesser cost, we bring books right to your doorstep for reading.”
+            </blockquote>
+            <blockquote className="rounded-2xl border border-[#dfd9ef] bg-white/85 p-5 text-sm font-medium leading-7 text-[#34225d] shadow-sm sm:p-6 sm:text-base">
+              “Worry less about money and keep reading... because what you read matters to us!”
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
       <section id="locations" className="bookstore-locations px-5 py-14 sm:px-8 sm:py-20 lg:px-14">
         <div className="mx-auto grid max-w-[1440px] gap-9 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
