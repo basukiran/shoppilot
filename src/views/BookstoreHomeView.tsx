@@ -263,12 +263,12 @@ export function BookstoreHomeView({
             <BookCover book={featuredBook} className="bookstore-hero__cover bookstore-hero__cover--front" />
             <div className="bookstore-hero__note">
               <span className="bookstore-hero__note-icon"><Leaf className="h-4 w-4" /></span>
-              <span>Make room for a new perspective.</span>
+              <span>{t('Make room for a new perspective.')}</span>
             </div>
           </div>
         </div>
         <div className="bookstore-hero__footnote">
-          <span>Good books. Better days.</span>
+          <span>{t('Good books. Better days.')}</span>
           <span>JNANA NIDHI · EST. FOR THE CURIOUS</span>
         </div>
       </section>
@@ -276,8 +276,8 @@ export function BookstoreHomeView({
       <section id="featured-books" className="bookstore-section mx-auto max-w-[1440px] px-5 py-14 sm:px-8 sm:py-20 lg:px-14">
         <div className="bookstore-section-heading">
           <div>
-            <p className="bookstore-kicker"><Sparkles className="h-4 w-4" /> A good place to begin</p>
-            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">Featured Books</h2>
+            <p className="bookstore-kicker"><Sparkles className="h-4 w-4" /> {t('A good place to begin')}</p>
+            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">{t('Featured Books')}</h2>
           </div>
           <p className="max-w-md text-sm leading-6 text-[#68766c] sm:text-base">
             Selected for its practical ideas, clear voice, and pages you will
@@ -290,7 +290,7 @@ export function BookstoreHomeView({
             <div className="bookstore-featured__visual relative flex min-h-[320px] items-center justify-center px-8 py-10 sm:min-h-[400px]">
               <div className="bookstore-featured__wash" aria-hidden="true" />
               <BookCover book={featuredBook} className="bookstore-featured__cover" />
-              {featuredBook.isRentable && <span className="bookstore-ribbon">Available to rent</span>}
+              {featuredBook.isRentable && <span className="bookstore-ribbon">{t('Available to rent')}</span>}
             </div>
             <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-14">
               <p className="bookstore-kicker"><BookOpen className="h-4 w-4" /> {featuredBook.category}</p>
@@ -449,7 +449,7 @@ export function BookstoreHomeView({
               <BookCover book={featuredBook} className="bookstore-rental__cover" />
               <div className="max-w-[170px] text-[#d1dbcf]">
                 <Check className="mb-3 h-5 w-5 text-[#c3b47c]" />
-                <p className="text-sm font-medium leading-6">A gentler way to discover your next favorite.</p>
+                <p className="text-sm font-medium leading-6">{t('A gentler way to discover your next favorite.')}</p>
               </div>
             </div>
           </div>
@@ -675,11 +675,12 @@ function BookTile({
   onToggleFavorite: (product: Product) => void;
   onRent: (product: Product, quantity?: number) => void;
 }) {
+  const { t } = useLanguage();
   return (
     <article className="book-tile group">
       <div className="book-tile__cover-wrap">
         <BookCover book={book} className="book-tile__cover" />
-        {book.isRentable && <span className="bookstore-ribbon">Rentable</span>}
+        {book.isRentable && <span className="bookstore-ribbon">{t('Rentable')}</span>}
         <button
           type="button"
           onClick={() => onAddToCart(book, 1)}
@@ -718,8 +719,8 @@ function BookTile({
               Rent {formatCurrency(book.rentalPrice)} · {book.rentalDurationDays} days
             </p>
             <div className="flex flex-wrap gap-2">
-              <button type="button" onClick={() => onRent(book, 1)} className="text-xs font-semibold text-[#426c4d] hover:text-[#183629]">Rent now</button>
-              <button type="button" onClick={() => onAddRentalToCart(book, 1)} className="text-xs font-semibold text-[#426c4d] hover:text-[#183629]">Add rental to bag</button>
+              <button type="button" onClick={() => onRent(book, 1)} className="text-xs font-semibold text-[#426c4d] hover:text-[#183629]">{t('Rent now')}</button>
+              <button type="button" onClick={() => onAddRentalToCart(book, 1)} className="text-xs font-semibold text-[#426c4d] hover:text-[#183629]">{t('Add rental to bag')}</button>
             </div>
           </div>
         )}
