@@ -399,9 +399,6 @@ function App() {
         aria-hidden={showIntro}
         className="bv-app-shell flex min-h-screen"
       >
-      <video className="bv-app-scene-video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" tabIndex={-1}>
-        <source src="/video/cube-tunnel.mp4" type="video/mp4" />
-      </video>
       <div className="bv-floating-books" aria-hidden="true">
         <div className="bv-floating-book bv-floating-book--one"><img src="/covers/zero-to-hero.jpg" alt="" /></div>
         <div className="bv-floating-book bv-floating-book--two"><img src="/covers/rich-dad-poor-dad.jpg" alt="" /></div>
