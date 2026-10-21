@@ -162,6 +162,24 @@ export function BookstoreHomeView({
           </svg>
           <div className="storybook-world__veil" />
         </div>
+        <svg className="bookstore-vines" viewBox="0 0 1440 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g className="bookstore-vine bookstore-vine--left">
+            <path className="bookstore-vine__stem" d="M-18 535C76 454 18 382 91 313S128 203 77 151 37 65 88-18" />
+            <path className="bookstore-vine__branch" d="M67 358C130 354 159 320 181 271M76 255C20 241 5 208-3 179M77 151C137 146 162 114 175 75" />
+            <path className="bookstore-vine__leaf" d="M0 0C-9-22 4-43 30-49 38-27 26-7 0 0Z" transform="translate(89 315) rotate(40)" />
+            <path className="bookstore-vine__leaf" d="M0 0C-9-22 4-43 30-49 38-27 26-7 0 0Z" transform="translate(77 255) rotate(205)" />
+            <path className="bookstore-vine__leaf" d="M0 0C-9-22 4-43 30-49 38-27 26-7 0 0Z" transform="translate(77 151) rotate(35)" />
+            <path className="bookstore-vine__leaf" d="M0 0C-9-22 4-43 30-49 38-27 26-7 0 0Z" transform="translate(88 62) rotate(210)" />
+          </g>
+          <g className="bookstore-vine bookstore-vine--right">
+            <path className="bookstore-vine__stem" d="M1458 535C1364 454 1422 382 1349 313S1312 203 1363 151 1403 65 1352-18" />
+            <path className="bookstore-vine__branch" d="M1373 358C1310 354 1281 320 1259 271M1364 255C1420 241 1435 208 1443 179M1363 151C1303 146 1278 114 1265 75" />
+            <path className="bookstore-vine__leaf" d="M0 0C-9-22 4-43 30-49 38-27 26-7 0 0Z" transform="translate(1349 315) rotate(40)" />
+            <path className="bookstore-vine__leaf" d="M0 0C-9-22 4-43 30-49 38-27 26-7 0 0Z" transform="translate(1364 255) rotate(205)" />
+            <path className="bookstore-vine__leaf" d="M0 0C-9-22 4-43 30-49 38-27 26-7 0 0Z" transform="translate(1363 151) rotate(35)" />
+            <path className="bookstore-vine__leaf" d="M0 0C-9-22 4-43 30-49 38-27 26-7 0 0Z" transform="translate(1352 62) rotate(210)" />
+          </g>
+        </svg>
         <div className="bookstore-hero__inner mx-auto grid max-w-[1440px] items-center gap-8 px-5 py-12 sm:px-8 sm:py-16 lg:min-h-[500px] lg:grid-cols-[1.05fr_0.95fr] lg:px-14 lg:py-20">
           <div className="relative z-10 max-w-2xl">
             <p className="bookstore-kicker">

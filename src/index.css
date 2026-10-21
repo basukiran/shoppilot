@@ -2492,3 +2492,33 @@
 @keyframes bv-background-book-three { 0%,100% { transform: translate3d(0,0,-20px) rotateX(9deg) rotateY(-14deg) rotateZ(7deg); } 50% { transform: translate3d(10px,15px,22px) rotateX(-2deg) rotateY(-26deg) rotateZ(1deg); } }
 @keyframes bv-background-book-four { 0%,100% { transform: translate3d(0,0,12px) rotateX(-7deg) rotateY(21deg) rotateZ(-8deg); } 50% { transform: translate3d(-8px,-20px,36px) rotateX(7deg) rotateY(11deg) rotateZ(-1deg); } }
 @keyframes bv-background-book-five { 0%,100% { transform: translate3d(0,0,-28px) rotateX(11deg) rotateY(-18deg) rotateZ(10deg); } 50% { transform: translate3d(12px,18px,12px) rotateX(-4deg) rotateY(-6deg) rotateZ(2deg); } }
+
+/* Growing vine accents around the homepage hero. */
+.bookstore-vines { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; overflow: visible; pointer-events: none; opacity: .78; }
+.bookstore-vine { transform-box: fill-box; transform-origin: center bottom; animation: bookstore-vine-sway 6s ease-in-out infinite alternate; }
+.bookstore-vine--right { animation-delay: -2.5s; }
+.bookstore-vine__stem,
+.bookstore-vine__branch { fill: none; stroke: #43845e; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 900; stroke-dashoffset: 900; animation: bookstore-vine-grow 3s cubic-bezier(.2,.7,.2,1) forwards; }
+.bookstore-vine__branch { stroke-width: 3; animation-delay: .8s; }
+.bookstore-vine__leaf { fill: #68a66f; opacity: 0; animation: bookstore-vine-leaf-appear .7s ease-out forwards; }
+.bookstore-vine__leaf:nth-child(3) { animation-delay: 1s; }
+.bookstore-vine__leaf:nth-child(4) { animation-delay: 1.35s; }
+.bookstore-vine__leaf:nth-child(5) { animation-delay: 1.7s; }
+.bookstore-vine__leaf:nth-child(6) { animation-delay: 2.05s; }
+.bookstore-hero__inner { z-index: 2; }
+@keyframes bookstore-vine-grow { to { stroke-dashoffset: 0; } }
+@keyframes bookstore-vine-leaf-appear { from { opacity: 0; } to { opacity: .92; } }
+@keyframes bookstore-vine-sway { from { rotate: -.35deg; } to { rotate: .35deg; } }
+@media (max-width: 639px) {
+  .bookstore-vines { opacity: .48; }
+  .bookstore-vine__stem { stroke-width: 5; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bookstore-vine,
+  .bookstore-vine__stem,
+  .bookstore-vine__branch,
+  .bookstore-vine__leaf { animation: none !important; }
+  .bookstore-vine__stem,
+  .bookstore-vine__branch { stroke-dashoffset: 0; }
+  .bookstore-vine__leaf { opacity: .92; }
+}
