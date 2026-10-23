@@ -65,7 +65,7 @@ const KANNADA: Record<string, string> = {
   'AI Buyer': 'AI ಪುಸ್ತಕ ಸಹಾಯಕ',
   'Orders': 'ಆರ್ಡರ್‌ಗಳು',
   'Reading bag': 'ಓದುವ ಚೀಲ',
-  'Call 7483400665 to arrange book collection at your preferred location': 'ನಿಮ್ಮ ಆಯ್ಕೆಯ ಸ್ಥಳದಲ್ಲಿ ಪುಸ್ತಕ ಪಡೆಯಲು 7483400665 ಗೆ ಕರೆ ಮಾಡಿ',
+  'Book collection at your preferred location: 7483400665': 'ನಿಮ್ಮ ಆಯ್ಕೆಯ ಸ್ಥಳದಲ್ಲಿ ಪುಸ್ತಕ ಪಡೆಯಲು 7483400665 ಗೆ ಕರೆ ಮಾಡಿ',
   'Visit Our YouTube Channel': 'ನಮ್ಮ YouTube ಚಾನೆಲ್ ನೋಡಿ',
   'Follow Us on Instagram': 'Instagram ನಲ್ಲಿ ನಮ್ಮನ್ನು ಅನುಸರಿಸಿ',
   'Language': 'ಭಾಷೆ',
