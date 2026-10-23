@@ -281,7 +281,7 @@ export function PaymentApprovalView({
 
           <p className="mt-3 rounded-lg bg-brand-50 p-3 text-sm text-brand-800">
             To arrange collection at your preferred location, call{' '}
-            <a className="font-semibold underline" href="tel:7483400665">7483400665</a> and share your order ID.
+            <a className="font-semibold underline" href="tel:9071111074">9071111074</a> and share your order ID.
           </p>
 
           <div className="mt-6 rounded-xl bg-ink-50 p-4 text-left text-sm">

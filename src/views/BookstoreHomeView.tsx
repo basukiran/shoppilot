@@ -582,8 +582,8 @@ export function BookstoreHomeView({
           <button type="button" onClick={() => onNavigate('rental-management')} className="transition hover:text-[#6d3ba8]">{t('Rentals')}</button>
         </div>
         <div className="flex flex-col gap-3 text-sm text-[#40355f]">
-          <a href="tel:7483400665" className="inline-flex items-center gap-2 transition hover:text-[#6d3ba8]">
-            <span>{t('Book collection at your preferred location: 7483400665')}</span>
+          <a href="tel:9071111074" className="inline-flex items-center gap-2 transition hover:text-[#6d3ba8]">
+            <span>{t('Book collection at your preferred location: 9071111074')}</span>
           </a>
           <a
             href="https://youtube.com/@jnana_nidhi_hubli?si=ISWLctad-Ps_mtjp"
