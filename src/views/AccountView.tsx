@@ -114,6 +114,10 @@ export function AccountView({
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [passwordMessage, setPasswordMessage] = useState('');
   const [addressFormOpen, setAddressFormOpen] = useState(false);
   const [showMemberPhone, setShowMemberPhone] = useState(false);
   const [addressLabel, setAddressLabel] = useState('Home');
@@ -246,6 +250,41 @@ export function AccountView({
         : current);
     } catch (requestError: unknown) {
       setError(requestError instanceof Error ? requestError.message : 'Unable to remove address.');
+    }
+  };
+
+  const changePassword = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError('');
+    setPasswordMessage('');
+
+    if (newPassword !== confirmNewPassword) {
+      setError('The new passwords do not match.');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const response = await apiFetch('/auth/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          current_password: currentPassword,
+          new_password: newPassword,
+        }),
+      });
+      const data = await response.json().catch(() => null);
+      if (!response.ok) {
+        throw new Error(data?.detail || 'Unable to change password.');
+      }
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmNewPassword('');
+      setPasswordMessage('Password changed. Other signed-in devices will need to sign in again.');
+    } catch (requestError: unknown) {
+      setError(requestError instanceof Error ? requestError.message : 'Unable to change password.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -410,6 +449,28 @@ export function AccountView({
                 <AccountValue label="Phone" value={user.phone} />
                 <AccountValue label="Member since" value={formatDate(user.created_at)} />
               </div>
+              <form onSubmit={changePassword} className="space-y-4 rounded-md border border-ink-200 bg-white p-5 shadow-soft sm:p-6">
+                <div>
+                  <h2 className="font-display text-xl font-bold text-ink-900">Change password</h2>
+                  <p className="mt-1 text-sm text-ink-500">Confirm your current password, then choose a new one with at least 8 characters.</p>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field label="Current password">
+                    <input className="input" type="password" autoComplete="current-password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} required maxLength={128} />
+                  </Field>
+                  <span className="hidden sm:block" aria-hidden="true" />
+                  <Field label="New password">
+                    <input className="input" type="password" autoComplete="new-password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} required minLength={8} maxLength={128} />
+                  </Field>
+                  <Field label="Confirm new password">
+                    <input className="input" type="password" autoComplete="new-password" value={confirmNewPassword} onChange={(event) => setConfirmNewPassword(event.target.value)} required minLength={8} maxLength={128} />
+                  </Field>
+                </div>
+                {passwordMessage && <p role="status" className="rounded-sm bg-success-50 px-3 py-2 text-sm text-success-700">{passwordMessage}</p>}
+                <button type="submit" disabled={submitting} className="btn-primary">
+                  {submitting ? 'Changing password…' : 'Update password'}
+                </button>
+              </form>
             </div>
           )}
 

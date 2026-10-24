@@ -421,6 +421,11 @@ class LoginRequest(BaseModel):
     password: str = Field(min_length=1, max_length=128)
 
 
+class PasswordChangeRequest(BaseModel):
+    current_password: str = Field(min_length=1, max_length=128)
+    new_password: str = Field(min_length=PASSWORD_MIN_LENGTH, max_length=128)
+
+
 class AddressRequest(BaseModel):
     label: str = Field(default="Home", max_length=40)
     recipient_name: str = Field(min_length=1, max_length=120)
@@ -680,6 +685,54 @@ def login_user(login: LoginRequest, request: Request, response: Response):
 @app.get("/auth/me")
 def get_current_profile(request: Request):
     return {"user": public_user(require_current_user(request))}
+
+
+@app.post("/auth/change-password")
+def change_password(
+    payload: PasswordChangeRequest,
+    request: Request,
+    response: Response,
+):
+    current_user = require_current_user(request)
+    enforce_rate_limit(request, "auth-change-password", 5, 900)
+
+    conn = get_connection()
+    try:
+        user = conn.execute(
+            "SELECT password_hash FROM users WHERE id = ?",
+            (current_user["id"],),
+        ).fetchone()
+        if user is None or not verify_password(payload.current_password, user["password_hash"]):
+            raise HTTPException(status_code=400, detail="Current password is incorrect.")
+        if verify_password(payload.new_password, user["password_hash"]):
+            raise HTTPException(
+                status_code=400,
+                detail="Choose a new password different from your current password.",
+            )
+
+        conn.execute(
+            "UPDATE users SET password_hash = ? WHERE id = ?",
+            (hash_password(payload.new_password), current_user["id"]),
+        )
+        # Invalidate every existing session, then issue a fresh session to this
+        # authenticated user so other devices must sign in with the new password.
+        conn.execute(
+            "UPDATE auth_sessions SET revoked_at = CURRENT_TIMESTAMP "
+            "WHERE user_id = ? AND revoked_at IS NULL",
+            (current_user["id"],),
+        )
+        conn.commit()
+    except HTTPException:
+        conn.rollback()
+        raise
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+    set_session_cookie(response, current_user["id"], request)
+    return {"success": True, "message": "Password changed successfully."}
 
 
 @app.get("/admin/customers")
