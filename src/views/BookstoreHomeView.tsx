@@ -8,7 +8,7 @@ import {
   Instagram,
   Leaf,
   Library,
-  Mail,
+  Linkedin,
   Mic,
   MessageCircle,
   MapPin,
@@ -661,11 +661,16 @@ export function BookstoreHomeView({
               {t('Need a website like this?')}
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#52665a] sm:text-base">
-              {t('Need a website for your business? Email us to discuss your project.')}
+              {t('Need a website for your business? Connect with us on LinkedIn.')}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a href="mailto:kiranbasu30@gmail.com" className="bookstore-button bookstore-button--dark">
-                <Mail className="h-4 w-4" /> kiranbasu30@gmail.com
+              <a
+                href="https://linkedin.com/in/basukiran"
+                target="_blank"
+                rel="noreferrer"
+                className="bookstore-button bookstore-button--dark"
+              >
+                <Linkedin className="h-4 w-4" /> {t('View my LinkedIn profile')}
               </a>
             </div>
           </div>

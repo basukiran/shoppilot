@@ -142,7 +142,8 @@ const KANNADA: Record<string, string> = {
   'Jnana Nidhi supports designated pickup and drop-off points within our service zones. Select a convenient location at checkout or request a home pickup when arranging your return.': 'ನಮ್ಮ ಸೇವಾ ಪ್ರದೇಶಗಳಲ್ಲಿ ನಿಗದಿತ ಪಡೆದುಕೊಳ್ಳುವ ಮತ್ತು ಹಸ್ತಾಂತರಿಸುವ ಸ್ಥಳಗಳಿವೆ. ಪಾವತಿ ವೇಳೆ ಅನುಕೂಲಕರ ಸ್ಥಳ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಹಿಂತಿರುಗಿಸುವಾಗ ಮನೆಗೆ ಬಂದು ಪಡೆದುಕೊಳ್ಳಲು ತಿಳಿಸಿ.',
   'Questions about your rental? Use the': 'ಬಾಡಿಗೆ ಕುರಿತು ಪ್ರಶ್ನೆಗಳಿವೆಯೇ? ಬಳಸಿ',
   'AI to get answers instantly.': 'ತಕ್ಷಣ ಉತ್ತರ ಪಡೆಯಲು AI ಸಹಾಯಕವನ್ನು ಬಳಸಿ.',
-  'Need a website for your business? Email us to discuss your project.': 'ನಿಮ್ಮ ವ್ಯವಹಾರಕ್ಕೆ ವೆಬ್‌ಸೈಟ್ ಬೇಕೇ? ನಿಮ್ಮ ಯೋಜನೆ ಕುರಿತು ಮಾತನಾಡಲು ನಮಗೆ ಇಮೇಲ್ ಮಾಡಿ.',
+  'Need a website for your business? Connect with us on LinkedIn.': 'ನಿಮ್ಮ ವ್ಯವಹಾರಕ್ಕೆ ವೆಬ್‌ಸೈಟ್ ಬೇಕೇ? LinkedIn ನಲ್ಲಿ ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ.',
+  'View my LinkedIn profile': 'ನನ್ನ LinkedIn ಪ್ರೊಫೈಲ್ ನೋಡಿ',
 };
 
 const HINDI: Record<string, string> = {
@@ -285,7 +286,8 @@ const HINDI: Record<string, string> = {
   'Jnana Nidhi supports designated pickup and drop-off points within our service zones. Select a convenient location at checkout or request a home pickup when arranging your return.': 'हमारे सेवा क्षेत्रों में तय पिकअप और जमा करने के स्थान उपलब्ध हैं। चेकआउट पर सुविधाजनक जगह चुनें या वापसी के समय घर से पिकअप का अनुरोध करें।',
   'Questions about your rental? Use the': 'किराये के बारे में सवाल हैं? इस्तेमाल करें',
   'AI to get answers instantly.': 'तुरंत जवाब पाने के लिए AI सहायक।',
-  'Need a website for your business? Email us to discuss your project.': 'अपने व्यवसाय के लिए वेबसाइट चाहिए? अपने प्रोजेक्ट पर बात करने के लिए हमें ईमेल करें।',
+  'Need a website for your business? Connect with us on LinkedIn.': 'अपने व्यवसाय के लिए वेबसाइट चाहिए? LinkedIn पर हमसे जुड़ें।',
+  'View my LinkedIn profile': 'मेरी LinkedIn प्रोफ़ाइल देखें',
 };
 
 interface LanguageContextValue {
