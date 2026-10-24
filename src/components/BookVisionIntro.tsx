@@ -20,6 +20,7 @@ export function BookVisionIntro({ onFinish }: Props) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const introTimerRef = useRef<number | null>(null);
   const soundStartedRef = useRef(false);
+  const introStartedAtRef = useRef(0);
 
   const playVoice = () => {
     const audio = audioRef.current;
@@ -44,6 +45,7 @@ export function BookVisionIntro({ onFinish }: Props) {
   useEffect(() => {
     let finished = false;
     let finishTimer = 0;
+    introStartedAtRef.current = Date.now();
 
     const finish = () => {
       if (finished) return;
@@ -104,7 +106,10 @@ export function BookVisionIntro({ onFinish }: Props) {
         src="/audio/bookvision-opening.mpeg"
         preload="auto"
         onEnded={() => {
-          finishRef.current();
+          const visibleFor = Date.now() - introStartedAtRef.current;
+          const remaining = Math.max(0, 4800 - visibleFor);
+          if (introTimerRef.current !== null) window.clearTimeout(introTimerRef.current);
+          introTimerRef.current = window.setTimeout(() => finishRef.current(), remaining);
         }}
       />
       {/* ── Controls ── */}
