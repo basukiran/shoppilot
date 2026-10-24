@@ -16,6 +16,8 @@ const KANNADA: Record<string, string> = {
   'Books for Everyone, Rich or Poor, Everyone Deserves the Power of Knowledge.': 'ಪುಸ್ತಕಗಳು ಎಲ್ಲರಿಗಾಗಿ — ಶ್ರೀಮಂತರಾಗಲಿ ಬಡವರಾಗಲಿ, ಜ್ಞಾನದ ಶಕ್ತಿ ಎಲ್ಲರಿಗೂ ಸಿಗಬೇಕು.',
   'A little more wonder, every day': 'ಪ್ರತಿದಿನವೂ ಇನ್ನಷ್ಟು ಅದ್ಭುತ',
   'Thoughtful reads for curious minds. Explore stories, ideas, and practical knowledge, then bring your next favorite home.': 'ಕುತೂಹಲದ ಮನಸ್ಸುಗಳಿಗೆ ಅರ್ಥಪೂರ್ಣ ಓದು. ಕಥೆಗಳು, ಆಲೋಚನೆಗಳು ಮತ್ತು ಉಪಯುಕ್ತ ಜ್ಞಾನವನ್ನು ಅನ್ವೇಷಿಸಿ; ನಿಮ್ಮ ಮುಂದಿನ ಮೆಚ್ಚಿನ ಪುಸ್ತಕವನ್ನು ಮನೆಗೆ ಕೊಂಡೊಯ್ಯಿರಿ.',
+  'Play welcome audio': 'ಸ್ವಾಗತದ ಧ್ವನಿಯನ್ನು ಕೇಳಿ',
+  'Pause welcome audio': 'ಸ್ವಾಗತದ ಧ್ವನಿಯನ್ನು ವಿರಾಮಗೊಳಿಸಿ',
   'Explore the shelves': 'ಪುಸ್ತಕಗಳನ್ನು ಅನ್ವೇಷಿಸಿ',
   'Browse by category': 'ವರ್ಗದ ಪ್ರಕಾರ ನೋಡಿ',
   'Reader-loved': 'ಓದುಗರ ಮೆಚ್ಚಿನವು',

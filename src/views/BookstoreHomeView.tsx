@@ -1,4 +1,4 @@
-import { useEffect, useState, type PointerEvent as ReactPointerEvent } from 'react';
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import {
   ArrowDown,
   ArrowRight,
@@ -9,6 +9,7 @@ import {
   Leaf,
   Library,
   Mail,
+  Mic,
   MessageCircle,
   MapPin,
   ShoppingBag,
@@ -49,6 +50,8 @@ export function BookstoreHomeView({
   const [catalogLoading, setCatalogLoading] = useState(true);
   const [catalogError, setCatalogError] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All books');
+  const [welcomeAudioPlaying, setWelcomeAudioPlaying] = useState(false);
+  const welcomeAudioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     let active = true;
@@ -130,6 +133,26 @@ export function BookstoreHomeView({
     bookScene?.style.removeProperty('--scene-tilt-y');
   };
 
+  const toggleWelcomeAudio = async () => {
+    const audio = welcomeAudioRef.current;
+    if (!audio) return;
+
+    if (audio.paused) {
+      try {
+        await audio.play();
+        setWelcomeAudioPlaying(true);
+      } catch (error) {
+        console.error('Unable to play the welcome audio:', error);
+        setWelcomeAudioPlaying(false);
+      }
+      return;
+    }
+
+    audio.pause();
+    audio.currentTime = 0;
+    setWelcomeAudioPlaying(false);
+  };
+
   return (
     <div className="bookstore-home">
       <section className="bookstore-hero relative overflow-hidden" onPointerMove={moveStorybookScene} onPointerLeave={resetStorybookScene}>
@@ -193,6 +216,27 @@ export function BookstoreHomeView({
             <p className="mt-5 max-w-xl text-base leading-7 text-[#52665a] sm:text-lg">
               {t('Thoughtful reads for curious minds. Explore stories, ideas, and practical knowledge, then bring your next favorite home.')}
             </p>
+            <div className="mt-4 flex items-center gap-3">
+              <audio
+                ref={welcomeAudioRef}
+                src="/audio/jnana-nidhi-welcome.mpeg"
+                preload="none"
+                onEnded={() => setWelcomeAudioPlaying(false)}
+              />
+              <button
+                type="button"
+                onClick={toggleWelcomeAudio}
+                aria-label={welcomeAudioPlaying ? t('Pause welcome audio') : t('Play welcome audio')}
+                aria-pressed={welcomeAudioPlaying}
+                title={welcomeAudioPlaying ? t('Pause welcome audio') : t('Play welcome audio')}
+                className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#c8a65e] bg-white/90 text-[#285640] shadow-md transition hover:-translate-y-0.5 hover:bg-[#f9f0d7] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#285640] ${welcomeAudioPlaying ? 'ring-4 ring-[#c8a65e]/35' : ''}`}
+              >
+                <Mic className="h-5 w-5" aria-hidden="true" />
+              </button>
+              <span className="text-sm font-medium text-[#52665a]">
+                {t(welcomeAudioPlaying ? 'Pause welcome audio' : 'Play welcome audio')}
+              </span>
+            </div>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <button
                 type="button"
