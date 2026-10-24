@@ -23,7 +23,7 @@ import { getCoverPlaceholder } from '@/lib/bookCovers';
 import { getApprovedBookCover } from '@/lib/bookProducts';
 import { AuthorByline } from '@/components/AuthorByline';
 import type { AccountUser } from '@/types';
-import { useLanguage } from '@/lib/language';
+import { useLanguage, type SiteLanguage } from '@/lib/language';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -404,11 +404,12 @@ export function Topbar({
       <select
         id="site-language"
         value={language}
-        onChange={(event) => setLanguage(event.target.value as 'en' | 'kn')}
+        onChange={(event) => setLanguage(event.target.value as SiteLanguage)}
         className="input w-[88px] shrink-0 px-2 py-2 text-xs sm:w-[112px]"
       >
         <option value="en">English</option>
         <option value="kn">ಕನ್ನಡ</option>
+        <option value="hi">हिन्दी</option>
       </select>
 
       {/* ── SEARCH ─────────────────────────────────────────────────────── */}

@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 
-export type SiteLanguage = 'en' | 'kn';
+export type SiteLanguage = 'en' | 'kn' | 'hi';
 
 const KANNADA: Record<string, string> = {
   'Home': 'ಮುಖಪುಟ',
@@ -145,6 +145,149 @@ const KANNADA: Record<string, string> = {
   'Need a website for your business? Email us to discuss your project.': 'ನಿಮ್ಮ ವ್ಯವಹಾರಕ್ಕೆ ವೆಬ್‌ಸೈಟ್ ಬೇಕೇ? ನಿಮ್ಮ ಯೋಜನೆ ಕುರಿತು ಮಾತನಾಡಲು ನಮಗೆ ಇಮೇಲ್ ಮಾಡಿ.',
 };
 
+const HINDI: Record<string, string> = {
+  'Home': 'होम',
+  'My Account': 'मेरा खाता',
+  'Customers': 'ग्राहक',
+  'Favorites': 'पसंदीदा',
+  'Ask Jnana Nidhi': 'ज्ञान निधि से पूछें',
+  'My Orders': 'मेरे ऑर्डर',
+  'Reading Bag': 'रीडिंग बैग',
+  'Rentals': 'किराये',
+  'Bookstore': 'किताबों की दुकान',
+  'Profile, orders, rentals, payments, and addresses': 'प्रोफ़ाइल, ऑर्डर, किराये, भुगतान और पते',
+  'Books for Everyone, Rich or Poor, Everyone Deserves the Power of Knowledge.': 'किताबें सबके लिए—अमीर हों या गरीब, ज्ञान की शक्ति सबको मिलनी चाहिए।',
+  'A little more wonder, every day': 'हर दिन थोड़ा और आश्चर्य',
+  'Thoughtful reads for curious minds. Explore stories, ideas, and practical knowledge, then bring your next favorite home.': 'जिज्ञासु मन के लिए सार्थक किताबें। कहानियों, विचारों और उपयोगी ज्ञान को खोजें, फिर अपनी अगली पसंदीदा किताब घर लाएँ।',
+  'Play welcome audio': 'स्वागत संदेश सुनें',
+  'Pause welcome audio': 'स्वागत संदेश रोकें',
+  'Explore the shelves': 'किताबें देखें',
+  'Browse by category': 'श्रेणी के अनुसार देखें',
+  'Reader-loved': 'पाठकों की पसंद',
+  'Popular books': 'लोकप्रिय किताबें',
+  'Find your next read': 'अपनी अगली किताब खोजें',
+  'All books': 'सभी किताबें',
+  'Loading the Jnana Nidhi catalog…': 'ज्ञान निधि की किताबें लोड हो रही हैं…',
+  'The catalog is unavailable. Please refresh to try again.': 'किताबों की सूची उपलब्ध नहीं है। कृपया फिर से लोड करें।',
+  'No books in this category yet.': 'इस श्रेणी में अभी कोई किताब नहीं है।',
+  'A thoughtful starting point': 'शुरुआत के लिए एक अच्छी किताब',
+  'AI recommended books': 'AI की सुझाई किताबें',
+  'Tell Jnana Nidhi what you love, what you are learning, or what mood you are in. Your Buyer Agent can search the catalog and help you find a book that fits.': 'ज्ञान निधि को बताएँ कि आपको क्या पसंद है, आप क्या सीख रहे हैं या आपका मन कैसा है। हमारा AI सहायक सूची में आपके लिए सही किताब खोजेगा।',
+  'Get a recommendation': 'सुझाव पाएँ',
+  'Read, return, repeat': 'पढ़ें, लौटाएँ, फिर पढ़ें',
+  'Rent a book. Keep your curiosity.': 'किताब किराये पर लें। अपनी जिज्ञासा बनाए रखें।',
+  'Browse categories': 'श्रेणियाँ देखें',
+  'Find your kind of story': 'अपनी पसंद की कहानी खोजें',
+  'Wander by subject, follow a question, and see where a good book takes you.': 'विषयों को जानें, सवालों के पीछे चलें और देखें कि एक अच्छी किताब आपको कहाँ ले जाती है।',
+  'A bookstore for the curious': 'जिज्ञासु पाठकों के लिए किताबों की दुकान',
+  'A good place to begin': 'शुरुआत करने की अच्छी जगह',
+  'Featured Books': 'चुनिंदा किताबें',
+  'Available to rent': 'किराये पर उपलब्ध',
+  'Make room for a new perspective.': 'एक नए नज़रिए के लिए जगह बनाएँ।',
+  'Good books. Better days.': 'अच्छी किताबें, बेहतर दिन।',
+  'A gentler way to discover your next favorite.': 'अपनी अगली पसंदीदा किताब खोजने का आसान तरीका।',
+  'Rentable': 'किराये पर उपलब्ध',
+  'Rent now': 'अभी किराये पर लें',
+  'Add rental to bag': 'किराये की किताब बैग में जोड़ें',
+  'Why Jnana Nidhi': 'ज्ञान निधि क्यों',
+  'A shelf with a point of view': 'एक खास सोच वाली किताबें',
+  'Explore books chosen for clear ideas, memorable stories, and the questions they leave with you.': 'स्पष्ट विचारों, यादगार कहानियों और सोचने पर मजबूर करने वाले सवालों वाली किताबें खोजें।',
+  'Find a better fit': 'अपने लिए सही किताब खोजें',
+  'Ask the AI Buyer for help by subject, author, budget, or the kind of reading you are in the mood for.': 'विषय, लेखक, बजट या अपने मनपसंद पढ़ने के लिए AI सहायक से सुझाव लें।',
+  'Read at your own pace': 'अपनी गति से पढ़ें',
+  'Buy a book for your shelves or rent an eligible title and decide what to do after reading.': 'अपने संग्रह के लिए किताब खरीदें या किराये पर लें और पढ़ने के बाद तय करें कि आगे क्या करना है।',
+  'Our story': 'हमारी कहानी',
+  'About Us': 'हमारे बारे में',
+  'Welcome to Jnana Nidhi Hubballi, an online bookstore founded by Krishna. Our core vision is rooted in a powerful belief:': 'कृष्ण द्वारा शुरू की गई ऑनलाइन किताबों की दुकान, ज्ञान निधि हुबली में आपका स्वागत है। हमारा विश्वास है:',
+  'We understand that buying every book you wish to read can be expensive. That is why we are here to bridge the gap—making reading affordable and accessible to all without heavy costs. We bring original, high-quality, branded books straight to your hands at a minimal cost, ensuring that financial constraints never stand between you and a great story.': 'हम समझते हैं कि पढ़ने की हर किताब खरीदना महँगा हो सकता है। इसलिए हम पढ़ने को सबके लिए किफ़ायती और सुलभ बनाते हैं। हम असली, उच्च गुणवत्ता वाली किताबें कम कीमत पर आप तक पहुँचाते हैं, ताकि पैसों की कमी आपको अच्छी कहानी पढ़ने से न रोके।',
+  'Special Quotes': 'खास संदेश',
+  '“No need to buy expensive books anymore! At a lesser cost, we bring books right to your doorstep for reading.”': '“अब महँगी किताबें खरीदने की ज़रूरत नहीं! कम कीमत पर पढ़ने के लिए किताबें आपके दरवाज़े तक पहुँचाएँ।”',
+  '“Worry less about money and keep reading... because what you read matters to us!”': '“पैसों की चिंता कम करें और पढ़ते रहें... क्योंकि आप क्या पढ़ते हैं, यह हमारे लिए मायने रखता है!”',
+  'Find us in Hubli': 'हुबली में हमसे मिलें',
+  'Come by the shelves.': 'हमारी किताबों की दुकान पर आएँ।',
+  'Visit a Jnana Nidhi location and find your next read in person.': 'ज्ञान निधि के स्थान पर आएँ और अपनी अगली किताब चुनें।',
+  'Scan to WhatsApp Jnana Nidhi about books and locations': 'किताबों और स्थानों की जानकारी के लिए स्कैन करके ज्ञान निधि को WhatsApp करें',
+  'AI Buyer': 'AI किताब सहायक',
+  'Orders': 'ऑर्डर',
+  'Reading bag': 'रीडिंग बैग',
+  'Book collection at your preferred location: 9071111074': 'अपनी पसंदीदा जगह से किताब लेने के लिए कॉल करें: 9071111074',
+  'Visit Our YouTube Channel': 'हमारा YouTube चैनल देखें',
+  'Follow Us on Instagram': 'Instagram पर हमें फ़ॉलो करें',
+  'Language': 'भाषा',
+  'Workspace': 'कार्यक्षेत्र',
+  'Jnana Nidhi assistant ready': 'ज्ञान निधि सहायक तैयार है',
+  'Search by title, author, subject, or mood.': 'शीर्षक, लेखक, विषय या मनपसंद अंदाज़ से खोजें।',
+  'All systems operational': 'सभी सेवाएँ चालू हैं',
+  'Biography': 'जीवनी',
+  'Business': 'व्यवसाय',
+  'Communication': 'संचार',
+  'Development': 'विकास',
+  'Essays': 'निबंध',
+  'Finance': 'वित्त',
+  'History': 'इतिहास',
+  'Kannada Literature': 'कन्नड़ साहित्य',
+  'Leadership': 'नेतृत्व',
+  'Lifestyle': 'जीवनशैली',
+  'Motivation': 'प्रेरणा',
+  'Music & Thought': 'संगीत और विचार',
+  'Personal Growth': 'व्यक्तिगत विकास',
+  'Philosophy': 'दर्शन',
+  'Productivity': 'उत्पादकता',
+  'Psychology': 'मनोविज्ञान',
+  'Self-Help': 'स्व-सहायता',
+  'Social Thought': 'सामाजिक विचार',
+  'Software Development': 'सॉफ़्टवेयर विकास',
+  'Spiritual Growth': 'आध्यात्मिक विकास',
+  'Wisdom': 'बुद्धिमत्ता',
+  'Website services': 'वेबसाइट सेवाएँ',
+  'Need a website like this?': 'क्या आपको ऐसी वेबसाइट चाहिए?',
+  'Books on their way and reads already found': 'आपके पास आती किताबें और आपकी अगली पढ़ाई',
+  'Your reading bag': 'आपका रीडिंग बैग',
+  'Books saved to your reading list': 'आपकी पढ़ने की सूची में सहेजी किताबें',
+  'Book categories': 'किताबों की श्रेणियाँ',
+  'Curated reading sets': 'चुने हुए किताबों के सेट',
+  'Book Combos': 'किताबों के कॉम्बो',
+  'Thoughtful groupings from the approved Jnana Nidhi collection.': 'ज्ञान निधि संग्रह से चुने गए किताबों के खास समूह।',
+  'books': 'किताबें',
+  'Individual total': 'अलग-अलग किताबों की कुल कीमत',
+  'Combo price': 'कॉम्बो की कीमत',
+  'Save': 'बचत',
+  'Add Combo to Cart': 'कॉम्बो कार्ट में जोड़ें',
+  'A book in this combo is unavailable.': 'इस कॉम्बो की एक किताब उपलब्ध नहीं है।',
+  'Self Growth Combo': 'आत्म-विकास कॉम्बो',
+  'Purpose, habits, and the courage to grow.': 'उद्देश्य, आदतें और आगे बढ़ने का साहस।',
+  'Money & Finance Combo': 'पैसा और वित्त कॉम्बो',
+  'Build perspective around money and long-term choices.': 'पैसे और लंबे समय के फैसलों पर बेहतर नज़रिया पाएँ।',
+  'Mind & Psychology Combo': 'मन और मनोविज्ञान कॉम्बो',
+  'Explore mindset, self-image, and inner thinking.': 'सोच, आत्म-छवि और मन के विचारों को समझें।',
+  'Productivity Combo': 'उत्पादकता कॉम्बो',
+  'Attention, persistence, and focused work.': 'ध्यान, लगन और एकाग्रता से काम।',
+  'Leadership / Business Combo': 'नेतृत्व / व्यवसाय कॉम्बो',
+  'Influence, leadership, and business perspectives.': 'प्रभाव, नेतृत्व और व्यवसाय के नज़रिए।',
+  'Kannada Books Combo': 'कन्नड़ किताबें कॉम्बो',
+  'A selection of Kannada titles from the Jnana Nidhi shelf.': 'ज्ञान निधि संग्रह से चुनी गई कन्नड़ किताबें।',
+  'Indian History & Knowledge Combo': 'भारतीय इतिहास और ज्ञान कॉम्बो',
+  'History, ideas, and knowledge rooted in India.': 'भारत से जुड़ा इतिहास, विचार और ज्ञान।',
+  'Rental guidelines': 'किराये के नियम',
+  'How Jnana Nidhi Rentals Work': 'ज्ञान निधि में किताबें किराये पर कैसे लें',
+  'Everything you need to know before you rent — from deposit to return, delivery to drop-off.': 'किराये से पहले ज़रूरी जानकारी—जमा राशि, वापसी, डिलीवरी और जमा करने तक।',
+  'Reader Membership': 'पाठक सदस्यता',
+  'Choose either Regular Reader or Specific Book Reader at checkout. Both plans pay the ₹500 membership fee plus the actual rental fee for the selected title.': 'चेकआउट पर Regular Reader या Specific Book Reader चुनें। दोनों में ₹500 सदस्यता शुल्क और चुनी गई किताब का किराया देना होगा।',
+  'Keep Books Clean & Safe': 'किताबों को साफ़ और सुरक्षित रखें',
+  'Please keep rented books dry and clean. Avoid folding pages, writing in the margins, tearing pages, or exposing the book to water, heat, or heavy wear.': 'किराये की किताबें सूखी और साफ़ रखें। पन्ने न मोड़ें, किनारों पर न लिखें, पन्ने न फाड़ें और किताब को पानी, गर्मी या ज़्यादा घिसाव से बचाएँ।',
+  'Delivery & Pickup': 'डिलीवरी और पिकअप',
+  'Jnana Nidhi arranges delivery to your address and pickup on return, subject to our service areas and schedule. You will be notified as your book moves through each step.': 'सेवा क्षेत्र और समय-सारणी के अनुसार ज्ञान निधि आपके पते पर किताब पहुँचाएगा और वापसी पर उसे ले जाएगा। हर चरण की सूचना आपको मिलेगी।',
+  'Return & Refund': 'वापसी और रिफ़ंड',
+  'Regular Reader plans do not receive an early refund. Specific Book Reader plans can receive a ₹300 refund after the book is returned and the return is confirmed by Jnana Nidhi.': 'Regular Reader योजना में जल्दी रिफ़ंड नहीं मिलता। Specific Book Reader योजना में किताब लौटाने और ज्ञान निधि द्वारा पुष्टि के बाद ₹300 रिफ़ंड मिल सकता है।',
+  'Damage or Lost Book': 'किताब का नुकसान या गुम होना',
+  'Excessive damage, water damage, or loss of the rented book may result in a deduction from your security deposit. Normal handling wear is expected and will not incur any charge.': 'किताब को ज़्यादा नुकसान, पानी से नुकसान या गुम होने पर सुरक्षा जमा राशि में से कटौती हो सकती है। सामान्य इस्तेमाल के निशानों पर शुल्क नहीं लगेगा।',
+  'Pickup & Drop-off Points': 'पिकअप और जमा करने के स्थान',
+  'Jnana Nidhi supports designated pickup and drop-off points within our service zones. Select a convenient location at checkout or request a home pickup when arranging your return.': 'हमारे सेवा क्षेत्रों में तय पिकअप और जमा करने के स्थान उपलब्ध हैं। चेकआउट पर सुविधाजनक जगह चुनें या वापसी के समय घर से पिकअप का अनुरोध करें।',
+  'Questions about your rental? Use the': 'किराये के बारे में सवाल हैं? इस्तेमाल करें',
+  'AI to get answers instantly.': 'तुरंत जवाब पाने के लिए AI सहायक।',
+  'Need a website for your business? Email us to discuss your project.': 'अपने व्यवसाय के लिए वेबसाइट चाहिए? अपने प्रोजेक्ट पर बात करने के लिए हमें ईमेल करें।',
+};
+
 interface LanguageContextValue {
   language: SiteLanguage;
   setLanguage: (language: SiteLanguage) => void;
@@ -156,7 +299,8 @@ const STORAGE_KEY = 'jnana-nidhi-language';
 
 function getInitialLanguage(): SiteLanguage {
   try {
-    return window.localStorage.getItem(STORAGE_KEY) === 'kn' ? 'kn' : 'en';
+    const savedLanguage = window.localStorage.getItem(STORAGE_KEY);
+    return savedLanguage === 'kn' || savedLanguage === 'hi' ? savedLanguage : 'en';
   } catch {
     return 'en';
   }
@@ -165,13 +309,13 @@ function getInitialLanguage(): SiteLanguage {
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<SiteLanguage>(getInitialLanguage);
   useEffect(() => {
-    document.documentElement.lang = language === 'kn' ? 'kn' : 'en';
+    document.documentElement.lang = language;
   }, [language]);
   const setLanguage = useCallback((next: SiteLanguage) => {
     setLanguageState(next);
     try {
       window.localStorage.setItem(STORAGE_KEY, next);
-      document.documentElement.lang = next === 'kn' ? 'kn' : 'en';
+      document.documentElement.lang = next;
     } catch {
       // Language still updates for this session if storage is unavailable.
     }
@@ -179,7 +323,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const value = useMemo<LanguageContextValue>(() => ({
     language,
     setLanguage,
-    t: (text) => language === 'kn' ? (KANNADA[text] ?? text) : text,
+    t: (text) => {
+      if (language === 'kn') return KANNADA[text] ?? text;
+      if (language === 'hi') return HINDI[text] ?? text;
+      return text;
+    },
   }), [language, setLanguage]);
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
