@@ -2522,3 +2522,64 @@
   .bookstore-vine__branch { stroke-dashoffset: 0; }
   .bookstore-vine__leaf { opacity: .92; }
 }
+
+/* Full-screen welcome book for the opening animation. */
+.bv2-stage {
+  width: 100%;
+  height: 100%;
+  min-height: 100svh;
+  padding: 0 2vw;
+  align-content: center;
+}
+.bv2-scene {
+  width: min(96vw, 1440px);
+  height: min(78vh, 780px);
+}
+.bv2-book {
+  top: 50%;
+  width: min(92vw, 1280px);
+  height: min(66vh, 660px);
+  transform: translate(-50%, -50%);
+}
+.bv2-welcome {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(4px, 1.2vh, 14px);
+  padding: 18px;
+  color: #332449;
+  text-align: center;
+  text-shadow: 0 1px rgba(255,255,255,.72);
+}
+.bv2-welcome span {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(20px, 3vw, 42px);
+  letter-spacing: .08em;
+}
+.bv2-welcome strong {
+  color: #6d3ba8;
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(36px, 7.5vw, 96px);
+  font-weight: 400;
+  line-height: 1;
+}
+.bv2-brand {
+  position: absolute;
+  z-index: 5;
+  bottom: max(14px, env(safe-area-inset-bottom));
+  margin-top: 0;
+}
+.bv2-brand-logo { width: 42px; height: 42px; margin-bottom: 4px; }
+.bv2-wordmark { font-size: 22px; }
+.bv2-tagline { font-size: 10px; }
+@media (max-width: 600px) {
+  .bv2-scene { width: 100vw; height: min(62vh, 540px); }
+  .bv2-book { width: 96vw; height: min(40vh, 360px); }
+  .bv2-welcome { gap: 6px; }
+  .bv2-welcome span { font-size: clamp(18px, 5vw, 28px); }
+  .bv2-welcome strong { font-size: clamp(32px, 9vw, 52px); }
+}

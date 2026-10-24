@@ -167,6 +167,10 @@ export function BookVisionIntro({ onFinish }: Props) {
               <div className="bv2-page bv2-page--right">
                 <div className="bv2-page-lines bv2-page-lines--right" />
               </div>
+              <div className="bv2-welcome" aria-hidden="true">
+                <span>Welcome to</span>
+                <strong>Jnana Nidhi</strong>
+              </div>
             </div>
 
             {/* Turning page */}
@@ -180,6 +184,7 @@ export function BookVisionIntro({ onFinish }: Props) {
             </div>
           </div>
         </div>
+        <p className="sr-only">Welcome to Jnana Nidhi</p>
 
         {/* ── Branding ── */}
         <div className="bv2-brand">
