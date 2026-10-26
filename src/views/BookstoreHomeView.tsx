@@ -51,6 +51,7 @@ export function BookstoreHomeView({
   const [catalogError, setCatalogError] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All books');
   const [welcomeAudioPlaying, setWelcomeAudioPlaying] = useState(false);
+  const [playChannelVideo, setPlayChannelVideo] = useState(false);
   const welcomeAudioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -565,6 +566,63 @@ export function BookstoreHomeView({
             <blockquote className="rounded-2xl border border-[#dfd9ef] bg-white/85 p-5 text-sm font-medium leading-7 text-[#34225d] shadow-sm sm:p-6 sm:text-base">
               {t('“Worry less about money and keep reading... because what you read matters to us!”')}
             </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="channel-video-title" className="bookstore-why px-5 py-14 sm:px-8 sm:py-20 lg:px-14">
+        <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
+          <div>
+            <p className="bookstore-kicker"><Youtube className="h-4 w-4" /> {t('From our YouTube channel')}</p>
+            <h2 id="channel-video-title" className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">
+              {t('See what we are reading.')}
+            </h2>
+            <p className="mt-4 max-w-md text-sm leading-7 text-[#52665a] sm:text-base">
+              {t('Watch the latest from Jnana Nidhi Hubli.')}
+            </p>
+            <a
+              href="https://youtube.com/@jnana_nidhi_hubli?si=ISWLctad-Ps_mtjp"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#6d3ba8] hover:underline"
+            >
+              <Youtube className="h-4 w-4" /> {t('Visit Our YouTube Channel')}
+            </a>
+          </div>
+          <div className="overflow-hidden rounded-3xl border border-[#dfd9ef] bg-white p-2 shadow-lg">
+            <div className="relative aspect-video overflow-hidden rounded-2xl bg-[#17131f]">
+              {playChannelVideo ? (
+                <iframe
+                  className="absolute inset-0 h-full w-full"
+                  src="https://www.youtube-nocookie.com/embed/0L1AeVnfkAc?autoplay=1&rel=0"
+                  title="Any Best Branded Book for Just ₹20/Month! — Jnana Nidhi Hubli"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setPlayChannelVideo(true)}
+                  className="group absolute inset-0 block h-full w-full text-left"
+                  aria-label={t('Play the latest Jnana Nidhi YouTube video')}
+                >
+                  <img
+                    src="https://i.ytimg.com/vi/0L1AeVnfkAc/hqdefault.jpg"
+                    alt=""
+                    loading="lazy"
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                  />
+                  <span className="absolute inset-0 bg-black/20 transition group-hover:bg-black/30" />
+                  <span className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-red-600 text-white shadow-xl transition group-hover:scale-110">
+                    <Youtube className="h-8 w-8 fill-current" />
+                  </span>
+                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-5 pb-4 pt-12 text-sm font-semibold text-white sm:text-base">
+                    Any Best Branded Book for Just ₹20/Month! · Jnana Nidhi Hubli
+                  </span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </section>

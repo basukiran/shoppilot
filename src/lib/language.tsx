@@ -144,6 +144,10 @@ const KANNADA: Record<string, string> = {
   'AI to get answers instantly.': 'ತಕ್ಷಣ ಉತ್ತರ ಪಡೆಯಲು AI ಸಹಾಯಕವನ್ನು ಬಳಸಿ.',
   'Need a website for your business? Connect with us on LinkedIn.': 'ನಿಮ್ಮ ವ್ಯವಹಾರಕ್ಕೆ ವೆಬ್‌ಸೈಟ್ ಬೇಕೇ? LinkedIn ನಲ್ಲಿ ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ.',
   'View my LinkedIn profile': 'ನನ್ನ LinkedIn ಪ್ರೊಫೈಲ್ ನೋಡಿ',
+  'From our YouTube channel': 'ನಮ್ಮ YouTube ಚಾನೆಲ್‌ನಿಂದ',
+  'See what we are reading.': 'ನಾವು ಏನು ಓದುತ್ತಿದ್ದೇವೆ ನೋಡಿ.',
+  'Watch the latest from Jnana Nidhi Hubli.': 'ಜ್ಞಾನ ನಿಧಿ ಹುಬ್ಬಳ್ಳಿಯ ಇತ್ತೀಚಿನ ವೀಡಿಯೊ ನೋಡಿ.',
+  'Play the latest Jnana Nidhi YouTube video': 'ಜ್ಞಾನ ನಿಧಿಯ ಇತ್ತೀಚಿನ YouTube ವೀಡಿಯೊ ಪ್ಲೇ ಮಾಡಿ',
 };
 
 const HINDI: Record<string, string> = {
@@ -288,6 +292,10 @@ const HINDI: Record<string, string> = {
   'AI to get answers instantly.': 'तुरंत जवाब पाने के लिए AI सहायक।',
   'Need a website for your business? Connect with us on LinkedIn.': 'अपने व्यवसाय के लिए वेबसाइट चाहिए? LinkedIn पर हमसे जुड़ें।',
   'View my LinkedIn profile': 'मेरी LinkedIn प्रोफ़ाइल देखें',
+  'From our YouTube channel': 'हमारे YouTube चैनल से',
+  'See what we are reading.': 'देखें, हम क्या पढ़ रहे हैं।',
+  'Watch the latest from Jnana Nidhi Hubli.': 'ज्ञान निधि हुबली का नया वीडियो देखें।',
+  'Play the latest Jnana Nidhi YouTube video': 'ज्ञान निधि का नया YouTube वीडियो चलाएँ',
 };
 
 interface LanguageContextValue {
