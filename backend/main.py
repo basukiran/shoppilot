@@ -652,7 +652,7 @@ def register_user(
         notif_conn,
         user_id,
         "account_welcome",
-        "Welcome to BookVision 📚",
+        "Welcome to Jnana Nidhi 📚",
         f"Hi {name}, your account is ready. Explore books, rent titles, and track your orders here.",
     )
     notif_conn.commit()
@@ -3246,9 +3246,17 @@ def get_notifications(request: Request):
 
     conn.close()
 
-    return {
-        "notifications": [dict(row) for row in rows]
-    }
+    notifications = []
+    for row in rows:
+        notification = dict(row)
+        # Older saved notifications may still contain the previous storefront
+        # name. Present the current brand without requiring a data migration.
+        for field in ("title", "message"):
+            if isinstance(notification.get(field), str):
+                notification[field] = notification[field].replace("BookVision", "Jnana Nidhi").replace("Book Vision", "Jnana Nidhi")
+        notifications.append(notification)
+
+    return {"notifications": notifications}
 
 
 @app.get("/notifications/unread-count")
