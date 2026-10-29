@@ -2554,18 +2554,76 @@
   color: #332449;
   text-align: center;
   text-shadow: 0 1px rgba(255,255,255,.72);
+  isolation: isolate;
+  --welcome-x: 50%;
+  --welcome-y: 50%;
 }
-.bv2-welcome span {
+.bv2-welcome::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at var(--welcome-x) var(--welcome-y), rgba(255, 225, 151, .52), transparent 38%);
+  content: '';
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+.bv2-welcome:hover::before { opacity: 1; }
+.bv2-welcome-label {
   font-family: 'DM Serif Display', Georgia, serif;
   font-size: clamp(20px, 3vw, 42px);
   letter-spacing: .08em;
+  animation: bv2-welcome-rise 700ms 1.45s both;
 }
-.bv2-welcome strong {
+.bv2-welcome-title {
+  position: relative;
   color: #6d3ba8;
   font-family: 'DM Serif Display', Georgia, serif;
   font-size: clamp(36px, 7.5vw, 96px);
   font-weight: 400;
   line-height: 1;
+  animation: bv2-welcome-title-in 900ms 1.8s both;
+  transition: color 220ms ease, filter 220ms ease, transform 220ms ease;
+}
+.bv2-welcome-title::after {
+  position: absolute;
+  right: 12%;
+  bottom: -0.16em;
+  left: 12%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #bc9144, #6d3ba8, #bc9144, transparent);
+  content: '';
+  transform: scaleX(0);
+  transform-origin: center;
+  animation: bv2-welcome-underline 850ms 2.45s ease-out forwards;
+}
+.bv2-welcome:hover .bv2-welcome-title {
+  color: #56308b;
+  filter: drop-shadow(0 5px 12px rgba(109, 59, 168, .22));
+  transform: translateY(-3px) scale(1.025);
+}
+.bv2-welcome-cue {
+  margin-top: .5em;
+  color: #786d80;
+  font-family: Inter, sans-serif;
+  font-size: clamp(9px, 1vw, 12px);
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  animation: bv2-welcome-rise 650ms 2.35s both;
+}
+@keyframes bv2-welcome-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes bv2-welcome-title-in {
+  from { opacity: 0; filter: blur(8px); transform: translateY(14px) scale(.92); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
+}
+@keyframes bv2-welcome-underline {
+  to { transform: scaleX(1); }
 }
 .bv2-brand {
   position: absolute;
@@ -2580,6 +2638,7 @@
   .bv2-scene { width: 100vw; height: min(62vh, 540px); }
   .bv2-book { width: 96vw; height: min(40vh, 360px); }
   .bv2-welcome { gap: 6px; }
-  .bv2-welcome span { font-size: clamp(18px, 5vw, 28px); }
-  .bv2-welcome strong { font-size: clamp(32px, 9vw, 52px); }
+  .bv2-welcome-label { font-size: clamp(18px, 5vw, 28px); }
+  .bv2-welcome-title { font-size: clamp(32px, 9vw, 52px); }
+  .bv2-welcome-cue { font-size: 8px; letter-spacing: .1em; }
 }

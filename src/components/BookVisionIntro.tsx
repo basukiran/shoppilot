@@ -172,9 +172,22 @@ export function BookVisionIntro({ onFinish }: Props) {
               <div className="bv2-page bv2-page--right">
                 <div className="bv2-page-lines bv2-page-lines--right" />
               </div>
-              <div className="bv2-welcome" aria-hidden="true">
-                <span>Welcome to</span>
-                <strong>Jnana Nidhi</strong>
+              <div
+                className="bv2-welcome"
+                aria-hidden="true"
+                onPointerMove={(event) => {
+                  const bounds = event.currentTarget.getBoundingClientRect();
+                  event.currentTarget.style.setProperty('--welcome-x', `${((event.clientX - bounds.left) / bounds.width) * 100}%`);
+                  event.currentTarget.style.setProperty('--welcome-y', `${((event.clientY - bounds.top) / bounds.height) * 100}%`);
+                }}
+                onPointerLeave={(event) => {
+                  event.currentTarget.style.setProperty('--welcome-x', '50%');
+                  event.currentTarget.style.setProperty('--welcome-y', '50%');
+                }}
+              >
+                <span className="bv2-welcome-label">Welcome to</span>
+                <strong className="bv2-welcome-title">Jnana Nidhi</strong>
+                <span className="bv2-welcome-cue">Move your cursor across the page</span>
               </div>
             </div>
 
