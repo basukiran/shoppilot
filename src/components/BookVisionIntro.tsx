@@ -185,6 +185,7 @@ export function BookVisionIntro({ onFinish }: Props) {
                   event.currentTarget.style.setProperty('--welcome-y', '50%');
                 }}
               >
+                <img src="/bookvision-logo.webp" alt="" className="bv2-welcome-logo" />
                 <span className="bv2-welcome-label">Welcome to</span>
                 <strong className="bv2-welcome-title">Jnana Nidhi</strong>
                 <span className="bv2-welcome-cue">Move your cursor across the page</span>

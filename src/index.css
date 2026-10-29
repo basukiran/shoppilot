@@ -2570,6 +2570,18 @@
   transition: opacity 220ms ease;
 }
 .bv2-welcome:hover::before { opacity: 1; }
+.bv2-welcome-logo {
+  width: clamp(38px, 5vw, 62px);
+  height: clamp(38px, 5vw, 62px);
+  margin-bottom: .15em;
+  border: 1px solid rgba(188, 145, 68, .58);
+  border-radius: 50%;
+  background: #fffdf7;
+  object-fit: contain;
+  padding: 3px;
+  box-shadow: 0 4px 16px rgba(84, 61, 37, .15);
+  animation: bv2-welcome-logo-arrive 850ms 1.2s both, bv2-welcome-logo-float 3s 2.1s ease-in-out infinite;
+}
 .bv2-welcome-label {
   font-family: 'DM Serif Display', Georgia, serif;
   font-size: clamp(20px, 3vw, 42px);
@@ -2618,6 +2630,14 @@
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@keyframes bv2-welcome-logo-arrive {
+  from { opacity: 0; transform: translateY(12px) scale(.72) rotate(-10deg); }
+  to { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+}
+@keyframes bv2-welcome-logo-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -4px; }
+}
 @keyframes bv2-welcome-title-in {
   from { opacity: 0; filter: blur(8px); transform: translateY(14px) scale(.92); }
   to { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); }
@@ -2641,4 +2661,5 @@
   .bv2-welcome-label { font-size: clamp(18px, 5vw, 28px); }
   .bv2-welcome-title { font-size: clamp(32px, 9vw, 52px); }
   .bv2-welcome-cue { font-size: 8px; letter-spacing: .1em; }
+  .bv2-welcome-logo { width: 38px; height: 38px; }
 }
