@@ -2509,6 +2509,30 @@
   .bookstore-locations a.is-pointer-tilting { transform: none; box-shadow: inherit; }
 }
 
+/* Warm neon gradient surfaces, based on the supplied pink / gold / violet reference. */
+.bv-app-shell {
+  --jnana-neon-soft: radial-gradient(ellipse at 50% 52%, rgba(255, 232, 51, .82) 0%, rgba(245, 160, 159, .86) 53%, rgba(211, 49, 213, .88) 100%);
+}
+.bv-app-sidebar,
+.bv-app-topbar {
+  background-color: #f2a0b8;
+  background-image: var(--jnana-neon-soft);
+}
+.bv-cosmic-page,
+.bv-app-main .card,
+.bv-app-main .bv-account-auth-panel,
+.bv-app-main [class~="bg-white"],
+.bv-app-main [class*="bg-white/"]:not([class*="bg-white/5"]):not([class*="bg-white/10"]):not([class*="bg-white/20"]) {
+  background-color: #f2a0b8;
+  background-image: var(--jnana-neon-soft);
+}
+.bookstore-home > section[aria-labelledby="website-services-title"] > div,
+.bookstore-about p.rounded-2xl,
+.bookstore-about blockquote {
+  background-color: #f2a0b8;
+  background-image: var(--jnana-neon-soft);
+}
+
 @keyframes bv-background-book-one { 0%,100% { transform: translate3d(0,0,-10px) rotateX(8deg) rotateY(-22deg) rotateZ(-9deg); } 50% { transform: translate3d(8px,-22px,30px) rotateX(13deg) rotateY(-9deg) rotateZ(-3deg); } }
 @keyframes bv-background-book-two { 0%,100% { transform: translate3d(0,0,24px) rotateX(-4deg) rotateY(18deg) rotateZ(8deg); } 50% { transform: translate3d(-11px,-18px,-12px) rotateX(5deg) rotateY(30deg) rotateZ(2deg); } }
 @keyframes bv-background-book-three { 0%,100% { transform: translate3d(0,0,-20px) rotateX(9deg) rotateY(-14deg) rotateZ(7deg); } 50% { transform: translate3d(10px,15px,22px) rotateX(-2deg) rotateY(-26deg) rotateZ(1deg); } }
