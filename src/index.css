@@ -2511,11 +2511,11 @@
 
 /* Warm neon gradient surfaces, based on the supplied pink / gold / violet reference. */
 .bv-app-shell {
-  --jnana-neon-soft: radial-gradient(ellipse at 50% 52%, rgba(255, 232, 51, .82) 0%, rgba(245, 160, 159, .86) 53%, rgba(211, 49, 213, .88) 100%);
+  --jnana-neon-soft: radial-gradient(ellipse at 50% 52%, #fffdf3 0%, #fff5f8 58%, #fbf1ff 100%);
 }
 .bv-app-sidebar,
 .bv-app-topbar {
-  background-color: #f2a0b8;
+  background-color: #fff5f8;
   background-image: var(--jnana-neon-soft);
 }
 .bv-cosmic-page,
@@ -2523,13 +2523,13 @@
 .bv-app-main .bv-account-auth-panel,
 .bv-app-main [class~="bg-white"],
 .bv-app-main [class*="bg-white/"]:not([class*="bg-white/5"]):not([class*="bg-white/10"]):not([class*="bg-white/20"]) {
-  background-color: #f2a0b8;
+  background-color: #fff5f8;
   background-image: var(--jnana-neon-soft);
 }
 .bookstore-home > section[aria-labelledby="website-services-title"] > div,
 .bookstore-about p.rounded-2xl,
 .bookstore-about blockquote {
-  background-color: #f2a0b8;
+  background-color: #fff5f8;
   background-image: var(--jnana-neon-soft);
 }
 
