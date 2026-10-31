@@ -3,27 +3,19 @@ import {
   ShieldCheck,
   ShieldAlert,
   Bot,
-  Check,
   X,
   Clock,
   Tag,
   Wallet,
-  Loader2,
   ArrowLeft,
+  QrCode,
+  MessageCircle,
 } from 'lucide-react';
 
 import type { AccountUser, Product } from '@/types';
-import { apiFetch, normalizeProductId } from '@/lib/api';
 import { formatCurrency, cn } from '@/lib/utils';
 
-type Phase = 'review' | 'processing' | 'approved' | 'declined';
 type ViewKey = 'ai-buyer' | 'orders' | 'payment-failure';
-
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
 
 export function PaymentApprovalView({
   onNavigate,
@@ -36,8 +28,7 @@ export function PaymentApprovalView({
   quantity: number;
   user: AccountUser | null;
 }) {
-  const [phase, setPhase] = useState<Phase>('review');
-  const [orderResult, setOrderResult] = useState<any>(null);
+  const [showQr, setShowQr] = useState(false);
 
   const amount = product.price * quantity;
 
@@ -47,336 +38,22 @@ export function PaymentApprovalView({
   const pct = (amount / spendingLimit) * 100;
 
   const withinLimit = amount <= spendingLimit;
+  const paymentMessage = [
+    'Hello Jnana Nidhi, I have paid for a book purchase by UPI.',
+    `Book: ${product.name}`,
+    `Quantity: ${quantity}`,
+    `Amount: ₹${amount.toLocaleString('en-IN')}`,
+    'I will share my UPI transaction reference/receipt for confirmation.',
+  ].join('\n');
 
-  const loadRazorpayScript = () => {
-    return new Promise<boolean>((resolve) => {
-      if (window.Razorpay) {
-        resolve(true);
-        return;
-      }
-
-      const script = document.createElement('script');
-
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-
-      script.onload = () => resolve(true);
-
-      script.onerror = () => resolve(false);
-
-      document.body.appendChild(script);
-    });
-  };
-
-  const approve = async () => {
-    if (!withinLimit) {
-      return;
-    }
-
-    try {
-      setPhase('processing');
-
-      // --------------------------------------------
-      // 1. CREATE RAZORPAY ORDER ON SERVER
-      // --------------------------------------------
-      const createResponse = product.comboItems?.length
-        ? await apiFetch('/payment/create-combo', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              name: product.name,
-              quantity,
-              items: product.comboItems.map((item) => ({
-                product_id: item.productId,
-                quantity: item.quantity,
-              })),
-            }),
-          })
-        : await (() => {
-            const normalizedProductId = normalizeProductId(product.id);
-            if (normalizedProductId === null) {
-              throw new Error('Invalid product ID for purchase checkout.');
-            }
-            return apiFetch(
-              `/payment/create?product_id=${normalizedProductId}&quantity=${quantity}`,
-              { method: 'POST' }
-            );
-          })();
-
-      if (!createResponse.ok) {
-        const errorData = await createResponse.json().catch(() => null);
-
-        throw new Error(
-          errorData?.detail || 'Unable to create Razorpay order'
-        );
-      }
-
-      const razorpayOrder = await createResponse.json();
-
-      // --------------------------------------------
-      // 2. LOAD RAZORPAY CHECKOUT
-      // --------------------------------------------
-
-      const loaded = await loadRazorpayScript();
-
-      if (!loaded) {
-        throw new Error('Razorpay Checkout failed to load');
-      }
-
-      // --------------------------------------------
-      // 3. OPEN RAZORPAY CHECKOUT
-      // --------------------------------------------
-
-      setPhase('review');
-
-      const options = {
-        key: razorpayOrder.key_id,
-
-        amount: razorpayOrder.amount,
-
-        currency: razorpayOrder.currency,
-
-        name: 'Jnana Nidhi',
-
-        description: `${product.name} × ${quantity}`,
-
-        order_id: razorpayOrder.razorpay_order_id,
-
-        prefill: {
-          name: user?.name || '',
-          email: user?.email || '',
-          contact: user?.phone || '',
-        },
-
-        notes: {
-          product: product.name,
-          quantity: String(quantity),
-        },
-
-        theme: {
-          color: '#3399cc',
-        },
-
-        handler: async (response: any) => {
-          try {
-            setPhase('processing');
-
-            // ----------------------------------------
-            // 4. SEND PAYMENT DETAILS TO BACKEND
-            // ----------------------------------------
-
-            const verifyResponse = await apiFetch(
-              '/payment/verify',
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  razorpay_order_id:
-                    response.razorpay_order_id,
-
-                  razorpay_payment_id:
-                    response.razorpay_payment_id,
-
-                  razorpay_signature:
-                    response.razorpay_signature,
-                }),
-              }
-            );
-
-            if (!verifyResponse.ok) {
-              const errorData = await verifyResponse
-                .json()
-                .catch(() => null);
-
-              throw new Error(
-                errorData?.detail ||
-                  'Payment verification failed'
-              );
-            }
-
-            const result = await verifyResponse.json();
-
-            console.log(
-              'Razorpay payment verified:',
-              result
-            );
-
-            if (result.success) {
-              setOrderResult(result);
-              setPhase('approved');
-            } else {
-              onNavigate('payment-failure');
-            }
-          } catch (error) {
-            console.error(
-              'Payment verification error:',
-              error
-            );
-
-            onNavigate('payment-failure');
-          }
-        },
-
-        modal: {
-          ondismiss: () => {
-            console.log('Razorpay Checkout closed');
-          },
-        },
-      };
-
-      const razorpay = new window.Razorpay(options);
-
-      razorpay.on(
-        'payment.failed',
-        (response: any) => {
-          console.error(
-            'Razorpay payment failed:',
-            response
-          );
-
-          onNavigate('payment-failure');
-        }
-      );
-
-      razorpay.open();
-    } catch (error) {
-      console.error(
-        'Razorpay payment error:',
-        error
-      );
-
-      onNavigate('payment-failure');
-    }
+  const approve = () => {
+    if (!withinLimit) return;
+    setShowQr(true);
   };
 
   const cancel = () => {
-    setPhase('processing');
-
-    setTimeout(() => {
-      onNavigate('payment-failure');
-    }, 800);
+    onNavigate('ai-buyer');
   };
-
-  /*
-   * APPROVED SCREEN
-   */
-
-  if (phase === 'approved') {
-    return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="card w-full max-w-md p-8 text-center animate-scale-in">
-
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success-50">
-            <Check className="h-8 w-8 text-success-600" />
-          </div>
-
-          <h2 className="mt-5 font-display text-xl font-bold text-ink-900">
-            Payment successful 🎉
-          </h2>
-
-          <p className="mt-2 text-sm text-ink-500">
-            Your Razorpay payment has been verified and your order is confirmed.
-          </p>
-
-          <p className="mt-3 rounded-lg bg-brand-50 p-3 text-sm text-brand-800">
-            To arrange collection at your preferred location, call{' '}
-            <a className="font-semibold underline" href="tel:9071111074">9071111074</a> and share your order ID.
-          </p>
-
-          <div className="mt-6 rounded-xl bg-ink-50 p-4 text-left text-sm">
-
-            <Detail
-              label="Order ID"
-              value={`#${orderResult?.order_id ?? 'N/A'}`}
-            />
-
-            <Detail
-              label="Product"
-              value={orderResult?.product ?? product.name}
-            />
-
-            <Detail
-              label="Quantity"
-              value={String(
-                orderResult?.quantity ?? quantity
-              )}
-            />
-
-            <Detail
-              label="Unit price"
-              value={formatCurrency(
-                orderResult?.unit_price ?? product.price
-              )}
-            />
-
-            <Detail
-              label="Total"
-              value={formatCurrency(
-                orderResult?.total_amount ?? amount
-              )}
-            />
-
-            <Detail
-              label="Order status"
-              value={orderResult?.status ?? 'CONFIRMED'}
-            />
-
-            <Detail
-              label="Payment status"
-              value={orderResult?.payment_status ?? 'PAID'}
-            />
-
-            <Detail
-              label="Razorpay payment"
-              value={
-                orderResult?.razorpay_payment_id ??
-                'Verified'
-              }
-            />
-
-          </div>
-
-          <button
-            type="button"
-            onClick={() => onNavigate('orders')}
-            className="btn-primary mt-6 w-full"
-          >
-            View orders
-          </button>
-
-        </div>
-      </div>
-    );
-  }
-
-  /*
-   * PROCESSING
-   */
-
-  if (phase === 'processing') {
-    return (
-      <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="card w-full max-w-md p-8 text-center">
-
-          <Loader2 className="mx-auto h-10 w-10 animate-spin text-brand-500" />
-
-          <p className="mt-5 font-display text-lg font-bold text-ink-900">
-            Preparing secure payment…
-          </p>
-
-          <p className="mt-1 text-sm text-ink-500">
-            Creating and verifying your Razorpay transaction.
-          </p>
-
-        </div>
-      </div>
-    );
-  }
-
-  /*
-   * REVIEW SCREEN
-   */
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
@@ -402,17 +79,17 @@ export function PaymentApprovalView({
 
           <div>
             <h2 className="font-display text-base font-bold text-ink-900">
-              Payment approval required
+              Review and pay for your book
             </h2>
 
             <p className="text-xs text-ink-500">
-              Your Payment Agent is requesting authorization for this purchase.
+              Review your order total, then scan the UPI code to pay.
             </p>
           </div>
 
           <span className="ml-auto chip bg-warning-50 text-warning-700">
             <Clock className="h-3 w-3" />
-            Awaiting approval
+            {showQr ? 'Payment confirmation pending' : 'Ready to pay'}
           </span>
 
         </div>
@@ -611,6 +288,26 @@ export function PaymentApprovalView({
 
             </div>
 
+            {showQr && (
+              <div className="rounded-xl border border-violet-200 bg-violet-50 p-4 text-center">
+                <h3 className="font-semibold text-ink-900">Scan to pay {formatCurrency(amount)}</h3>
+                <p className="mt-1 text-xs leading-5 text-ink-600">Use any UPI app and enter the exact amount above.</p>
+                <img src="/rental-upi-qr.png" alt="UPI QR code for Jnana Nidhi book payment" className="mx-auto mt-4 w-full max-w-[280px] rounded-xl" />
+                <div className="mt-4 rounded-lg bg-amber-50 p-3 text-left text-xs leading-5 text-amber-900">
+                  This static QR does not notify the website when you pay. Send your UPI transaction reference or receipt to Jnana Nidhi. Your order is confirmed only after the payment is manually checked.
+                </div>
+                <a
+                  href={`https://wa.me/919071111074?text=${encodeURIComponent(paymentMessage)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-green-700 px-4 py-3 text-sm font-semibold text-white hover:bg-green-800"
+                >
+                  <MessageCircle className="h-4 w-4" /> Share payment reference on WhatsApp
+                </a>
+                <p className="mt-3 text-[11px] leading-4 text-ink-500">Never share your UPI PIN or OTP. Never approve a collect request to receive a refund.</p>
+              </div>
+            )}
+
           </div>
 
         </div>
@@ -636,7 +333,7 @@ export function PaymentApprovalView({
           >
             <ShieldCheck className="h-4 w-4" />
             {withinLimit
-              ? 'Approve & Pay with Razorpay'
+              ? showQr ? 'UPI scanner is ready above' : 'Continue to UPI scanner'
               : 'Spending limit exceeded'}
           </button>
 
@@ -676,27 +373,5 @@ function DetailRow({
   );
 }
 
-
-function Detail({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-center justify-between py-1">
-
-      <span className="text-ink-400">
-        {label}
-      </span>
-
-      <span className="max-w-[65%] text-right font-semibold text-ink-900 break-all">
-        {value}
-      </span>
-
-    </div>
-  );
-}
 
 export { ShieldAlert };
