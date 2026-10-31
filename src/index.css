@@ -2533,6 +2533,42 @@
   background-image: var(--jnana-neon-soft);
 }
 
+/* The selected pink / gold / magenta radial gradient is the site-wide canvas. */
+.bv-app-shell {
+  --jnana-neon-soft: radial-gradient(ellipse at 50% 50%, #ffe600 0%, #f18f91 50%, #d52bd6 100%);
+  background-color: #d52bd6;
+  background-image: var(--jnana-neon-soft);
+  background-attachment: fixed;
+}
+.bv-app-shell::before {
+  background-image: var(--jnana-neon-soft);
+  background-size: cover;
+  background-position: center;
+  animation: none;
+}
+.bv-app-shell::after { display: none; }
+.bv-app-sidebar,
+.bv-app-topbar,
+.bv-cosmic-page,
+.bv-app-main .card,
+.bv-app-main .bv-account-auth-panel,
+.bv-app-main [class*="bg-white/"]:not([class*="bg-white/5"]):not([class*="bg-white/10"]):not([class*="bg-white/20"]),
+.bv-app-main [class~="bg-white"],
+.bookstore-home > section,
+.bookstore-home > footer {
+  background-color: #f18f91;
+  background-image: var(--jnana-neon-soft) !important;
+}
+#rental-guidelines.bvr-section { background: var(--jnana-neon-soft) !important; }
+.storybook-world__veil { background: transparent; }
+.bv2-intro {
+  color: #30213d;
+  background-color: #d52bd6;
+  background-image: var(--jnana-neon-soft);
+}
+.bv2-intro::after { display: none; }
+.bv2-intro::before { opacity: .045; }
+
 @keyframes bv-background-book-one { 0%,100% { transform: translate3d(0,0,-10px) rotateX(8deg) rotateY(-22deg) rotateZ(-9deg); } 50% { transform: translate3d(8px,-22px,30px) rotateX(13deg) rotateY(-9deg) rotateZ(-3deg); } }
 @keyframes bv-background-book-two { 0%,100% { transform: translate3d(0,0,24px) rotateX(-4deg) rotateY(18deg) rotateZ(8deg); } 50% { transform: translate3d(-11px,-18px,-12px) rotateX(5deg) rotateY(30deg) rotateZ(2deg); } }
 @keyframes bv-background-book-three { 0%,100% { transform: translate3d(0,0,-20px) rotateX(9deg) rotateY(-14deg) rotateZ(7deg); } 50% { transform: translate3d(10px,15px,22px) rotateX(-2deg) rotateY(-26deg) rotateZ(1deg); } }
