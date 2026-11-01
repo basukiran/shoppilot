@@ -1,5 +1,6 @@
 export type ViewKey =
   | 'dashboard'
+  | 'authors'
   | 'account'
   | 'favorites'
   | 'ai-buyer'

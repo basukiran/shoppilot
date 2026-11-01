@@ -17,6 +17,7 @@ import RentalCheckoutView from './components/RentalCheckoutView';
 import RentalManagementView from './components/RentalManagementView';
 import { FavoritesView } from '@/views/FavoritesView';
 import { CustomersView } from '@/views/CustomersView';
+import { AuthorsView } from '@/views/AuthorsView';
 
 import type { Product } from '@/types';
 import type { AccountUser } from '@/types';
@@ -25,6 +26,7 @@ import { apiFetch } from '@/lib/api';
 
 type ViewKey =
   | 'dashboard'
+  | 'authors'
   | 'account'
   | 'favorites'
   | 'ai-buyer'
@@ -457,6 +459,8 @@ function App() {
                 onToggleFavorite={toggleFavorite}
               />
             )}
+
+            {view === 'authors' && <AuthorsView />}
 
             {view === 'account' && (
               <AccountView

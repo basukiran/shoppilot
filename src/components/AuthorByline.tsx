@@ -7,7 +7,7 @@ interface AuthorPortrait {
   source: string;
 }
 
-const authorPortraits: AuthorPortrait[] = [
+export const authorPortraits: AuthorPortrait[] = [
   { names: ['joseph murphy'], file: 'joseph-murphy.jpg', source: 'https://www.yakaboo.ua/author/view/Dzhozef_Mjerfi' },
   { names: ['francesc miralles'], file: 'francesc-miralles.jpg', source: 'https://today.yougov.com/topics/entertainment/explore/writer/Francesc_Miralles' },
   { names: ['morgan housel'], file: 'morgan-housel.jpg', source: 'https://www.booktopia.com.au/the-psychology-of-money-morgan-housel/book/9780857197689.html' },
@@ -37,6 +37,14 @@ function normalize(value: string): string {
     .replace(/[^\p{L}\p{N}]+/gu, ' ')
     .trim()
     .replace(/\s+/g, ' ');
+}
+
+export function getAuthorPortraitUrl(author: string): string | undefined {
+  const normalizedAuthor = normalize(author);
+  const portrait = authorPortraits.find((item) =>
+    item.names.some((name) => normalizedAuthor.includes(normalize(name)))
+  );
+  return portrait ? `/authors/${portrait.file}` : undefined;
 }
 
 function Portrait({ author, portrait }: { author: string; portrait: AuthorPortrait }) {

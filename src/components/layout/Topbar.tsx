@@ -31,6 +31,7 @@ import { useLanguage, type SiteLanguage } from '@/lib/language';
 
 type ViewKey =
   | 'dashboard'
+  | 'authors'
   | 'account'
   | 'favorites'
   | 'ai-buyer'
@@ -60,6 +61,10 @@ interface BackendNotification {
 // ---------------------------------------------------------------------------
 
 const titles: Record<ViewKey, { title: string; subtitle: string }> = {
+  authors: {
+    title: 'Authors',
+    subtitle: 'Meet the writers and thinkers behind our books',
+  },
   account: {
     title: 'My Account',
     subtitle: 'Profile, orders, rentals, payments, and addresses',

@@ -31,6 +31,12 @@ const navItems: NavItem[] = [
     group: 'main',
   },
   {
+    key: 'authors',
+    label: 'Authors',
+    icon: BookOpen,
+    group: 'main',
+  },
+  {
     key: 'account',
     label: 'My Account',
     icon: UserRound,

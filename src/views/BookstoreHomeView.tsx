@@ -678,6 +678,7 @@ export function BookstoreHomeView({
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-[#40355f]">
+          <button type="button" onClick={() => onNavigate('authors')} className="transition hover:text-[#6d3ba8]">{t('Authors')}</button>
           <button type="button" onClick={() => onNavigate('ai-buyer')} className="transition hover:text-[#6d3ba8]">{t('AI Buyer')}</button>
           <button type="button" onClick={() => onNavigate('orders')} className="transition hover:text-[#6d3ba8]">{t('Orders')}</button>
           <button type="button" onClick={() => onNavigate('cart')} className="transition hover:text-[#6d3ba8]">{t('Reading bag')}</button>
