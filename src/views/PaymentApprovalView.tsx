@@ -10,10 +10,12 @@ import {
   ArrowLeft,
   QrCode,
   MessageCircle,
+  Smartphone,
 } from 'lucide-react';
 
 import type { AccountUser, Product } from '@/types';
 import { formatCurrency, cn } from '@/lib/utils';
+import { createUpiPaymentLink } from '@/lib/upi';
 
 type ViewKey = 'ai-buyer' | 'orders' | 'payment-failure';
 
@@ -31,6 +33,7 @@ export function PaymentApprovalView({
   const [showQr, setShowQr] = useState(false);
 
   const amount = product.price * quantity;
+  const upiPaymentHref = createUpiPaymentLink(amount, `Book purchase: ${product.name}`);
 
   // Spending guardrail
   const spendingLimit = 5000;
@@ -291,8 +294,17 @@ export function PaymentApprovalView({
             {showQr && (
               <div className="rounded-xl border border-violet-200 bg-violet-50 p-4 text-center">
                 <h3 className="font-semibold text-ink-900">Scan to pay {formatCurrency(amount)}</h3>
-                <p className="mt-1 text-xs leading-5 text-ink-600">Use any UPI app and enter the exact amount above.</p>
-                <img src="/rental-upi-qr.png" alt="UPI QR code for Jnana Nidhi book payment" className="mx-auto mt-4 w-full max-w-[280px] rounded-xl" />
+                <p className="mt-1 text-xs leading-5 text-ink-600">Pay directly from this phone, or scan the QR from another device.</p>
+                <a
+                  href={upiPaymentHref}
+                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#5f259f] px-4 py-3 text-sm font-semibold text-white hover:bg-[#4b1d80]"
+                >
+                  <Smartphone className="h-4 w-4" /> Pay {formatCurrency(amount)} with PhonePe / UPI
+                </a>
+                <p className="mt-3 text-xs font-medium text-ink-700">Or scan this UPI code from another device:</p>
+                <a href={upiPaymentHref} aria-label="Open PhonePe or another UPI app to pay for this order" title="Tap to open PhonePe or another UPI app">
+                  <img src="/rental-upi-qr.png" alt="Tap to open a UPI app or scan this QR from another device" className="mx-auto mt-4 w-full max-w-[280px] cursor-pointer rounded-xl" />
+                </a>
                 <div className="mt-4 rounded-lg bg-amber-50 p-3 text-left text-xs leading-5 text-amber-900">
                   This static QR does not notify the website when you pay. Send your UPI transaction reference or receipt to Jnana Nidhi. Your order is confirmed only after the payment is manually checked.
                 </div>

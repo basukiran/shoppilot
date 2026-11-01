@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
-import { ArrowLeft, CheckCircle, MessageCircle, QrCode } from 'lucide-react';
+import { ArrowLeft, CheckCircle, MessageCircle, QrCode, Smartphone } from 'lucide-react';
 import type { Product } from '../types';
+import { createUpiPaymentLink } from '../lib/upi';
 import { AuthorByline } from './AuthorByline';
 
 interface RentalCheckoutViewProps {
@@ -21,6 +22,7 @@ export default function RentalCheckoutView({ product, quantity, onBack }: Rental
   const rentalFee = (product.rentalPrice ?? 0) * quantity;
   const totalAmount = membershipFee + rentalFee;
   const rentalDuration = product.rentalDurationDays ?? 30;
+  const upiPaymentHref = createUpiPaymentLink(totalAmount, `Book rental: ${product.name}`);
 
   const whatsappHref = useMemo(() => {
     const message = [
@@ -109,9 +111,9 @@ export default function RentalCheckoutView({ product, quantity, onBack }: Rental
               </div>
             </div>
 
-            <div className="mt-6 rounded-xl bg-yellow-50 p-4">
-              <p className="text-sm font-semibold text-yellow-900">At the end of your rental</p>
-              <p className="mt-1 text-sm leading-6 text-yellow-800">
+            <div className="mt-6 rounded-xl bg-pink-50 p-4">
+              <p className="text-sm font-semibold text-fuchsia-950">At the end of your rental</p>
+              <p className="mt-1 text-sm leading-6 text-fuchsia-900">
                 <strong>Keep:</strong> the book becomes yours and the actual purchase price is recorded against it.<br />
                 <strong>Return:</strong> {readerType === 'REGULAR_READER' ? 'Regular Reader plans do not receive an early refund.' : 'Specific Book Reader plans can receive a ₹300 refund after the returned book is received and validated.'}
               </p>
@@ -137,8 +139,14 @@ export default function RentalCheckoutView({ product, quantity, onBack }: Rental
             ) : (
               <div className="mt-6 rounded-2xl border border-violet-200 bg-violet-50 p-4 text-center">
                 <h3 className="font-bold text-gray-900">Scan to pay ₹{totalAmount.toLocaleString('en-IN')}</h3>
-                <p className="mt-1 text-xs leading-5 text-gray-600">Open any UPI app, scan this code, and enter the exact amount shown above.</p>
-                <img src="/rental-upi-qr.png" alt="UPI QR code for rental payment" className="mx-auto mt-4 w-full max-w-[280px] rounded-xl" />
+                <p className="mt-1 text-xs leading-5 text-gray-600">Pay directly from this phone, or scan the QR from another device.</p>
+                <a href={upiPaymentHref} className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#5f259f] px-4 py-3 text-sm font-semibold text-white hover:bg-[#4b1d80]">
+                  <Smartphone className="h-4 w-4" /> Pay ₹{totalAmount.toLocaleString('en-IN')} with PhonePe / UPI
+                </a>
+                <p className="mt-3 text-xs font-medium text-gray-700">Or scan this UPI code from another device:</p>
+                <a href={upiPaymentHref} aria-label="Open PhonePe or another UPI app to pay for this rental" title="Tap to open PhonePe or another UPI app">
+                  <img src="/rental-upi-qr.png" alt="Tap to open a UPI app or scan this QR from another device" className="mx-auto mt-4 w-full max-w-[280px] cursor-pointer rounded-xl" />
+                </a>
                 <div className="mt-4 rounded-xl bg-amber-50 p-3 text-left text-xs leading-5 text-amber-900">
                   Payment is not confirmed automatically from this static QR. After paying, share your UPI transaction reference or receipt with Jnana Nidhi. The rental activates after the payment is checked.
                 </div>

@@ -2533,10 +2533,10 @@
   background-image: var(--jnana-neon-soft);
 }
 
-/* The selected pink / gold / magenta radial gradient is the site-wide canvas. */
+/* The selected pink / coral / magenta radial gradient is the site-wide canvas. */
 .bv-app-shell {
-  --jnana-neon-soft: radial-gradient(ellipse at 50% 50%, #ffe600 0%, #f18f91 50%, #d52bd6 100%);
-  background-color: #d52bd6;
+  --jnana-neon-soft: radial-gradient(ellipse at 50% 50%, #f8c5e4 0%, #f3b5bd 50%, #df91d8 100%);
+  background-color: #df91d8;
   background-image: var(--jnana-neon-soft);
   background-attachment: fixed;
 }
@@ -2744,4 +2744,23 @@
   .bv2-welcome-title { font-size: clamp(32px, 9vw, 52px); }
   .bv2-welcome-cue { font-size: 8px; letter-spacing: .1em; }
   .bv2-welcome-logo { width: 38px; height: 38px; }
+}
+
+/* Improve readability over the vivid pink, coral, and yellow page backgrounds. */
+.bv-app-main {
+  color: #28133d;
+}
+.bv-app-main :is(.text-gray-400, .text-gray-500, .text-gray-600, .text-ink-400, .text-ink-500, .text-ink-600) {
+  color: #493451;
+}
+.bv-cosmic-page-heading p,
+.bv-cosmic-page-intro > p,
+.bv-app-main .text-muted,
+.bookstore-home [class~="text-[#52665a]"],
+.bookstore-home [class~="text-[#68766c]"],
+.bookstore-home [class~="text-[#6b7d6d]"] {
+  color: #40344c;
+}
+.bv-app-main :is(p, label, small, li, dt, dd) {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.18);
 }
