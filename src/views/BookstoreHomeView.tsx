@@ -52,6 +52,7 @@ export function BookstoreHomeView({
   const [selectedCategory, setSelectedCategory] = useState('All books');
   const [welcomeAudioPlaying, setWelcomeAudioPlaying] = useState(false);
   const [playChannelVideo, setPlayChannelVideo] = useState(false);
+  const [heroBookOpen, setHeroBookOpen] = useState(false);
   const welcomeAudioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -301,11 +302,41 @@ export function BookstoreHomeView({
                   <ellipse cx="24" cy="22" rx="2" ry="5" fill="#49396f" />
                 </svg>
               ))}
+              <svg className="storybook-birds" viewBox="0 0 180 70" aria-hidden="true">
+                <path className="storybook-bird storybook-bird--one" d="M12 38q10-12 20 0 10-12 20 0" />
+                <path className="storybook-bird storybook-bird--two" d="M75 20q8-10 16 0 8-10 16 0" />
+                <path className="storybook-bird storybook-bird--three" d="M123 48q7-9 14 0 7-9 14 0" />
+              </svg>
+              <svg className="storybook-flowers" viewBox="0 0 220 100" aria-hidden="true">
+                <g className="storybook-flower storybook-flower--one" transform="translate(28 54)">
+                  <path d="M0 6v31m0-17-10-8m10 14 11-8" stroke="#638c72" strokeWidth="2" strokeLinecap="round" />
+                  <g fill="#f3a5c0"><ellipse cy="-7" rx="4" ry="8"/><ellipse cy="7" rx="4" ry="8"/><ellipse cx="-7" rx="8" ry="4"/><ellipse cx="7" rx="8" ry="4"/></g><circle r="3" fill="#f4c66d" />
+                </g>
+                <g className="storybook-flower storybook-flower--two" transform="translate(182 38)">
+                  <path d="M0 9v38m0-18-11-8m11 16 11-9" stroke="#638c72" strokeWidth="2" strokeLinecap="round" />
+                  <g fill="#a99ae8"><ellipse cy="-7" rx="4" ry="8"/><ellipse cy="7" rx="4" ry="8"/><ellipse cx="-7" rx="8" ry="4"/><ellipse cx="7" rx="8" ry="4"/></g><circle r="3" fill="#f4c66d" />
+                </g>
+                <g className="storybook-flower storybook-flower--three" transform="translate(112 72) scale(.72)">
+                  <g fill="#f5bd75"><ellipse cy="-7" rx="4" ry="8"/><ellipse cy="7" rx="4" ry="8"/><ellipse cx="-7" rx="8" ry="4"/><ellipse cx="7" rx="8" ry="4"/></g><circle r="3" fill="#fff0b2" />
+                </g>
+              </svg>
             </div>
             <div className="bookstore-hero__arch" aria-hidden="true" />
+            <div className={`storybook-book-spread${heroBookOpen ? ' is-open' : ''}`} aria-hidden={!heroBookOpen}>
+              <div className="storybook-book-page"><span>✦</span></div>
+              <div className="storybook-book-page storybook-book-page--right">
+                <strong>{featuredBook?.name ?? t('Welcome to Jnana Nidhi')}</strong>
+                <small>{featuredBook?.author ? <AuthorByline author={featuredBook.author} /> : t('A new story is waiting.')}</small>
+              </div>
+            </div>
             <BookCover book={books[1] ?? featuredBook} className="bookstore-hero__cover bookstore-hero__cover--back" />
             <BookCover book={books[2] ?? featuredBook} className="bookstore-hero__cover bookstore-hero__cover--middle" />
-            <BookCover book={featuredBook} className="bookstore-hero__cover bookstore-hero__cover--front" />
+            <BookCover
+              book={featuredBook}
+              className={`bookstore-hero__cover bookstore-hero__cover--front${heroBookOpen ? ' is-open' : ''}`}
+              onClick={() => setHeroBookOpen((open) => !open)}
+              ariaLabel={heroBookOpen ? t('Close the open book') : t('Open the featured book')}
+            />
             <div className="bookstore-hero__note">
               <span className="bookstore-hero__note-icon"><Leaf className="h-4 w-4" /></span>
               <span>{t('Make room for a new perspective.')}</span>
@@ -742,28 +773,38 @@ export function BookstoreHomeView({
 function BookCover({
   book,
   className,
+  onClick,
+  ariaLabel,
 }: {
   book?: Product;
   className: string;
+  onClick?: () => void;
+  ariaLabel?: string;
 }) {
+  const coverContent = book?.coverImage ? (
+    <img
+      src={book.coverImage}
+      alt={onClick ? '' : `${book.name} cover`}
+      loading="lazy"
+      onError={(event) => {
+        event.currentTarget.onerror = null;
+        event.currentTarget.src = getCoverPlaceholder(book.name);
+      }}
+      className="h-full w-full object-cover"
+    />
+  ) : (
+    <div className="flex h-full items-center justify-center text-[#6f8c73]">
+      <BookOpen className="h-10 w-10" />
+    </div>
+  );
+
+  if (onClick) {
+    return <button type="button" onClick={onClick} aria-label={ariaLabel} aria-pressed={className.includes('is-open')} className={`book-cover ${className} storybook-book-trigger`}>{coverContent}</button>;
+  }
+
   return (
     <div className={`book-cover ${className}`}>
-      {book?.coverImage ? (
-        <img
-          src={book.coverImage}
-          alt={`${book.name} cover`}
-          loading="lazy"
-          onError={(event) => {
-            event.currentTarget.onerror = null;
-            event.currentTarget.src = getCoverPlaceholder(book.name);
-          }}
-          className="h-full w-full object-cover"
-        />
-      ) : (
-        <div className="flex h-full items-center justify-center text-[#6f8c73]">
-          <BookOpen className="h-10 w-10" />
-        </div>
-      )}
+      {coverContent}
     </div>
   );
 }
