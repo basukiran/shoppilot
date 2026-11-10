@@ -22,7 +22,7 @@ export function BookCombosSection({
         <div className="bookstore-section-heading">
           <div>
             <p className="bookstore-kicker"><Layers3 className="h-4 w-4" /> {t('Curated reading sets')}</p>
-            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">{t('Book Combos')}</h2>
+            <h2 className="bookstore-display mt-3 text-3xl text-[#183629] sm:text-[40px]">{t('Jnana Nidhi: Golden Treasure Box')}</h2>
           </div>
           <p className="max-w-md text-sm leading-6 text-[#68766c] sm:text-base">
             {t('Thoughtful groupings from the approved Jnana Nidhi collection.')}
