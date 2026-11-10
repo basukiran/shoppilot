@@ -206,6 +206,11 @@ export function BookstoreHomeView({
             <path className="bookstore-vine__leaf" d="M0 0C-9-22 4-43 30-49 38-27 26-7 0 0Z" transform="translate(1352 62) rotate(210)" />
           </g>
         </svg>
+        <svg className="bookstore-birds" viewBox="0 0 1440 520" preserveAspectRatio="none" aria-hidden="true">
+          <g className="bookstore-bird bookstore-bird--one"><path d="M0 13c13-16 26-16 39 0 13-16 26-16 39 0" /></g>
+          <g className="bookstore-bird bookstore-bird--two"><path d="M0 10c10-12 20-12 30 0 10-12 20-12 30 0" /></g>
+          <g className="bookstore-bird bookstore-bird--three"><path d="M0 8c8-10 16-10 24 0 8-10 16-10 24 0" /></g>
+        </svg>
         <div className="bookstore-hero__inner mx-auto grid max-w-[1440px] items-center gap-8 px-5 py-12 sm:px-8 sm:py-16 lg:min-h-[500px] lg:grid-cols-[1.05fr_0.95fr] lg:px-14 lg:py-20">
           <div className="relative z-10 max-w-2xl">
             <p className="bookstore-kicker">
