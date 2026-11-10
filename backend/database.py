@@ -573,7 +573,7 @@ def _has_product_references(conn, product_id: int) -> bool:
 
 
 _POSTGRES_SEED_RENTAL_PRICES = {
-    "ZERO TO HERO": 20, "DETOX YOUR EGO": 50,
+    "ZERO TO ONE": 20, "DETOX YOUR EGO": 50,
     "The Power of Your Subconscious Mind": 20, "BADUKUVA DARI": 20,
     "India's Struggle for Independence 1857-1947": 30, "Heli Hogu Kaarana": 20,
     "Why I am an Atheist and Other Writings": 20, "IKIGAI": 20, "DEEP WORK": 20,
@@ -613,6 +613,7 @@ _CUSTOMER_COVER_BY_TITLE = {
     "Why We Die": "/covers/customer-supplied/why-we-die.jpeg",
     "When Breath Becomes Air": "/covers/customer-supplied/when-breath-becomes-air.jpeg",
     "Emotional Intelligence": "/covers/customer-supplied/emotional-intelligence.jpeg",
+    "ZERO TO ONE": "/covers/customer-supplied/zero-to-one.png",
 }
 
 _CUSTOMER_APPROVED_BOOK_UPDATES = (
@@ -643,7 +644,7 @@ def seed_products():
     PostgreSQL inserts only missing approved books; existing rows are untouched.
     """
     books = [
-        ("ZERO TO HERO", "BookVision", "Personal Growth", 300, 4.8, 16, "A motivating read for personal growth, discipline, and momentum.", "#0c4a3a", "#d9b76f"),
+        ("ZERO TO ONE", "Peter Thiel with Blake Masters", "Business", 299, 4.8, 5, "Notes on startups and how to build the future.", "#efa900", "#247bd3"),
         ("DETOX YOUR EGO", "BookVision", "Self-Help", 493, 4.7, 20, "A practical companion for inner clarity and emotional detachment.", "#173f4f", "#d1a14a"),
         ("The Power of Your Subconscious Mind", "Joseph Murphy", "Psychology", 154, 4.9, 18, "A classic guide to unlocking inner power through conscious thinking.", "#2b3d5b", "#d7b06a"),
         ("BADUKUVA DARI", "Kannada Classic", "Kannada Literature", 200, 4.5, 24, "A reflective Kannada read that celebrates thought and clarity.", "#0e5635", "#d5af5c"),
@@ -719,12 +720,14 @@ def seed_products():
                 ),
             )
         _apply_customer_approved_book_updates(conn)
+        conn.execute("UPDATE products SET is_book = 0 WHERE LOWER(TRIM(name)) = LOWER(TRIM(?))", ("ZERO TO HERO",))
         conn.commit()
         conn.close()
         return
 
     conn = get_connection()
-    approved_names = {book[0].strip().casefold() for book in books}
+    # Keep the retired row for historical orders, but remove it from the active catalog.
+    approved_names = {book[0].strip().casefold() for book in books} | {"zero to hero"}
     seen_names = set()
     for product in conn.execute(
         "SELECT id, name FROM products WHERE is_book = 1 ORDER BY id"
@@ -778,9 +781,10 @@ def seed_products():
             )
 
     _apply_customer_approved_book_updates(conn)
+    conn.execute("UPDATE products SET is_book = 0 WHERE LOWER(TRIM(name)) = LOWER(TRIM(?))", ("ZERO TO HERO",))
 
     rental_prices = {
-        "ZERO TO HERO": 20,
+        "ZERO TO ONE": 20,
         "DETOX YOUR EGO": 50,
         "The Power of Your Subconscious Mind": 20,
         "BADUKUVA DARI": 20,
@@ -858,7 +862,7 @@ def seed_rental_products():
 
     conn = get_connection()
     rental_prices = {
-        "ZERO TO HERO": 20,
+        "ZERO TO ONE": 20,
         "DETOX YOUR EGO": 50,
         "The Power of Your Subconscious Mind": 20,
         "BADUKUVA DARI": 20,

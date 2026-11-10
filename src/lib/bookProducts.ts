@@ -46,7 +46,7 @@ const approvedCoverByTitle: Record<string, string> = {
   vakalat: '/covers/customer-supplied/vakalat.jpg',
   'mukajjiya kanasugalu': '/covers/mukajjiya-kanasugalu.jpeg',
   'swara mata laya pita': '/covers/swara-mata-laya-pita.jpeg',
-  'zero to hero': '/covers/zero-to-hero.jpg',
+  'zero to one': '/covers/customer-supplied/zero-to-one.png',
   'the power of your subconscious mind': '/covers/customer-supplied/power-of-subconscious-mind.jpg',
   'rich dad poor dad': '/covers/customer-supplied/rich-dad-poor-dad.jpg',
   'how to win friends and influence people': '/covers/customer-supplied/how-to-win-friends.jpg',
@@ -82,7 +82,7 @@ const approvedCoverByTitle: Record<string, string> = {
 };
 
 const knownAuthorByTitle: Record<string, string> = {
-  'zero to hero': 'Robin Sharma',
+  'zero to one': 'Peter Thiel with Blake Masters',
   'the book of elon': 'Walter Isaacson',
   'mukajjiya kanasugalu': 'K. Shivaram Karanth',
   'winning people without losing yourself': 'Ankur Warikoo',

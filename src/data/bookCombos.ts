@@ -11,7 +11,7 @@ export const bookCombos: BookComboDefinition[] = [
     id: 'self-growth',
     name: 'Self Growth Combo',
     description: 'Purpose, habits, and the courage to grow.',
-    bookTitles: ['ZERO TO HERO', 'DETOX YOUR EGO', 'IKIGAI', 'GRIT'],
+    bookTitles: ['ZERO TO ONE', 'DETOX YOUR EGO', 'IKIGAI', 'GRIT'],
     comboPrice: null,
   },
   {

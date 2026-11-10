@@ -20,13 +20,13 @@ const catalogSeed: (Omit<Product, 'id' | 'tags' | 'brand' | 'image' | 'matchScor
 })[] = [
   {
     id: 'b1',
-    name: 'ZERO TO HERO',
-    author: 'Jnana Nidhi',
-    description: 'A motivating read for personal growth, discipline, and momentum.',
-    coverImage: makeCoverSvg('ZERO TO HERO', '#0c4a3a', '#d9b76f'),
+    name: 'ZERO TO ONE',
+    author: 'Peter Thiel with Blake Masters',
+    description: 'Notes on startups and how to build the future.',
+    coverImage: '/covers/customer-supplied/zero-to-one.png',
     brand: 'Jnana Nidhi',
-    price: 300,
-    originalPrice: 300,
+    price: 299,
+    originalPrice: 299,
     rating: 4.8,
     reviews: 1240,
     category: 'Personal Growth',
@@ -852,7 +852,7 @@ export const chatMessages: ChatMessage[] = [
     id: 'm4',
     role: 'agent',
     content:
-      'ZERO TO HERO, DETOX YOUR EGO, and IKIGAI are all strong choices for perspective and personal growth. Would you like a closer match?',
+      'ZERO TO ONE, DETOX YOUR EGO, and IKIGAI are all strong choices for perspective and personal growth. Would you like a closer match?',
     timestamp: '09:43',
     products: [products[0], products[1], products[7]],
     actions: ['product_search', 'recommendation'],
@@ -984,7 +984,7 @@ export const growthOpportunities: GrowthOpportunity[] = [
   },
   {
     id: 'g3',
-    title: 'Recommend ZERO TO HERO with personal-growth books',
+    title: 'Recommend ZERO TO ONE with personal-growth books',
     impact: '+₹3,200 projected',
     confidence: 85,
     category: 'Cross-sell',
