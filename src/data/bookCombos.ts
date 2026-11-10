@@ -9,21 +9,21 @@ export interface BookComboDefinition {
 export const bookCombos: BookComboDefinition[] = [
   {
     id: 'self-growth',
-    name: 'Self Growth Combo',
+    name: 'Self Growth Treasure Box',
     description: 'Purpose, habits, and the courage to grow.',
     bookTitles: ['ZERO TO ONE', 'DETOX YOUR EGO', 'IKIGAI', 'GRIT'],
     comboPrice: null,
   },
   {
     id: 'money-finance',
-    name: 'Money & Finance Combo',
+    name: 'Money & Finance Treasure Box',
     description: 'Build perspective around money and long-term choices.',
     bookTitles: ['PSYCHOLOGY OF MONEY', 'RICH DAD POOR DAD'],
     comboPrice: null,
   },
   {
     id: 'mind-psychology',
-    name: 'Mind & Psychology Combo',
+    name: 'Mind & Psychology Treasure Box',
     description: 'Explore mindset, self-image, and inner thinking.',
     bookTitles: [
       'The Power of Your Subconscious Mind',
@@ -35,14 +35,14 @@ export const bookCombos: BookComboDefinition[] = [
   },
   {
     id: 'productivity',
-    name: 'Productivity Combo',
+    name: 'Productivity Treasure Box',
     description: 'Attention, persistence, and focused work.',
     bookTitles: ['DEEP WORK', 'GRIT', 'THINK LIKE CEO'],
     comboPrice: null,
   },
   {
     id: 'leadership-business',
-    name: 'Leadership / Business Combo',
+    name: 'Leadership / Business Treasure Box',
     description: 'Influence, leadership, and business perspectives.',
     bookTitles: [
       'THINK LIKE CEO',
@@ -54,7 +54,7 @@ export const bookCombos: BookComboDefinition[] = [
   },
   {
     id: 'kannada-books',
-    name: 'Kannada Books Combo',
+    name: 'Kannada Books Treasure Box',
     description: 'A selection of Kannada titles from the Jnana Nidhi shelf.',
     bookTitles: [
       'BADUKUVA DARI',
@@ -67,7 +67,7 @@ export const bookCombos: BookComboDefinition[] = [
   },
   {
     id: 'indian-history-knowledge',
-    name: 'Indian History & Knowledge Combo',
+    name: 'Indian History & Knowledge Treasure Box',
     description: 'History, ideas, and knowledge rooted in India.',
     bookTitles: [
       "India's Struggle for Independence 1857-1947",

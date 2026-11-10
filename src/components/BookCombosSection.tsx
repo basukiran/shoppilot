@@ -41,10 +41,11 @@ export function BookCombosSection({
           >
             <span className="golden-treasure-art" aria-hidden="true">
               <span className="golden-treasure-glow" />
-              <span className="golden-treasure-lid" />
               <span className="golden-treasure-body" />
-              <span className="golden-treasure-ribbon" />
-              <span className="golden-treasure-bow" />
+              <span className="golden-treasure-lid">
+                <span className="golden-treasure-ribbon" />
+                <span className="golden-treasure-bow" />
+              </span>
             </span>
             <span className="golden-treasure-label">{t(treasureOpen ? 'Close treasure box' : 'Open treasure box')}</span>
           </button>
@@ -73,13 +74,13 @@ export function BookCombosSection({
                 ? includedBooks.reduce((total, book) => total + book.rating, 0) / includedBooks.length
                 : 0,
               reviews: 0,
-              category: 'Book Combo',
+              category: 'Golden Treasure Box',
               image: 'book',
               inStock: canAdd,
               stockCount: includedBooks.length
                 ? Math.min(...includedBooks.map((book) => book.stockCount))
                 : 0,
-              tags: ['combo'],
+              tags: ['treasure-box'],
               isRentable: false,
               rentalPrice: 0,
               rentalDurationDays: 30,
@@ -129,7 +130,7 @@ export function BookCombosSection({
                   <div>
                     <p className="text-[10px] font-semibold uppercase text-[#68766c]">{t('Individual total')}</p>
                     <p className="mt-1 text-sm font-medium text-[#263a2e]">{formatCurrency(individualTotal)}</p>
-                    <p className="mt-2 text-[10px] font-semibold uppercase text-[#68766c]">{t('Combo price')}</p>
+                    <p className="mt-2 text-[10px] font-semibold uppercase text-[#68766c]">{t('Treasure Box price')}</p>
                     <p className="mt-1 text-lg font-semibold text-[#183629]">{formatCurrency(comboPrice)}</p>
                     {savings > 0 && <p className="mt-1 text-xs font-semibold text-[#55735b]">{t('Save')} {formatCurrency(savings)}</p>}
                   </div>
@@ -139,10 +140,10 @@ export function BookCombosSection({
                     onClick={() => onAddToCart(comboProduct, 1)}
                     className="bookstore-button bookstore-button--dark disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {t('Add Combo to Cart')} <ArrowRight className="h-4 w-4" />
+                    {t('Add Treasure Box to Cart')} <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
-                {!complete && <p className="mt-3 text-xs text-rose-700">{t('A book in this combo is unavailable.')}</p>}
+                {!complete && <p className="mt-3 text-xs text-rose-700">{t('A book in this treasure box is unavailable.')}</p>}
               </article>
             );
           })}
