@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { BookOpen, Loader2, Search, UserRound } from 'lucide-react';
+import { BookOpen, ChevronDown, Loader2, Search, UserRound } from 'lucide-react';
 import { getAuthorPortraitUrl } from '@/components/AuthorByline';
 import { apiFetch } from '@/lib/api';
 import { toBookProduct, type BookApiRecord } from '@/lib/bookProducts';
 import { useLanguage, type SiteLanguage } from '@/lib/language';
 import type { Product } from '@/types';
+import { formatCurrency } from '@/lib/utils';
 
 type AuthorBio = Record<SiteLanguage, string>;
 
@@ -131,6 +132,7 @@ export function AuthorsView() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [query, setQuery] = useState('');
+  const [expandedAuthor, setExpandedAuthor] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -202,7 +204,14 @@ export function AuthorsView() {
             const initials = name.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase();
             return (
               <article key={normalize(name)} className="card overflow-hidden rounded-3xl border border-violet-200/70 bg-white/90 p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6">
-                <div className="flex items-center gap-4">
+                <button
+                  type="button"
+                  aria-label={`${t('Open this author’s books')}: ${name}`}
+                  aria-expanded={expandedAuthor === normalize(name)}
+                  aria-controls={`author-books-${normalize(name).replace(/\s+/g, '-')}`}
+                  onClick={() => setExpandedAuthor((current) => current === normalize(name) ? null : normalize(name))}
+                  className="flex w-full items-center gap-4 rounded-xl text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-600"
+                >
                   {portrait ? (
                     <img src={portrait} alt={`${name} portrait`} loading="lazy" className="h-20 w-20 shrink-0 rounded-2xl object-cover shadow-sm" />
                   ) : (
@@ -214,15 +223,25 @@ export function AuthorsView() {
                     <h2 className="font-display text-xl font-bold text-violet-950">{name}</h2>
                     <p className="mt-1 text-sm font-semibold text-fuchsia-800">{authorBooks.length} {t(authorBooks.length === 1 ? 'book in our catalog' : 'books in our catalog')}</p>
                   </div>
-                </div>
+                  <ChevronDown className={`ml-auto h-5 w-5 shrink-0 text-violet-700 transition-transform ${expandedAuthor === normalize(name) ? 'rotate-180' : ''}`} />
+                </button>
                 <p className="mt-5 text-sm leading-7 text-ink-700">{getAuthorNote(name, language)}</p>
-                <div className="mt-4 border-t border-violet-100 pt-4">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-violet-800">{t('Available titles')}</h3>
-                  <ul className="mt-2 space-y-1.5">
-                    {authorBooks.slice(0, 4).map((book) => <li key={book.id} className="flex items-start gap-2 text-sm font-medium text-ink-800"><BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-fuchsia-700" /><span>{book.name}</span></li>)}
-                    {authorBooks.length > 4 && <li className="pl-6 text-xs font-semibold text-ink-600">{t('and')} {authorBooks.length - 4} {t('more')}</li>}
-                  </ul>
-                </div>
+                {expandedAuthor === normalize(name) && (
+                  <div id={`author-books-${normalize(name).replace(/\s+/g, '-')}`} className="mt-4 border-t border-violet-100 pt-4">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-violet-800">{t('Available titles')}</h3>
+                    <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+                      {authorBooks.map((book) => (
+                        <li key={book.id} className="flex min-w-0 items-center gap-3 rounded-xl border border-violet-100 bg-white/80 p-2.5">
+                          <img src={book.coverImage} alt={`${book.name} cover`} loading="lazy" className="h-16 w-11 shrink-0 rounded object-cover shadow-sm" />
+                          <div className="min-w-0">
+                            <p className="line-clamp-2 text-sm font-semibold text-ink-900">{book.name}</p>
+                            <p className="mt-1 text-sm font-bold text-fuchsia-800">{formatCurrency(book.price)}</p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </article>
             );
           })}
