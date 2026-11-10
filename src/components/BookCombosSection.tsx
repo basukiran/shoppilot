@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ArrowRight, BookOpen, Layers3 } from 'lucide-react';
 
 import { bookCombos } from '@/data/bookCombos';
@@ -14,6 +15,7 @@ export function BookCombosSection({
   onAddToCart: (product: Product, quantity?: number) => void;
 }) {
   const { t } = useLanguage();
+  const [treasureOpen, setTreasureOpen] = useState(false);
   const productsByName = new Map(products.map((product) => [product.name.trim().toLowerCase(), product]));
 
   return (
@@ -29,7 +31,26 @@ export function BookCombosSection({
           </p>
         </div>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="golden-treasure-stage" aria-label={t('Jnana Nidhi Golden Treasure Box')}>
+          <button
+            type="button"
+            className={`golden-treasure-trigger${treasureOpen ? ' is-open' : ''}`}
+            aria-expanded={treasureOpen}
+            aria-controls="golden-treasure-books"
+            onClick={() => setTreasureOpen((open) => !open)}
+          >
+            <span className="golden-treasure-art" aria-hidden="true">
+              <span className="golden-treasure-glow" />
+              <span className="golden-treasure-lid" />
+              <span className="golden-treasure-body" />
+              <span className="golden-treasure-ribbon" />
+              <span className="golden-treasure-bow" />
+            </span>
+            <span className="golden-treasure-label">{t(treasureOpen ? 'Close treasure box' : 'Open treasure box')}</span>
+          </button>
+        </div>
+
+        {treasureOpen && <div id="golden-treasure-books" className="golden-treasure-reveal mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {bookCombos.map((combo) => {
             const includedBooks = combo.bookTitles
               .map((title) => productsByName.get(title.trim().toLowerCase()))
@@ -125,7 +146,7 @@ export function BookCombosSection({
               </article>
             );
           })}
-        </div>
+        </div>}
       </div>
     </section>
   );
