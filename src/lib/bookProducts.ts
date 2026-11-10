@@ -68,6 +68,17 @@ const approvedCoverByTitle: Record<string, string> = {
   'bijapur bhavya prapancha': '/covers/customer-supplied/bijapur-bhavya-prapancha.jpg',
   'updesha kategalu': '/covers/customer-supplied/updesha-kategalu.jpg',
   'prachina bharatada maharshigalu': '/covers/customer-supplied/prachina-bharatada-maharshigalu.jpg',
+  'how to make money with breakout trading 2 0': '/covers/customer-supplied/breakout-trading-2.jpg',
+  'the leader who had no title kannada edition': '/covers/customer-supplied/leader-who-had-no-title-kannada.jpg',
+  'how to make money in stock market trading': '/covers/customer-supplied/stock-market-trading.jpg',
+  'ಗಣಿತ ಮಂಜರಿ': '/covers/customer-supplied/ganita-manjari.jpg',
+  'ಅವಳು ಬದುಕ ಕಲಿಸಿದವಳು': '/covers/customer-supplied/avalu-baduka-kalisidavalu.jpg',
+  'ರಾಷ್ಟ್ರ ಜಾಗೃತಿ': '/covers/customer-supplied/rashtra-jagruthi.jpg',
+  'the art of letting go': '/covers/customer-supplied/art-of-letting-go.jpg',
+  'the art of being alone': '/covers/customer-supplied/art-of-being-alone-new.jpeg',
+  'why we die': '/covers/customer-supplied/why-we-die.jpeg',
+  'when breath becomes air': '/covers/customer-supplied/when-breath-becomes-air.jpeg',
+  'emotional intelligence': '/covers/customer-supplied/emotional-intelligence.jpeg',
 };
 
 const knownAuthorByTitle: Record<string, string> = {
@@ -75,6 +86,10 @@ const knownAuthorByTitle: Record<string, string> = {
   'the book of elon': 'Walter Isaacson',
   'mukajjiya kanasugalu': 'K. Shivaram Karanth',
   'winning people without losing yourself': 'Ankur Warikoo',
+  'why we die': 'Venki Ramakrishnan',
+  'when breath becomes air': 'Paul Kalanithi',
+  'emotional intelligence': 'Daniel Goleman',
+  'the art of being alone': 'Renuka Gavrani',
 };
 
 function normalizeBookTitle(title: string): string {

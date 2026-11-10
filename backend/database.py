@@ -588,7 +588,52 @@ _POSTGRES_SEED_RENTAL_PRICES = {
     "PARIPOORNA PRASHNEGALU PARIPOORNA UTTARAGALU": 20, "KRISHNANA ARASUTTA": 20,
     "BIJAPUR BHAVYA PRAPANCHA": 20, "UPDESHA KATEGALU": 20,
     "PRACHINA BHARATADA MAHARSHIGALU": 20,
+    "How to Make Money with Breakout Trading 2.0": 50,
+    "The Leader Who Had No Title (Kannada Edition)": 20,
+    "How to Make Money in Stock Market Trading": 50,
+    "ಗಣಿತ ಮಂಜರಿ": 20,
+    "ಅವಳು ಬದುಕ ಕಲಿಸಿದವಳು": 20,
+    "ರಾಷ್ಟ್ರ ಜಾಗೃತಿ": 20,
+    "The Art of Letting Go": 20,
+    "The Art of Being Alone": 20,
+    "Why We Die": 50,
+    "When Breath Becomes Air": 50,
+    "Emotional Intelligence": 50,
 }
+
+_CUSTOMER_COVER_BY_TITLE = {
+    "How to Make Money with Breakout Trading 2.0": "/covers/customer-supplied/breakout-trading-2.jpg",
+    "The Leader Who Had No Title (Kannada Edition)": "/covers/customer-supplied/leader-who-had-no-title-kannada.jpg",
+    "How to Make Money in Stock Market Trading": "/covers/customer-supplied/stock-market-trading.jpg",
+    "ಗಣಿತ ಮಂಜರಿ": "/covers/customer-supplied/ganita-manjari.jpg",
+    "ಅವಳು ಬದುಕ ಕಲಿಸಿದವಳು": "/covers/customer-supplied/avalu-baduka-kalisidavalu.jpg",
+    "ರಾಷ್ಟ್ರ ಜಾಗೃತಿ": "/covers/customer-supplied/rashtra-jagruthi.jpg",
+    "The Art of Letting Go": "/covers/customer-supplied/art-of-letting-go.jpg",
+    "The Art of Being Alone": "/covers/customer-supplied/art-of-being-alone-new.jpeg",
+    "Why We Die": "/covers/customer-supplied/why-we-die.jpeg",
+    "When Breath Becomes Air": "/covers/customer-supplied/when-breath-becomes-air.jpeg",
+    "Emotional Intelligence": "/covers/customer-supplied/emotional-intelligence.jpeg",
+}
+
+_CUSTOMER_APPROVED_BOOK_UPDATES = (
+    ("Why We Die", "Venki Ramakrishnan", "Science", 359, "A clear exploration of ageing, mortality, and the science of life.", _CUSTOMER_COVER_BY_TITLE["Why We Die"]),
+    ("When Breath Becomes Air", "Paul Kalanithi", "Memoir", 600, "Neurosurgeon Paul Kalanithi reflects on life and meaning after a cancer diagnosis.", _CUSTOMER_COVER_BY_TITLE["When Breath Becomes Air"]),
+    ("Emotional Intelligence", "Daniel Goleman", "Psychology", 450, "Daniel Goleman explores why emotional intelligence matters alongside IQ.", _CUSTOMER_COVER_BY_TITLE["Emotional Intelligence"]),
+    ("The Art of Being Alone", "Renuka Gavrani", "Self-Help", 299, "A reflective guide to solitude, self-discovery, and inner strength.", _CUSTOMER_COVER_BY_TITLE["The Art of Being Alone"]),
+)
+
+
+def _apply_customer_approved_book_updates(conn):
+    """Set owner-approved title metadata while preserving existing stock and history."""
+    for title, author, category, price, description, cover_image in _CUSTOMER_APPROVED_BOOK_UPDATES:
+        conn.execute(
+            """
+            UPDATE products
+            SET author = ?, category = ?, price = ?, description = ?, cover_image = ?, is_book = 1
+            WHERE LOWER(TRIM(name)) = LOWER(TRIM(?))
+            """,
+            (author, category, price, description, cover_image, title),
+        )
 
 
 def seed_products():
@@ -634,6 +679,17 @@ def seed_products():
         ("BIJAPUR BHAVYA PRAPANCHA", "Kannada Classic", "Kannada Literature", 200, 4.4, 19, "A literary journey through place, beauty, and cultural memory.", "#4f4b3b", "#cca964"),
         ("UPDESHA KATEGALU", "BookVision", "Wisdom", 100, 4.6, 17, "A concise and wise collection of guidance and everyday reflection.", "#2a5349", "#d5b66a"),
         ("PRACHINA BHARATADA MAHARSHIGALU", "BookVision", "History", 200, 4.7, 15, "A biography-rich exploration of India’s great sages and thinkers.", "#54433b", "#d7b172"),
+        ("How to Make Money with Breakout Trading 2.0", "Indrazith Shantharaj", "Finance", 320, 0, 5, "A practical guide to stock-market breakout trading and candlestick chart analysis.", "#1f4777", "#df6c2d"),
+        ("The Leader Who Had No Title (Kannada Edition)", "Robin Sharma", "Leadership", 225, 0, 5, "Kannada edition of Robin Sharma’s modern fable about leadership and success.", "#f5f1e8", "#d45d3c"),
+        ("How to Make Money in Stock Market Trading", "Indrazith Shantharaj", "Finance", 359, 0, 5, "A beginner-friendly guide to investing and trading in the stock market.", "#172127", "#8acb42"),
+        ("ಗಣಿತ ಮಂಜರಿ", "Author unavailable", "Education", 95, 0, 5, "A Kannada mathematics learning book.", "#204879", "#e54e77"),
+        ("ಅವಳು ಬದುಕ ಕಲಿಸಿದವಳು", "Arjun Devaladakere", "Kannada Literature", 280, 0, 5, "A Kannada novel by Arjun Devaladakere.", "#13a9b8", "#f6dc48"),
+        ("ರಾಷ್ಟ್ರ ಜಾಗೃತಿ", "Swami Vivekananda", "Kannada Literature", 2, 0, 5, "Kannada writings of Swami Vivekananda on national awakening.", "#fffdf8", "#ce2d32"),
+        ("The Art of Letting Go", "Sanhita Baruah", "Poetry", 149, 0, 5, "A collection of poems about loss, acceptance, and moving forward.", "#3d3126", "#d0ab86"),
+        ("The Art of Being Alone", "Renuka Gavrani", "Self-Help", 299, 0, 5, "A reflective guide to solitude, self-discovery, and inner strength.", "#f7f5ee", "#292929"),
+        ("Why We Die", "Venki Ramakrishnan", "Science", 359, 0, 5, "A clear exploration of ageing, mortality, and the science of life.", "#061d48", "#dcd9cb"),
+        ("When Breath Becomes Air", "Paul Kalanithi", "Memoir", 600, 0, 5, "Neurosurgeon Paul Kalanithi reflects on life and meaning after a cancer diagnosis.", "#54728d", "#f5eee0"),
+        ("Emotional Intelligence", "Daniel Goleman", "Psychology", 450, 0, 5, "Daniel Goleman explores why emotional intelligence matters alongside IQ.", "#e9e4d7", "#a3393d"),
     ]
 
     if is_postgres():
@@ -649,7 +705,7 @@ def seed_products():
                 continue
             if author.casefold() in {"bookvision", "kannada classic"} or title == "THE BOOK OF ELON":
                 author = "Author unavailable"
-            cover_image = make_book_cover(title, accent, highlight)
+            cover_image = _CUSTOMER_COVER_BY_TITLE.get(title) or make_book_cover(title, accent, highlight)
             conn.execute(
                 """
                 INSERT INTO products
@@ -662,6 +718,7 @@ def seed_products():
                     _POSTGRES_SEED_RENTAL_PRICES.get(title, 0),
                 ),
             )
+        _apply_customer_approved_book_updates(conn)
         conn.commit()
         conn.close()
         return
@@ -690,7 +747,7 @@ def seed_products():
             author = "Author unavailable"
         if title.strip().casefold() == "india's struggle for independence 1857-1947":
             author = "Bipan Chandra"
-        cover_image = make_book_cover(title, accent, highlight)
+        cover_image = _CUSTOMER_COVER_BY_TITLE.get(title) or make_book_cover(title, accent, highlight)
         existing = conn.execute(
             "SELECT id FROM products WHERE LOWER(TRIM(name)) = LOWER(TRIM(?)) AND is_book = 1 ORDER BY id LIMIT 1",
             (title,)
@@ -719,6 +776,8 @@ def seed_products():
                 """,
                 (title, author, category, price, rating, stock, description, cover_image)
             )
+
+    _apply_customer_approved_book_updates(conn)
 
     rental_prices = {
         "ZERO TO HERO": 20,
@@ -757,6 +816,17 @@ def seed_products():
         "BIJAPUR BHAVYA PRAPANCHA": 20,
         "UPDESHA KATEGALU": 20,
         "PRACHINA BHARATADA MAHARSHIGALU": 20,
+        "How to Make Money with Breakout Trading 2.0": 50,
+        "The Leader Who Had No Title (Kannada Edition)": 20,
+        "How to Make Money in Stock Market Trading": 50,
+        "ಗಣಿತ ಮಂಜರಿ": 20,
+        "ಅವಳು ಬದುಕ ಕಲಿಸಿದವಳು": 20,
+        "ರಾಷ್ಟ್ರ ಜಾಗೃತಿ": 20,
+        "The Art of Letting Go": 20,
+        "The Art of Being Alone": 20,
+        "Why We Die": 50,
+        "When Breath Becomes Air": 50,
+        "Emotional Intelligence": 50,
     }
     for title, rental_price in rental_prices.items():
         conn.execute(
