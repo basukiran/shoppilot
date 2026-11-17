@@ -328,6 +328,13 @@ function App() {
         },
       ];
     });
+
+    // Move straight into the existing checkout flow after adding an item.
+    if (mode === 'rental') {
+      openRentalCheckout(product, quantity);
+    } else {
+      openPaymentApproval(product, quantity);
+    }
   };
 
   // =========================
