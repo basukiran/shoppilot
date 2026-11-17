@@ -26,6 +26,7 @@ import { getCoverPlaceholder } from '@/lib/bookCovers';
 import { RentalGuidelinesSection } from '@/components/RentalGuidelinesSection';
 import { BookCombosSection } from '@/components/BookCombosSection';
 import { AuthorByline } from '@/components/AuthorByline';
+import { BookDetailsDialog } from '@/components/BookDetailsDialog';
 import { useLanguage } from '@/lib/language';
 
 interface BookstoreHomeViewProps {
@@ -53,6 +54,7 @@ export function BookstoreHomeView({
   const [welcomeAudioPlaying, setWelcomeAudioPlaying] = useState(false);
   const [playChannelVideo, setPlayChannelVideo] = useState(false);
   const [heroBookOpen, setHeroBookOpen] = useState(false);
+  const [detailsBook, setDetailsBook] = useState<Product | null>(null);
   const welcomeAudioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -365,14 +367,14 @@ export function BookstoreHomeView({
           <article className="bookstore-featured mt-8 grid overflow-hidden lg:grid-cols-[0.8fr_1.2fr]">
             <div className="bookstore-featured__visual relative flex min-h-[320px] items-center justify-center px-8 py-10 sm:min-h-[400px]">
               <div className="bookstore-featured__wash" aria-hidden="true" />
-              <BookCover book={featuredBook} className="bookstore-featured__cover" />
+              <BookCover book={featuredBook} className="bookstore-featured__cover" onClick={() => setDetailsBook(featuredBook)} ariaLabel={`${t('View book details')}: ${featuredBook.name}`} />
               {featuredBook.isRentable && <span className="bookstore-ribbon">{t('Available to rent')}</span>}
             </div>
             <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-14">
               <p className="bookstore-kicker"><BookOpen className="h-4 w-4" /> {featuredBook.category}</p>
-              <h3 className="bookstore-display mt-4 max-w-2xl text-3xl leading-tight text-[#183629] sm:text-[42px]">
+              <button type="button" onClick={() => setDetailsBook(featuredBook)} className="bookstore-display mt-4 max-w-2xl text-left text-3xl leading-tight text-[#183629] hover:text-violet-800 sm:text-[42px]">
                 {featuredBook.name}
-              </h3>
+              </button>
               <AuthorByline author={featuredBook.author} className="mt-2 text-base text-[#68766c]" />
               <p className="mt-5 max-w-xl text-sm leading-7 text-[#52665a] sm:text-base">
                 {featuredBook.description}
@@ -491,8 +493,8 @@ export function BookstoreHomeView({
           <div className="grid grid-cols-3 items-center gap-3 p-5 sm:gap-5 sm:p-8 lg:p-10">
             {recommendedBooks.map((book, index) => (
               <div key={book.id} className={`bookstore-recommendation__book is-${index + 1}`}>
-                <BookCover book={book} className="bookstore-recommendation__cover" />
-                <p className="mt-3 line-clamp-2 text-xs font-semibold leading-5 text-[#263a2e] sm:text-sm">{book.name}</p>
+                <BookCover book={book} className="bookstore-recommendation__cover" onClick={() => setDetailsBook(book)} ariaLabel={`${t('View book details')}: ${book.name}`} />
+                <button type="button" onClick={() => setDetailsBook(book)} className="mt-3 line-clamp-2 text-left text-xs font-semibold leading-5 text-[#263a2e] hover:text-violet-800 sm:text-sm">{book.name}</button>
                 <AuthorByline author={book.author} className="mt-1 text-[11px] text-[#68766c] sm:text-xs" />
               </div>
             ))}
@@ -766,6 +768,12 @@ export function BookstoreHomeView({
           </div>
         </div>
       </section>
+      {detailsBook && <BookDetailsDialog
+        book={detailsBook}
+        onClose={() => setDetailsBook(null)}
+        onAddToBag={() => { const book = detailsBook; setDetailsBook(null); onAddToCart(book, 1); }}
+        onRent={() => { const book = detailsBook; setDetailsBook(null); onRent(book, 1); }}
+      />}
     </div>
   );
 }
@@ -825,10 +833,11 @@ function BookTile({
   onRent: (product: Product, quantity?: number) => void;
 }) {
   const { t } = useLanguage();
+  const [detailsOpen, setDetailsOpen] = useState(false);
   return (
     <article className="book-tile group">
       <div className="book-tile__cover-wrap">
-        <BookCover book={book} className="book-tile__cover" />
+        <BookCover book={book} className="book-tile__cover" onClick={() => setDetailsOpen(true)} ariaLabel={`${t('View book details')}: ${book.name}`} />
         {book.isRentable && <span className="bookstore-ribbon">{t('Rentable')}</span>}
         <button
           type="button"
@@ -854,7 +863,7 @@ function BookTile({
             <Heart className={`h-4 w-4 ${isFavorite ? 'fill-rose-700 text-rose-700' : ''}`} />
           </button>
         </div>
-        <h3 className="mt-1 line-clamp-2 min-h-10 text-sm font-semibold leading-5 text-[#20392b]">{book.name}</h3>
+        <button type="button" onClick={() => setDetailsOpen(true)} className="mt-1 line-clamp-2 min-h-10 text-left text-sm font-semibold leading-5 text-[#20392b] hover:text-violet-800">{book.name}</button>
         <AuthorByline author={book.author} className="mt-1 text-xs text-[#68766c]" />
         <div className="mt-2 flex items-center justify-between gap-2">
           <span className="font-semibold text-[#20392b]">{formatCurrency(book.price)}</span>
@@ -874,6 +883,12 @@ function BookTile({
           </div>
         )}
       </div>
+      {detailsOpen && <BookDetailsDialog
+        book={book}
+        onClose={() => setDetailsOpen(false)}
+        onAddToBag={() => { setDetailsOpen(false); onAddToCart(book, 1); }}
+        onRent={() => { setDetailsOpen(false); onRent(book, 1); }}
+      />}
     </article>
   );
 }

@@ -2808,6 +2808,26 @@
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
+.book-details-backdrop { position: fixed; inset: 0; z-index: 220; display: grid; place-items: center; overflow-y: auto; padding: 18px; background: rgba(24,15,38,.68); backdrop-filter: blur(8px); animation: book-details-fade 180ms ease both; }
+.book-details-dialog { position: relative; width: min(100%, 820px); max-height: min(90vh, 800px); overflow-y: auto; padding: clamp(20px,4vw,38px); border: 1px solid rgba(210,184,235,.8); border-radius: 26px; color: #32213f; background: linear-gradient(145deg,#fffdfb,#fff5f8 58%,#f7efff); box-shadow: 0 32px 90px rgba(12,7,24,.4); animation: book-details-rise 320ms cubic-bezier(.18,.8,.25,1) both; }
+.book-details-close { position: absolute; z-index: 2; top: 14px; right: 14px; display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid #e4d7ed; border-radius: 50%; color: #4d3762; background: rgba(255,255,255,.94); }
+.book-details-close:hover { color: #8d3b89; background: #fff; }
+.book-details-layout { display: grid; align-items: center; gap: 26px; grid-template-columns: minmax(155px,.72fr) minmax(0,1.28fr); }
+.book-details-cover-wrap { display: grid; min-height: 280px; place-items: center; padding: 16px; border: 1px solid #ecdfeb; border-radius: 22px; background: radial-gradient(circle at 50% 40%,#fff 0%,#f5eafa 62%,#eadcf0 100%); }
+.book-details-cover { width: min(100%,245px); max-height: 370px; border-radius: 7px; object-fit: contain; filter: drop-shadow(0 18px 20px rgba(47,31,55,.25)); }
+.book-details-category { color: #8652a1; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.book-details-title { margin-top: 8px; padding-right: 28px; color: #2f1d43; font: 700 clamp(25px,4vw,38px)/1.12 Georgia,serif; }
+.book-details-price { color: #633d83; font-size: 24px; font-weight: 800; }
+.book-details-stock { display: inline-flex; align-items: center; gap: 6px; color: #8a4b48; font-size: 12px; font-weight: 700; }
+.book-details-stock.is-available { color: #377451; }
+.book-details-description { margin-top: 18px; padding: 15px 16px; border: 1px solid #eadcf1; border-radius: 16px; background: rgba(255,255,255,.73); }
+.book-details-description h3 { display: flex; align-items: center; gap: 8px; color: #694286; font-size: 13px; font-weight: 800; }
+.book-details-description p { margin-top: 8px; color: #493d52; font-size: 14px; line-height: 1.75; }
+@keyframes book-details-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes book-details-rise { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 560px) { .book-details-layout { grid-template-columns: minmax(90px,.55fr) minmax(0,1.45fr); gap: 14px; } .book-details-cover-wrap { min-height: 195px; padding: 8px; } .book-details-title { font-size: 24px; } .book-details-description p { font-size: 12px; } }
+@media (max-width: 390px) { .book-details-layout { grid-template-columns: 1fr; } .book-details-cover-wrap { min-height: 195px; } .book-details-cover { max-height: 235px; width: auto; } }
+
 /* Interactive Golden Treasure Box reveal for the curated combo collection. */
 .golden-treasure-stage { display: flex; justify-content: center; padding: 28px 0 4px; perspective: 900px; }
 .golden-treasure-trigger { display: grid; justify-items: center; gap: 12px; min-width: 190px; padding: 8px 16px 12px; border: 0; border-radius: 20px; color: #5d347a; background: transparent; cursor: pointer; transform-style: preserve-3d; }

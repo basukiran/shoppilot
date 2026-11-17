@@ -15,6 +15,7 @@ import type { Product } from '@/types';
 import { cn, formatCurrency } from '@/lib/utils';
 import { getCoverPlaceholder } from '@/lib/bookCovers';
 import { AuthorByline } from '@/components/AuthorByline';
+import { BookDetailsDialog } from '@/components/BookDetailsDialog';
 
 const iconMap: Record<string, string> = {
   book: '📚',
@@ -52,6 +53,7 @@ export function ProductCard({
   onToggleFavorite?: (product: Product) => void;
 }) {
   const [quantity, setQuantity] = useState(1);
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
   const increaseQuantity = () => {
     if (quantity < product.stockCount) {
@@ -171,16 +173,18 @@ export function ProductCard({
         </span>
 
         {product.coverImage && (
-          <img
-            src={product.coverImage}
-            alt={`${product.name} cover`}
-            loading="lazy"
-            onError={(event) => {
-              event.currentTarget.onerror = null;
-              event.currentTarget.src = getCoverPlaceholder(product.name);
-            }}
-            className="absolute inset-0 h-full w-full object-contain p-2"
-          />
+          <button type="button" onClick={() => setDetailsOpen(true)} aria-label={`View details for ${product.name}`} className="absolute inset-0 z-[1] flex h-full w-full items-center justify-center bg-transparent">
+            <img
+              src={product.coverImage}
+              alt={`${product.name} cover`}
+              loading="lazy"
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = getCoverPlaceholder(product.name);
+              }}
+              className="h-full w-full object-contain p-2"
+            />
+          </button>
         )}
 
         {onToggleFavorite && (
@@ -267,11 +271,9 @@ export function ProductCard({
 
         {/* Product name */}
 
-        <p className="text-sm font-semibold leading-snug text-ink-900">
-
+        <button type="button" onClick={() => setDetailsOpen(true)} className="text-left text-sm font-semibold leading-snug text-ink-900 hover:text-violet-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet-600">
           {product.name}
-
-        </p>
+        </button>
 
         {product.author && (
           <AuthorByline author={product.author} className="text-xs text-ink-500" />
@@ -517,6 +519,12 @@ export function ProductCard({
 
       </div>
 
+      {detailsOpen && <BookDetailsDialog
+        book={product}
+        onClose={() => setDetailsOpen(false)}
+        onAddToBag={() => { setDetailsOpen(false); handleAddToCart(); }}
+        onRent={onRent ? () => { setDetailsOpen(false); handleRent(); } : undefined}
+      />}
     </div>
   );
 }
