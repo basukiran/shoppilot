@@ -15,7 +15,7 @@ export function BookCombosSection({
   onAddToCart: (product: Product, quantity?: number) => void;
 }) {
   const { t } = useLanguage();
-  const [treasureOpen, setTreasureOpen] = useState(false);
+  const [openTreasureIds, setOpenTreasureIds] = useState<Set<string>>(() => new Set());
   const productsByName = new Map(products.map((product) => [product.name.trim().toLowerCase(), product]));
 
   return (
@@ -31,28 +31,15 @@ export function BookCombosSection({
           </p>
         </div>
 
-        <div className="golden-treasure-stage" aria-label={t('Jnana Nidhi Golden Treasure Box')}>
-          <button
-            type="button"
-            className={`golden-treasure-trigger${treasureOpen ? ' is-open' : ''}`}
-            aria-expanded={treasureOpen}
-            aria-controls="golden-treasure-books"
-            onClick={() => setTreasureOpen((open) => !open)}
-          >
-            <span className="golden-treasure-art" aria-hidden="true">
-              <span className="golden-treasure-glow" />
-              <span className="golden-treasure-body" />
-              <span className="golden-treasure-lid">
-                <span className="golden-treasure-ribbon" />
-                <span className="golden-treasure-bow" />
-              </span>
-            </span>
-            <span className="golden-treasure-label">{t(treasureOpen ? 'Close treasure box' : 'Open treasure box')}</span>
-          </button>
-        </div>
-
-        {treasureOpen && <div id="golden-treasure-books" className="golden-treasure-reveal mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-8 grid items-start gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {bookCombos.map((combo) => {
+            const isOpen = openTreasureIds.has(combo.id);
+            const toggleTreasure = () => setOpenTreasureIds((current) => {
+              const next = new Set(current);
+              if (next.has(combo.id)) next.delete(combo.id);
+              else next.add(combo.id);
+              return next;
+            });
             const includedBooks = combo.bookTitles
               .map((title) => productsByName.get(title.trim().toLowerCase()))
               .filter((product): product is Product => Boolean(product));
@@ -88,17 +75,30 @@ export function BookCombosSection({
             };
 
             return (
-              <article key={combo.id} className="flex min-w-0 flex-col border border-[#e0e3d8] bg-[#fffefa] p-5">
-                <div className="flex items-start gap-3">
-                  <span className="grid h-9 w-9 shrink-0 place-items-center bg-[#edf1e7] text-[#55735b]">
-                    <BookOpen className="h-4 w-4" />
+              <article key={combo.id} className={`golden-treasure-card golden-treasure-card--${combo.id}${isOpen ? ' is-open' : ''}`}>
+                <button
+                  type="button"
+                  className={`golden-treasure-trigger${isOpen ? ' is-open' : ''}`}
+                  aria-label={`${t(isOpen ? 'Close treasure box' : 'Open treasure box')}: ${t(combo.name)}`}
+                  aria-expanded={isOpen}
+                  aria-controls={`treasure-books-${combo.id}`}
+                  onClick={toggleTreasure}
+                >
+                  <span className="golden-treasure-title">{t(combo.name)}</span>
+                  <span className="golden-treasure-art" aria-hidden="true">
+                    <span className="golden-treasure-glow" />
+                    <span className="golden-treasure-body" />
+                    <span className="golden-treasure-lid">
+                      <span className="golden-treasure-ribbon" />
+                      <span className="golden-treasure-bow" />
+                      <span className="golden-treasure-emblem">{combo.id === 'self-growth' ? '✦' : combo.id === 'money-finance' ? '₹' : combo.id === 'mind-psychology' ? '☼' : combo.id === 'productivity' ? '⌛' : combo.id === 'leadership-business' ? '♛' : combo.id === 'kannada-books' ? 'ಕ' : '✧'}</span>
+                    </span>
                   </span>
-                  <div className="min-w-0">
-                    <h3 className="bookstore-display text-xl leading-snug text-[#20392b]">{t(combo.name)}</h3>
-                    <p className="mt-1 text-xs leading-5 text-[#68766c]">{t(combo.description)}</p>
-                  </div>
-                </div>
+                  <span className="golden-treasure-label">{t(isOpen ? 'Close treasure box' : 'Open treasure box')}</span>
+                  <span className="golden-treasure-description">{t(combo.description)}</span>
+                </button>
 
+                {isOpen && <div id={`treasure-books-${combo.id}`} className="golden-treasure-reveal">
                 <div className="mt-5 flex min-h-16 items-center gap-2">
                   {includedBooks.slice(0, 5).map((book) => (
                     <img
@@ -144,10 +144,11 @@ export function BookCombosSection({
                   </button>
                 </div>
                 {!complete && <p className="mt-3 text-xs text-rose-700">{t('A book in this treasure box is unavailable.')}</p>}
+                </div>}
               </article>
             );
           })}
-        </div>}
+        </div>
       </div>
     </section>
   );

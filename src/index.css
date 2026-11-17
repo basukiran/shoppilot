@@ -2836,3 +2836,39 @@
 @media (prefers-reduced-motion: reduce) {
   .golden-treasure-lid, .golden-treasure-glow, .golden-treasure-bow, .golden-treasure-reveal, .golden-treasure-reveal > article { animation: none !important; transition: none !important; }
 }
+
+/* Each reading collection gets its own themed, independently opening box. */
+.golden-treasure-card { --box-main: #df9b22; --box-light: #ffe79a; --box-dark: #9e5b13; --box-accent: #bd337e; --box-glow: rgba(255,206,67,.72); display: flex; min-width: 0; flex-direction: column; overflow: hidden; padding: 18px; border: 1px solid color-mix(in srgb,var(--box-main),white 55%); border-radius: 24px; background: linear-gradient(145deg,rgba(255,255,255,.96),rgba(255,248,238,.92)); box-shadow: 0 16px 38px rgba(55,37,71,.12); transition: transform 260ms ease,box-shadow 260ms ease; }
+.golden-treasure-card:hover { transform: translateY(-3px); box-shadow: 0 22px 42px rgba(55,37,71,.17); }
+.golden-treasure-card--self-growth { --box-main:#dba124; --box-light:#fff0a8; --box-dark:#84620f; --box-accent:#e4763a; --box-glow:rgba(255,222,103,.82); }
+.golden-treasure-card--money-finance { --box-main:#a67a31; --box-light:#f9df9a; --box-dark:#5e452a; --box-accent:#7348a2; --box-glow:rgba(255,209,94,.78); }
+.golden-treasure-card--mind-psychology { --box-main:#9873ca; --box-light:#e8d8ff; --box-dark:#5b4387; --box-accent:#df77b4; --box-glow:rgba(211,163,255,.76); }
+.golden-treasure-card--productivity { --box-main:#4888be; --box-light:#c5e7ff; --box-dark:#315476; --box-accent:#f1ad45; --box-glow:rgba(117,205,255,.76); }
+.golden-treasure-card--leadership-business { --box-main:#b45457; --box-light:#ffc4a2; --box-dark:#71333e; --box-accent:#dfb84c; --box-glow:rgba(255,162,119,.76); }
+.golden-treasure-card--kannada-books { --box-main:#338b83; --box-light:#bdeee0; --box-dark:#28615b; --box-accent:#e4a74b; --box-glow:rgba(105,223,187,.76); }
+.golden-treasure-card--indian-history-knowledge { --box-main:#b96b3e; --box-light:#f4c27c; --box-dark:#70442c; --box-accent:#3c7186; --box-glow:rgba(255,180,93,.76); }
+.golden-treasure-card .golden-treasure-trigger { position: relative; display: flex; width: 100%; min-height: 194px; flex-direction: column; align-items: center; justify-content: flex-start; gap: 6px; padding: 5px 4px 13px; border: 0; border-radius: 16px; color: #4a3659; background: radial-gradient(ellipse at 50% 66%,color-mix(in srgb,var(--box-main),transparent 87%),transparent 68%); cursor: pointer; }
+.golden-treasure-card .golden-treasure-trigger:focus-visible { outline: 3px solid var(--box-main); outline-offset: 3px; }
+.golden-treasure-card .golden-treasure-title { min-height: 2.6em; color: #30213e; font-family: Georgia,serif; font-size: 18px; font-weight: 700; line-height: 1.25; text-align: center; }
+.golden-treasure-card .golden-treasure-art { width: 142px; height: 102px; flex: 0 0 auto; }
+.golden-treasure-card .golden-treasure-body { border-color: var(--box-dark); background: linear-gradient(140deg,var(--box-light),var(--box-main) 48%,var(--box-dark)); }
+.golden-treasure-card .golden-treasure-lid { border-color: var(--box-dark); background: linear-gradient(180deg,var(--box-light),var(--box-main) 78%,var(--box-dark)); }
+.golden-treasure-card .golden-treasure-glow { background: radial-gradient(ellipse,var(--box-glow),transparent 72%); }
+.golden-treasure-card .golden-treasure-ribbon { background: linear-gradient(90deg,var(--box-accent),color-mix(in srgb,var(--box-accent),white 38%),var(--box-accent)); }
+.golden-treasure-card .golden-treasure-bow { border-color: var(--box-accent); }
+.golden-treasure-emblem { position: absolute; left: 50%; top: 50%; display: grid; width: 29px; height: 29px; place-items: center; border: 2px solid color-mix(in srgb,var(--box-accent),white 28%); border-radius: 50%; color: #fff7dc; background: var(--box-accent); box-shadow: 0 2px 6px rgba(44,24,27,.26); font-size: 16px; font-weight: 900; transform: translate(-50%,-50%); }
+.golden-treasure-card .golden-treasure-label { padding: 5px 12px; border: 1px solid color-mix(in srgb,var(--box-main),white 55%); border-radius: 99px; color: color-mix(in srgb,var(--box-dark),#32213f 20%); background: rgba(255,255,255,.83); font-size: 11px; }
+.golden-treasure-card .golden-treasure-description { max-width: 34ch; color: #574b62; font-size: 12px; line-height: 1.5; text-align: center; }
+.golden-treasure-card .golden-treasure-trigger.is-open .golden-treasure-lid { transform: rotateX(-145deg) translateZ(20px) translateY(-4px); }
+.golden-treasure-card .golden-treasure-trigger.is-open .golden-treasure-glow { opacity: 1; animation: treasure-glow-pulse 1.7s ease-in-out infinite alternate; }
+.golden-treasure-card .golden-treasure-trigger.is-open .golden-treasure-bow { transform: translateY(-18px) rotate(25deg) scale(.8); opacity: .08; }
+.golden-treasure-card .golden-treasure-reveal { overflow: hidden; animation: treasure-books-unfold 650ms cubic-bezier(.16,.8,.24,1) both; }
+.golden-treasure-card .golden-treasure-reveal > ul { color: #51445f; }
+.golden-treasure-card .golden-treasure-reveal > article { animation: treasure-card-appear 500ms ease both; }
+@media (max-width: 639px) {
+  .golden-treasure-card { padding: 14px; }
+  .golden-treasure-card .golden-treasure-trigger { min-height: 184px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .golden-treasure-card, .golden-treasure-card .golden-treasure-lid, .golden-treasure-card .golden-treasure-glow, .golden-treasure-card .golden-treasure-bow, .golden-treasure-card .golden-treasure-reveal { animation: none !important; transition: none !important; }
+}
