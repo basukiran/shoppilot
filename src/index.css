@@ -2809,6 +2809,19 @@
 }
 
 /* Motion graphics across every page: atmospheric stars, route transitions, and lively controls. */
+.bv-openworld-scene { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; opacity: .42; perspective: 900px; }
+.bv-openworld-city { position: absolute; inset: 0; width: 100%; height: 100%; transform-origin: center bottom; animation: bv-world-pan 32s ease-in-out infinite alternate; }
+.bv-openworld-road { position: absolute; left: -12%; right: -12%; bottom: -22%; height: 52%; overflow: hidden; opacity: .32; transform: perspective(420px) rotateX(62deg); transform-origin: center bottom; background: radial-gradient(ellipse at 50% 0%,rgba(255,205,229,.35),transparent 56%),linear-gradient(180deg,rgba(75,58,112,.28),rgba(66,53,97,.5)); }
+.bv-openworld-road::before { position: absolute; inset: 0; content: ''; background: repeating-linear-gradient(90deg,transparent 0 8%,rgba(255,229,186,.45) 8.12%,transparent 8.35% 16%),repeating-linear-gradient(0deg,transparent 0 13%,rgba(255,255,255,.18) 13.2%,transparent 13.7% 26%); mask-image: linear-gradient(180deg,transparent,#000 36%); animation: bv-world-road-flow 5s linear infinite; }
+.bv-openworld-road span { position: absolute; top: 8%; left: 50%; width: 3px; height: 65%; border-radius: 50%; background: rgba(255,240,194,.85); box-shadow: 0 0 18px 4px rgba(255,204,159,.48); transform: translateX(-50%); }
+.bv-openworld-road span:nth-child(2) { left: 34%; top: 25%; height: 48%; width: 2px; opacity: .52; }
+.bv-openworld-road span:nth-child(3) { left: 66%; top: 25%; height: 48%; width: 2px; opacity: .52; }
+.bv-openworld-light { position: absolute; display: block; height: 2px; border-radius: 50%; opacity: 0; filter: blur(1px); background: linear-gradient(90deg,transparent,#fff2c7,#f49bcc,transparent); box-shadow: 0 0 12px rgba(241,150,205,.68); animation: bv-world-light-pass 11s ease-in-out infinite; }
+.bv-openworld-light--one { top: 47%; left: -34%; width: 32vw; }
+.bv-openworld-light--two { top: 54%; left: -45%; width: 22vw; animation-delay: -3.5s; animation-duration: 14s; }
+.bv-openworld-light--three { top: 43%; left: -25%; width: 18vw; animation-delay: -7s; animation-duration: 12s; }
+.bv-app-main { position: relative; z-index: 1; }
+.bv-app-sidebar,.bv-app-topbar { z-index: 2; }
 .bv-app-shell::after {
   display: block;
   opacity: .28;
@@ -2839,7 +2852,12 @@
 .bv-app-main .grid > :is(.card,.book-tile,.bvr-card):nth-child(8) { animation-delay: 315ms; }
 @keyframes jnana-page-arrive { from { opacity: 0; transform: translateY(13px) scale(.997); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes jnana-card-arrive { from { opacity: 0; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }
+@keyframes bv-world-pan { from { transform: scale(1) translateX(-.45%); } to { transform: scale(1.035) translateX(.45%); } }
+@keyframes bv-world-road-flow { from { background-position: center 0,center 0; } to { background-position: center 0,center 100%; } }
+@keyframes bv-world-light-pass { 0%,18% { opacity: 0; transform: translateX(0) scaleX(.4); } 35% { opacity: .8; } 72% { opacity: .48; } 100% { opacity: 0; transform: translateX(170vw) scaleX(1.2); } }
+@media (max-width: 640px) { .bv-openworld-scene { opacity: .24; } .bv-openworld-road { height: 38%; bottom: -20%; } .bv-openworld-city { height: 84%; top: 16%; } }
 @media (prefers-reduced-motion: reduce) {
+  .bv-openworld-city,.bv-openworld-road::before,.bv-openworld-light { animation: none !important; }
   .bv-app-shell::after { animation: none !important; }
   .bv-app-main > .animate-fade-in,
   .bv-app-main .grid > :is(.card,.book-tile,.bvr-card) { animation: none !important; }

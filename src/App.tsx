@@ -415,6 +415,27 @@ function App() {
         <div className="bv-floating-book bv-floating-book--four"><img src="/covers/grit.jpg" alt="" /></div>
         <div className="bv-floating-book bv-floating-book--five"><img src="/covers/courage-to-be-disliked.jpg" alt="" /></div>
       </div>
+      <div className="bv-openworld-scene" aria-hidden="true">
+        <svg className="bv-openworld-city" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax slice">
+          <defs>
+            <linearGradient id="jnana-city-sky" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#ffd5ec" stopOpacity="0" /><stop offset=".58" stopColor="#bd85d7" stopOpacity=".32" /><stop offset="1" stopColor="#6c5d9d" stopOpacity=".5" /></linearGradient>
+            <linearGradient id="jnana-city-far" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#80699e" stopOpacity=".4" /><stop offset="1" stopColor="#514b79" stopOpacity=".56" /></linearGradient>
+            <linearGradient id="jnana-city-near" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#564970" stopOpacity=".56" /><stop offset="1" stopColor="#342c50" stopOpacity=".78" /></linearGradient>
+          </defs>
+          <rect width="1440" height="620" fill="url(#jnana-city-sky)" />
+          <circle cx="1132" cy="196" r="78" fill="#fff1cd" opacity=".22" />
+          <path d="M0 440V318h52v-36h32v96h43V251h62v67h28v-98h50v147h46v-72h80v112h39V286h47v-42h44v96h49v-71h75v131h31V286h54v-62h48v91h47v-49h67v133h41V266h54v-37h45v100h42V278h60v114h48V266h46v-70h49v128h53v-70h67v186h70v188H0Z" fill="url(#jnana-city-far)" />
+          <path d="M0 472V390h71v-26h53v108h47V341h75v82h38v-67h53v120h50V367h74v115h43V324h84v68h41v-47h72v105h47V372h60v101h56V330h83v75h39v-52h64v110h53V346h78v97h49V370h82v105h45v-79h76v102h64v122H0Z" fill="url(#jnana-city-near)" />
+          <g fill="#ffdb9e" opacity=".52">
+            <path d="M153 358h7v13h-7zm22 0h7v13h-7zm0 23h7v13h-7zm301-16h7v14h-7zm21 0h7v14h-7zm0 27h7v14h-7zm144-27h7v13h-7zm24 0h7v13h-7zm0 25h7v13h-7zm307-10h7v14h-7zm25 0h7v14h-7zm0 27h7v14h-7zm190-18h7v15h-7zm23 0h7v15h-7z" />
+          </g>
+          <path d="M0 488q252-42 496 3t464-3 480 0v132H0Z" fill="#3d365e" opacity=".72" />
+        </svg>
+        <div className="bv-openworld-road"><span /><span /><span /></div>
+        <i className="bv-openworld-light bv-openworld-light--one" />
+        <i className="bv-openworld-light bv-openworld-light--two" />
+        <i className="bv-openworld-light bv-openworld-light--three" />
+      </div>
 
       {/* SIDEBAR */}
       <Sidebar
