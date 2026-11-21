@@ -163,31 +163,25 @@ export function BookstoreHomeView({
         <div className="storybook-world" aria-hidden="true">
           <svg viewBox="0 0 1600 720" preserveAspectRatio="xMidYMid slice" className="storybook-world__art">
             <defs>
-              <linearGradient id="storybook-sky" x1="800" y1="0" x2="800" y2="720" gradientUnits="userSpaceOnUse"><stop stopColor="#8dd8dc" /><stop offset=".48" stopColor="#c8eef0" /><stop offset="1" stopColor="#ffe2c7" /></linearGradient>
-              <linearGradient id="storybook-mountain" x1="800" y1="260" x2="800" y2="540" gradientUnits="userSpaceOnUse"><stop stopColor="#92c6c7" /><stop offset="1" stopColor="#93c5a9" /></linearGradient>
-              <linearGradient id="storybook-hill" x1="800" y1="390" x2="800" y2="720" gradientUnits="userSpaceOnUse"><stop stopColor="#8dc39a" /><stop offset="1" stopColor="#488f78" /></linearGradient>
-              <linearGradient id="storybook-path" x1="800" y1="470" x2="820" y2="720" gradientUnits="userSpaceOnUse"><stop stopColor="#e8d5b2" /><stop offset="1" stopColor="#c79d73" /></linearGradient>
-              <radialGradient id="storybook-sun"><stop stopColor="#fffce0" /><stop offset=".58" stopColor="#fff2bb" /><stop offset="1" stopColor="#fff2bb" stopOpacity="0" /></radialGradient>
+              <linearGradient id="storybook-sky" x1="800" y1="0" x2="800" y2="720" gradientUnits="userSpaceOnUse"><stop stopColor="#071328" /><stop offset=".42" stopColor="#5b276f" /><stop offset=".72" stopColor="#f06b82" /><stop offset="1" stopColor="#ffb883" /></linearGradient>
+              <linearGradient id="storybook-city" x1="800" y1="250" x2="800" y2="600" gradientUnits="userSpaceOnUse"><stop stopColor="#282449" /><stop offset="1" stopColor="#10172a" /></linearGradient>
+              <linearGradient id="storybook-road" x1="800" y1="390" x2="800" y2="720" gradientUnits="userSpaceOnUse"><stop stopColor="#44304f" /><stop offset="1" stopColor="#111629" /></linearGradient>
+              <radialGradient id="storybook-sun"><stop stopColor="#fff5c9" /><stop offset=".72" stopColor="#ffb8a1" /><stop offset="1" stopColor="#ff8db0" stopOpacity="0" /></radialGradient>
             </defs>
             <path fill="url(#storybook-sky)" d="M0 0h1600v720H0z" />
-            <circle cx="1170" cy="130" r="126" fill="url(#storybook-sun)" />
-            <circle cx="1170" cy="130" r="38" fill="#fff8d5" />
-            <g className="storybook-cloud storybook-cloud--one" fill="#fff" opacity=".56">
-              <ellipse cx="285" cy="164" rx="92" ry="25" /><ellipse cx="245" cy="151" rx="40" ry="36" /><ellipse cx="300" cy="140" rx="53" ry="46" /><ellipse cx="348" cy="155" rx="42" ry="29" />
-            </g>
-            <g className="storybook-cloud storybook-cloud--two" fill="#fff" opacity=".44">
-              <ellipse cx="1400" cy="250" rx="110" ry="23" /><ellipse cx="1351" cy="239" rx="46" ry="31" /><ellipse cx="1409" cy="229" rx="55" ry="42" /><ellipse cx="1462" cy="244" rx="46" ry="28" />
-            </g>
-            <path fill="url(#storybook-mountain)" d="m0 475 179-202 111 118 185-239 186 239 116-108 151 191 176-244 195 244 138-137 163 153v230H0z" />
-            <path fill="#f4ffff" opacity=".58" d="m475 152 75 98-53-20-34 30-35-24-47 37zM1004 230l72 90-49-17-31 25-37-24-45 25zM291 273l50 55-34-10-21 18-25-18-31 12z" />
-            <path fill="#bbdfbd" d="M0 461c179-81 328-44 482 6 166 53 304 32 474-18 235-69 445-57 644 17v254H0z" />
-            <path fill="url(#storybook-hill)" d="M0 518c163-61 324-28 461 27 161 65 320 63 470-1 212-90 431-107 669-24v200H0z" />
-            <path fill="#66a98b" d="M0 604c209-93 423-56 586 5 169 63 305 53 461-20 184-85 348-60 553-7v138H0z" />
-            <path fill="url(#storybook-path)" d="M680 720c69-85 128-137 149-191 16-41 5-70-31-103h112c50 48 51 87 13 133-42 50-73 95-97 161z" />
-            <g fill="#3d826d" opacity=".8">
-              <path d="M79 517c-23-72-17-127 18-169 35 42 42 97 18 169z"/><path d="M116 518c-7-89 11-151 56-188 19 58 1 121-56 188z"/><path d="M1480 493c-15-72-6-129 28-170 30 46 31 101 3 165z"/><path d="M1513 499c1-82 25-138 71-168 10 56-14 111-71 168z"/>
-            </g>
-            <g fill="#f8d79b" opacity=".85"><circle cx="250" cy="628" r="5"/><circle cx="287" cy="650" r="4"/><circle cx="1335" cy="610" r="5"/><circle cx="1307" cy="641" r="4"/><circle cx="427" cy="587" r="4"/><circle cx="1195" cy="571" r="4"/></g>
+            <circle cx="1170" cy="278" r="144" fill="url(#storybook-sun)" />
+            <circle cx="1170" cy="278" r="63" fill="#ffd9b4" opacity=".92" />
+            <path fill="#33264c" opacity=".68" d="M0 437V302h80v69h36V251h72v126h54V220h104v165h48V286h83v138H0zm500 4V252h48v-64h105v249h44V292h89v137h48V217h113v221h44V268h77v165h44V237h108v204H500zm535-4V284h68v-69h88v219h45V272h82v165h69V320h62v117h56v198H0V470h0z" />
+            <path fill="url(#storybook-city)" d="M0 481V377h84v-62h89v167h52V346h105v135h62V303h116v178h62V365h93v116h47V284h121v197h64V349h97v132h51V309h114v172h54V360h96v121h61V337h93v144h50v239H0z" />
+            <g fill="#ffca9c" opacity=".88"><path d="M107 343h8v17h-8zm27 0h8v17h-8zm0 31h8v17h-8zm132-75h9v19h-9zm29 0h9v19h-9zm0 34h9v19h-9zm204 19h8v18h-8zm26 0h8v18h-8zm0 30h8v18h-8zm319-60h9v19h-9zm28 0h9v19h-9zm0 34h9v19h-9zm257-47h8v18h-8zm25 0h8v18h-8zm0 32h8v18h-8z" /></g>
+            <path fill="url(#storybook-road)" d="M0 510h1600v210H0z" />
+            <path d="M640 720 775 510h50L690 720zm275 0L850 510h50l212 210z" fill="#fa84bd" opacity=".68" />
+            <path d="M790 720 798 510h8l-2 210zm250 0L906 510h7l160 210zM540 720l247-210h8L590 720z" fill="#70e6ff" opacity=".82" />
+            <path d="M0 562h1600M0 624h1600M0 685h1600" stroke="#f49ad4" strokeOpacity=".34" strokeWidth="3" />
+            <g fill="#111528"><path d="m78 480 40-34 48 34-8 24H86z"/><path d="m1380 468 38-30 45 30-8 23h-69z"/></g>
+            <g fill="#ff526f"><circle cx="100" cy="479" r="5"/><circle cx="1450" cy="467" r="5"/></g>
+            <g className="storybook-car storybook-car--one"><path d="m0 0 18-17h45l18 17 9 4v14H-8V4z" fill="#f23c72"/><path d="m25-14 11-11h25l12 11z" fill="#8deaff"/><path d="M-5 8h16m63 0h14" stroke="#fff3c2" strokeWidth="5"/></g>
+            <g className="storybook-car storybook-car--two"><path d="m0 0 15-13h34l16 13 8 4v12H-8V4z" fill="#21b9dc"/><path d="m20-11 9-9h21l10 9z" fill="#ffc7f0"/><path d="M-5 7h14m57 0h13" stroke="#d9fbff" strokeWidth="4"/></g>
           </svg>
           <div className="storybook-world__veil" />
         </div>
