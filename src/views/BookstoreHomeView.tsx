@@ -208,9 +208,12 @@ export function BookstoreHomeView({
             <p className="bookstore-kicker">
               <Leaf className="h-4 w-4" /> {t('A little more wonder, every day')}
             </p>
-            <h1 className="bookstore-display mt-5 max-w-[650px] text-[42px] leading-[1.05] text-[#183629] sm:text-[56px] lg:text-[64px]">
-              {t('Books for Everyone, Rich or Poor, Everyone Deserves the Power of Knowledge.')}
+            <h1 className="bookstore-display bookstore-hero__title mt-5 max-w-[760px]">
+              JNANA NIDHI
             </h1>
+            <p className="bookstore-hero__manifesto mt-4 max-w-2xl">
+              {t('Books for Everyone, Rich or Poor, Everyone Deserves the Power of Knowledge.')}
+            </p>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#52665a] sm:text-lg">
               {t('Thoughtful reads for curious minds. Explore stories, ideas, and practical knowledge, then bring your next favorite home.')}
             </p>

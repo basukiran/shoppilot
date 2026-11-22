@@ -3040,3 +3040,58 @@
 .bookstore-home :is(button,a):focus-visible { outline-color: var(--jnana-orange); }
 .bookstore-hero { color: #fff; }
 #rental-guidelines.bvr-section { background: linear-gradient(145deg,#fffafd,#f8eaf6) !important; }
+
+/* Editorial pink hero inspired by the supplied fashion landing-page reference. */
+.bookstore-hero {
+  min-height: 620px;
+  color: #3d2148;
+  background: radial-gradient(ellipse at 78% 42%,#ffe5c8 0%,#f8d7ee 37%,#edc8e8 100%) !important;
+}
+.storybook-world__art { opacity: .035 !important; }
+.storybook-world__veil { background: linear-gradient(115deg,rgba(247,217,242,.9),rgba(245,210,237,.56) 58%,rgba(251,220,225,.22)) !important; }
+.bookstore-hero__title {
+  color: #3d2148 !important;
+  font-family: 'DM Sans',sans-serif;
+  font-size: clamp(3.35rem,8.1vw,7.25rem);
+  font-weight: 900;
+  letter-spacing: -.075em;
+  line-height: .88;
+  text-transform: uppercase;
+  text-shadow: 0 3px 0 rgba(255,255,255,.35),0 12px 30px rgba(79,37,87,.12);
+}
+.bookstore-hero__manifesto {
+  color: #4b2a55;
+  font-size: clamp(1.15rem,2vw,1.65rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+.bookstore-hero__inner > div:first-child > p:not(.bookstore-kicker) {
+  color: #684b70 !important;
+  text-shadow: none;
+}
+.bookstore-hero .bookstore-kicker {
+  color: #4b2a55 !important;
+  border-color: rgba(75,42,85,.18);
+  background: rgba(255,248,253,.76);
+  text-shadow: none;
+  letter-spacing: .16em;
+}
+.bookstore-hero__footnote { color: #684b70 !important; border-color: rgba(75,42,85,.2); text-shadow: none; }
+.bookstore-hero__arch {
+  border-color: rgba(197,93,143,.25);
+  background: radial-gradient(ellipse at 50% 38%,rgba(255,255,255,.88),rgba(240,186,223,.58) 62%,rgba(242,117,62,.17));
+  box-shadow: 0 28px 70px rgba(94,44,103,.16);
+}
+.bookstore-hero__note { border-color: rgba(61,33,72,.14); color: #3d2148; background: rgba(255,249,253,.94); }
+.bookstore-hero__note-icon { color: #fff; background: #f26735; }
+.bookstore-hero .bookstore-button--dark,
+.bookstore-hero .bookstore-button--cream { color: #fff !important; background: linear-gradient(120deg,#ed572e,#fa7a3d) !important; }
+.bookstore-hero .bookstore-button--light,
+.bookstore-hero .bookstore-button--outline { color: #3d2148; border-color: rgba(61,33,72,.26); background: rgba(255,248,253,.78); }
+.bookstore-hero .bookstore-button--light:hover:not(:disabled),
+.bookstore-hero .bookstore-button--outline:hover:not(:disabled) { background: #fff6fb; }
+.bookstore-hero .bookstore-hero__art { filter: drop-shadow(0 24px 28px rgba(91,42,96,.14)); }
+@media (max-width: 639px) {
+  .bookstore-hero { min-height: 0; }
+  .bookstore-hero__title { font-size: clamp(3.05rem,16vw,5rem); }
+}
