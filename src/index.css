@@ -2971,3 +2971,72 @@
 @media (prefers-reduced-motion: reduce) {
   .golden-treasure-card, .golden-treasure-card .golden-treasure-lid, .golden-treasure-card .golden-treasure-glow, .golden-treasure-card .golden-treasure-bow, .golden-treasure-card .golden-treasure-reveal { animation: none !important; transition: none !important; }
 }
+
+/* Jnana Nidhi palette: pastel orchid, deep eggplant, and signal orange. */
+.bv-app-shell {
+  --jnana-eggplant: #3d2148;
+  --jnana-eggplant-muted: #674d70;
+  --jnana-orchid: #f3d9ef;
+  --jnana-orchid-surface: #fff8fd;
+  --jnana-orange: #f26735;
+  --jnana-neon-soft: radial-gradient(ellipse at 50% 6%, #fff5fc 0%, #f8e7f5 48%, #efd7ed 100%);
+  color: var(--jnana-eggplant);
+  background-color: var(--jnana-orchid);
+  background-image: var(--jnana-neon-soft);
+}
+.bv-app-shell::before { background-image: var(--jnana-neon-soft); }
+.bv-app-sidebar,
+.bv-app-topbar {
+  color: var(--jnana-eggplant);
+  background: linear-gradient(145deg,rgba(255,248,253,.97),rgba(244,221,241,.97));
+  border-color: rgba(91,48,104,.18);
+}
+.bv-app-sidebar .text-ink-900,
+.bv-app-topbar h1,
+.bv-app-topbar .text-ink-900 { color: var(--jnana-eggplant); }
+.bv-app-sidebar .text-ink-500,
+.bv-app-sidebar .text-ink-400,
+.bv-app-topbar .text-ink-500,
+.bv-app-topbar .text-ink-400 { color: var(--jnana-eggplant-muted); }
+.bv-app-sidebar button[class~="text-ink-600"],
+.bv-app-topbar .btn-ghost { color: var(--jnana-eggplant); }
+.bv-app-sidebar button[class~="bg-brand-50"] {
+  color: #fff;
+  background: linear-gradient(120deg,#e9562d,#f47a42);
+  box-shadow: 0 6px 16px rgba(201,74,44,.22);
+}
+.bv-app-main { color: var(--jnana-eggplant); }
+.bv-app-main > .animate-fade-in > h1,
+.bv-app-main > .animate-fade-in > div > h1,
+.bv-app-main h2,
+.bv-app-main h3 { color: var(--jnana-eggplant); }
+.bv-app-main :is(.text-gray-400,.text-gray-500,.text-gray-600,.text-ink-400,.text-ink-500,.text-ink-600) {
+  color: var(--jnana-eggplant-muted) !important;
+}
+.bv-app-main .card,
+.bv-app-main .bv-account-auth-panel,
+.bv-app-main [class~="bg-white"],
+.bv-app-main [class*="bg-white/"]:not([class*="bg-white/5"]):not([class*="bg-white/10"]):not([class*="bg-white/20"]),
+.bv-cosmic-page,
+.bookstore-home > section:not(.bookstore-hero),
+.bookstore-home > footer {
+  color: var(--jnana-eggplant);
+  background: linear-gradient(145deg,#fffafd 0%,#f8eaf6 100%) !important;
+  border-color: rgba(95,52,107,.16);
+}
+.bv-app-main .btn-primary,
+.bookstore-button--dark,
+.bookstore-button--cream {
+  color: #fff !important;
+  background: linear-gradient(120deg,#ed572e,#fa7a3d) !important;
+  box-shadow: 0 8px 20px rgba(201,74,44,.22);
+}
+.bv-app-main .btn-primary:hover,
+.bookstore-button--dark:hover:not(:disabled),
+.bookstore-button--cream:hover:not(:disabled) {
+  background: linear-gradient(120deg,#d94625,#ed652f) !important;
+}
+.bv-app-main :is(button,a):focus-visible,
+.bookstore-home :is(button,a):focus-visible { outline-color: var(--jnana-orange); }
+.bookstore-hero { color: #fff; }
+#rental-guidelines.bvr-section { background: linear-gradient(145deg,#fffafd,#f8eaf6) !important; }
