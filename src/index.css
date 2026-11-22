@@ -3095,3 +3095,68 @@
   .bookstore-hero { min-height: 0; }
   .bookstore-hero__title { font-size: clamp(3.05rem,16vw,5rem); }
 }
+
+/* Carry the homepage palette through rentals, the reading bag, and the opening book. */
+.bv-app-main .bookstore-rental,
+.bookstore-rental {
+  color: #3d2148 !important;
+  background: linear-gradient(140deg,#f8e4f4,#f1d8ee 60%,#f7e5ef) !important;
+}
+.bookstore-rental :is(h2,p,span) { color: #4b2a55 !important; }
+.bookstore-rental .bookstore-rental__cover { filter: drop-shadow(0 18px 24px rgba(61,33,72,.2)); }
+.bvr-section,
+#rental-guidelines.bvr-section { color: #3d2148; background: linear-gradient(145deg,#fffafd,#f4e2f2) !important; border-color: rgba(95,52,107,.16); }
+.bvr-header__title,
+.bvr-card__title { color: #3d2148 !important; }
+.bvr-header__sub,
+.bvr-card__body,
+.bvr-note { color: #684b70 !important; }
+.bvr-card,
+#rental-guidelines .bvr-card { border-color: rgba(95,52,107,.18); background: linear-gradient(145deg,#fffafd,#f8eaf6) !important; }
+.bvr-card__step { color: #9a7da0; }
+.bvr-accent--green,
+.bvr-accent--amber,
+.bvr-accent--blue,
+.bvr-accent--red { color: #56305f; background: #f3dff0; }
+.bv-app-main [class~="bg-[#103d30]"] { background: linear-gradient(145deg,#63346b,#3d2148) !important; border-color: #f26735 !important; }
+.bv-app-main [class~="bg-brand-50"] { background-color: #f5e3f3; }
+.bv-app-main [class~="bg-brand-600"],
+.bv-app-main [class~="hover:bg-brand-700"] { background-color: #f26735; }
+
+.bv2-intro {
+  color: #3d2148 !important;
+  background: radial-gradient(ellipse at 50% 55%,#fff6fd 0%,#f5dff1 56%,#eecce9 100%) !important;
+}
+.bv2-intro::before {
+  opacity: .12;
+  background-image: repeating-linear-gradient(118deg,transparent 0 50px,rgba(86,48,95,.24) 51px,transparent 52px 104px);
+}
+.bv2-intro::after {
+  display: block !important;
+  background: radial-gradient(ellipse at 24% 35%,rgba(242,103,53,.2),transparent 34%),radial-gradient(ellipse at 76% 28%,rgba(197,111,193,.28),transparent 36%),radial-gradient(ellipse at 54% 82%,rgba(255,181,119,.22),transparent 38%);
+  filter: blur(44px);
+}
+.bv2-btn-skip,
+.bv2-btn-icon { color: #fff7fd; border-color: rgba(255,255,255,.3); background: rgba(61,33,72,.9); }
+.bv2-btn-skip:hover,
+.bv2-btn-icon:hover { background: #f26735; }
+.bv2-glow--floor { background: radial-gradient(ellipse,rgba(242,103,53,.42),rgba(213,124,180,.22) 42%,transparent 74%); }
+.bv2-glow--halo { background: radial-gradient(circle,rgba(255,248,253,.75),rgba(229,177,224,.32) 46%,transparent 72%); }
+.bv2-back { background: linear-gradient(135deg,#63346b,#3d2148) !important; }
+.bv2-cover {
+  color: #fff5fc !important;
+  border-color: rgba(255,161,111,.76) !important;
+  border-left-color: #f26735 !important;
+  background: linear-gradient(118deg,#713c78 0%,#4a2854 60%,#3d2148 100%) !important;
+  box-shadow: 0 22px 38px rgba(61,33,72,.26),inset 0 0 0 6px rgba(255,178,119,.12) !important;
+}
+.bv2-cover-frame { border-color: rgba(255,176,125,.68); }
+.bv2-cover-monogram { color: #ffad7e; border-color: rgba(255,176,125,.82); }
+.bv2-cover-tagline { color: #f9dff1; }
+.bv2-wordmark { color: #3d2148 !important; }
+.bv2-tagline,
+.bv2-welcome-cue { color: #684b70 !important; }
+.bv2-welcome-title { color: #5b3067 !important; }
+.bv2-welcome-title::after { background: linear-gradient(90deg,transparent,#f26735,#7b467f,#f26735,transparent); }
+.bv2-welcome:hover .bv2-welcome-title { color: #f26735 !important; }
+.bv2-welcome::before { background: radial-gradient(circle at var(--welcome-x) var(--welcome-y),rgba(242,103,53,.22),transparent 38%); }
