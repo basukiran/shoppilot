@@ -511,7 +511,7 @@ export function AIBuyerView({
 
             <Bot className="h-5 w-5" />
 
-            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-success-500 ring-2 ring-white" />
+            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-[#f26735] ring-2 ring-white" />
 
           </div>
 
@@ -525,7 +525,7 @@ export function AIBuyerView({
             </p>
 
 
-            <p className="text-xs text-success-600">
+            <p className="text-xs text-[#684b70]">
 
               Online · responds in seconds
 

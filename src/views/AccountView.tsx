@@ -393,38 +393,38 @@ export function AccountView({
         <section className="space-y-4">
           {section === 'profile' && (
             <div className="space-y-6">
-              <article className="relative isolate overflow-hidden rounded-md border border-[#cba85c] bg-[#103d30] p-5 text-[#fff9e8] shadow-lg sm:p-7">
-                <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-64 w-64 rounded-full border-[28px] border-[#d7ad57]/15" />
-                <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 right-20 h-52 w-52 rounded-full border-[18px] border-[#d7ad57]/10" />
+              <article className="relative isolate overflow-hidden rounded-md border border-[#f26735]/70 bg-[#3d2148] p-5 text-white shadow-lg sm:p-7">
+                <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-24 h-64 w-64 rounded-full border-[28px] border-[#f26735]/15" />
+                <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 right-20 h-52 w-52 rounded-full border-[18px] border-[#f26735]/10" />
                 <div className="relative">
-                  <header className="flex items-center gap-3 border-b border-[#d7ad57]/35 pb-4">
-                    <img src="/bookvision-logo.webp" alt="Jnana Nidhi Hubballi logo" className="h-14 w-14 shrink-0 rounded-full bg-[#f8f2df] object-contain p-1" />
+                  <header className="flex items-center gap-3 border-b border-white/20 pb-4">
+                    <img src="/bookvision-logo.webp" alt="Jnana Nidhi Hubballi logo" className="h-14 w-14 shrink-0 rounded-full bg-[#f8eaf6] object-contain p-1" />
                     <div className="min-w-0 flex-1">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#e1c579]">Jnana Nidhi Hubballi</p>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#ffb18b]">Jnana Nidhi Hubballi</p>
                     <p className="mt-1 font-display text-lg font-bold text-white">Jnana Nidhi</p>
                     </div>
-                    <ShieldCheck className="h-6 w-6 shrink-0 text-[#e1c579]" aria-hidden="true" />
+                    <ShieldCheck className="h-6 w-6 shrink-0 text-[#ff9b68]" aria-hidden="true" />
                   </header>
 
                   <div className="mt-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                    <h2 className="font-display text-xl font-bold text-[#e9c96f]">MEMBERSHIP CARD</h2>
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#e1c579]">Member</span>
+                    <h2 className="font-display text-xl font-bold text-[#ffc09a]">MEMBERSHIP CARD</h2>
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#ffb18b]">Member</span>
                   </div>
 
                   <div className="mt-5 grid gap-4 sm:grid-cols-2">
                     <div className="min-w-0">
-                      <p className="text-[10px] font-semibold uppercase text-[#c6d3c7]">Name</p>
+                      <p className="text-[10px] font-semibold uppercase text-[#eadced]">Name</p>
                       <p className="mt-1 break-words text-sm font-semibold text-white">{user.name}</p>
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="text-[10px] font-semibold uppercase text-[#c6d3c7]">Phone</p>
+                        <p className="text-[10px] font-semibold uppercase text-[#eadced]">Phone</p>
                         <button
                           type="button"
                           onClick={() => setShowMemberPhone((visible) => !visible)}
                           aria-label={showMemberPhone ? 'Hide phone number on membership card' : 'Reveal phone number on membership card'}
                           aria-pressed={showMemberPhone}
-                          className="inline-flex h-7 w-7 items-center justify-center text-[#e1c579] transition hover:text-white"
+                          className="inline-flex h-7 w-7 items-center justify-center text-[#ff9b68] transition hover:text-white"
                         >
                           {showMemberPhone ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                         </button>
@@ -435,9 +435,9 @@ export function AccountView({
                     </div>
                   </div>
 
-                  <div className="mt-5 border-t border-[#d7ad57]/35 pt-4">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#c6d3c7]">Membership Token</p>
-                    <p className="mt-1 font-mono text-lg font-bold tracking-[0.08em] text-[#e9c96f]">
+                  <div className="mt-5 border-t border-white/20 pt-4">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#eadced]">Membership Token</p>
+                    <p className="mt-1 font-mono text-lg font-bold tracking-[0.08em] text-[#ffc09a]">
                       JN00 {String(user.id - 1).padStart(3, '0')} {String(user.id).padStart(4, '0')}
                     </p>
                   </div>
@@ -466,7 +466,7 @@ export function AccountView({
                     <input className="input" type="password" autoComplete="new-password" value={confirmNewPassword} onChange={(event) => setConfirmNewPassword(event.target.value)} required minLength={8} maxLength={128} />
                   </Field>
                 </div>
-                {passwordMessage && <p role="status" className="rounded-sm bg-success-50 px-3 py-2 text-sm text-success-700">{passwordMessage}</p>}
+                {passwordMessage && <p role="status" className="rounded-sm bg-[#f7e5f3] px-3 py-2 text-sm text-[#56305f]">{passwordMessage}</p>}
                 <button type="submit" disabled={submitting} className="btn-primary">
                   {submitting ? 'Changing password…' : 'Update password'}
                 </button>
