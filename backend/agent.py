@@ -383,6 +383,16 @@ def mark_order_paid(order_id: int, razorpay_payment_id: str):
 # -----------------------------
 
 def ask_agent(user_message: str):
+    normalized_message = user_message.strip().lower()
+    if re.fullmatch(
+        r"(?:hi|hello|hey|good morning|good afternoon|good evening|thanks|thank you|namaste)[!. ]*",
+        normalized_message,
+    ):
+        return {
+            "customer_request": user_message,
+            "tool_used": False,
+            "response": "Hello! Tell me a book topic, author, title, or budget and I’ll find matching books from the Jnana Nidhi catalog.",
+        }
 
     messages = [
         {
@@ -398,6 +408,9 @@ Pass concise topic/title/author terms rather than relying on generated facts.
 Extract a stated maximum price into max_price. For a request to rent, set
 rentable_only to true. Use get_product for more catalog details and check_stock
 when the customer asks about a specific quantity.
+For every non-greeting shopping request, search the catalog before answering.
+Do not say that you do not know before checking the catalog. If there are no
+matches, ask for a title, author, topic, or budget to narrow the search.
 
 IMPORTANT:
 - All prices in the catalog are in Indian Rupees (INR).
@@ -429,7 +442,7 @@ IMPORTANT:
         model="openai/gpt-oss-20b",
         messages=messages,
         tools=tools,
-        tool_choice="auto",
+        tool_choice="required",
         temperature=0
     )
 
@@ -493,31 +506,53 @@ IMPORTANT:
     }
 )
 
-        # -----------------------------
-        # SECOND LLM CALL
-        # -----------------------------
-
-        final_response = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
-        messages=messages,
-        temperature=0.2,
-        tool_choice="none"
-)
+        # The catalog results are already authoritative. Avoid a second model
+        # request here: Groq's GPT-OSS endpoint can emit another tool call even
+        # with tool_choice="none", which turns an otherwise successful search
+        # into a 400 response. Build the summary from the actual catalog rows.
+        result_books = list(book_results.values())
+        if result_books:
+            names = [str(book.get("name", "")).strip() for book in result_books]
+            names = [name for name in names if name]
+            if names:
+                shown_names = ", ".join(names[:3])
+                more_count = len(names) - min(len(names), 3)
+                suffix = f", and {more_count} more" if more_count else ""
+                final_text = f"I found these books in the Jnana Nidhi catalog: {shown_names}{suffix}. You can compare their details below."
+            else:
+                final_text = "I found matching books in the Jnana Nidhi catalog. You can compare their details below."
+        else:
+            final_text = "I couldn't find an exact match in the current catalog. Tell me a title, author, topic, or budget and I'll search again."
 
         return {
     "customer_request": user_message,
     "tool_used": True,
     "tool": "search_products",
     "tool_result": list(book_results.values()),
-    "response": final_response.choices[0].message.content
+    "response": final_text
 }
 
     # -----------------------------
     # NO TOOL NEEDED
     # -----------------------------
 
+    # Be defensive if an upstream model ignores the required-tool setting.
+    # The chat is a catalog shopping assistant, so use deterministic retrieval
+    # rather than passing an unhelpful model fallback to the customer.
+    matches = search_products(user_message)
+    if matches:
+        return {
+            "customer_request": user_message,
+            "tool_used": True,
+            "tool": "search_products",
+            "tool_result": matches,
+            "response": "I found matching books in the Jnana Nidhi catalog. You can compare their details below.",
+        }
+
     return {
         "customer_request": user_message,
-        "tool_used": False,
-        "response": assistant_message.content
+        "tool_used": True,
+        "tool": "search_products",
+        "tool_result": [],
+        "response": "I couldn't find an exact match in the current catalog. Tell me a title, author, topic, or budget and I'll search again.",
     }
