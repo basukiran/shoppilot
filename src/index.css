@@ -943,6 +943,68 @@
 .bookstore-category:hover,
 .bookstore-category.is-active { border-color: #e850aa; color: white; background: linear-gradient(120deg,#5527a8,#af236f); }
 
+/* Jnana Nidhi's product-led editorial direction, inspired by the Stride reference. */
+.bookstore-home {
+  --stride-orchid: #d99acb;
+  --stride-eggplant: #32113f;
+  --stride-orange: #ff6b35;
+  --stride-cream: #fff6ee;
+  background: var(--stride-cream);
+}
+.bookstore-home .bookstore-hero {
+  min-height: min(780px, calc(100svh - 60px));
+  color: var(--stride-eggplant);
+  background:
+    radial-gradient(ellipse at 77% 38%, rgba(255,107,53,.35), transparent 31%),
+    radial-gradient(ellipse at 24% 15%, rgba(255,255,255,.38), transparent 38%),
+    linear-gradient(125deg, #e9b5dc 0%, #d99acb 47%, #f3a77e 100%);
+}
+.bookstore-home .bookstore-hero__inner { min-height: min(780px, calc(100svh - 60px)); align-content: center; }
+.bookstore-home .bookstore-hero__title {
+  max-width: 850px;
+  color: var(--stride-eggplant);
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 900;
+  letter-spacing: -.075em;
+  line-height: .82;
+}
+.bookstore-home .bookstore-hero__manifesto { color: var(--stride-eggplant); font-size: clamp(1.2rem, 2.6vw, 2.2rem); font-weight: 750; line-height: 1.12; }
+.bookstore-home .bookstore-hero__inner > div:first-child > p:nth-of-type(2) { color: #52295b; }
+.bookstore-home .bookstore-kicker { color: #532252; border-color: rgba(50,17,63,.18); background: rgba(255,248,245,.58); }
+.bookstore-home .bookstore-hero__art { min-height: min(62vw, 570px); background: radial-gradient(ellipse at center, rgba(255,255,255,.48), transparent 64%); }
+.bookstore-home .bookstore-hero__arch { border-color: rgba(255,255,255,.62); background: linear-gradient(145deg, #f5c7e9 0%, #a858b7 54%, #ff7545 100%); box-shadow: 0 30px 90px rgba(82,35,91,.25); }
+.bookstore-home .bookstore-hero__note { color: #35143d; border-color: rgba(50,17,63,.15); background: rgba(255,250,247,.92); }
+.bookstore-home .bookstore-hero__note-icon { color: white; background: var(--stride-orange); }
+.bookstore-home .bookstore-hero__footnote { color: #512b58; border-color: rgba(50,17,63,.2); }
+.bookstore-home .bookstore-button--dark { color: white; background: var(--stride-eggplant); }
+.bookstore-home .bookstore-button--dark:hover:not(:disabled) { background: #51205f; }
+.bookstore-home .bookstore-button--light,
+.bookstore-home .bookstore-button--outline { color: var(--stride-eggplant); border-color: rgba(50,17,63,.4); background: rgba(255,248,245,.5); }
+.bookstore-home .bookstore-button--cream { color: #fff; background: var(--stride-orange); }
+.bookstore-home .bookstore-featured { border-color: rgba(75,31,83,.16); background: linear-gradient(120deg,#fff9f4 54%,#f2d6eb); }
+.bookstore-home .bookstore-featured__visual { background: radial-gradient(circle at 50% 35%,#eda9d7,#713784 66%,#32113f); }
+.bookstore-home .bookstore-ribbon { background: var(--stride-orange); }
+.bookstore-home .bookstore-band,
+.bookstore-home .bookstore-why,
+.bookstore-home .bookstore-locations { color: #32113f; background: linear-gradient(130deg,#f7e3f1,#f9d4c2 58%,#efe0fa); }
+.bookstore-home .bookstore-band .bookstore-display,
+.bookstore-home .bookstore-why .bookstore-display,
+.bookstore-home .bookstore-locations .bookstore-display { color: #32113f; }
+.bookstore-home .bookstore-band [class~="text-[#68766c]"],
+.bookstore-home .bookstore-why [class~="text-[#68766c]"],
+.bookstore-home .bookstore-locations [class~="text-[#68766c]"],
+.bookstore-home .bookstore-locations [class~="text-[#263a2e]"] { color: #553a58; }
+.bookstore-home .bookstore-text-link { color: #aa3c76; }
+.bookstore-home .bookstore-category { color: #48254e; border-color: rgba(65,30,73,.24); background: rgba(255,255,255,.55); }
+.bookstore-home .bookstore-category:hover,
+.bookstore-home .bookstore-category.is-active { color: #fff; border-color: var(--stride-eggplant); background: var(--stride-eggplant); }
+@media (max-width: 767px) {
+  .bookstore-home .bookstore-hero { min-height: auto; }
+  .bookstore-home .bookstore-hero__inner { min-height: auto; }
+  .bookstore-home .bookstore-hero__art { min-height: 340px; }
+}
+
 .book-cover { background: #4b3184; box-shadow: 0 14px 30px rgba(0,0,0,0.4), 2px 0 0 rgba(255,255,255,0.28) inset; }
 .book-tile__cover-wrap { border-color: rgba(206,182,255,0.22); background: linear-gradient(145deg,#432786,#211d56 58%,#0b1d49); box-shadow: 0 12px 25px rgba(0,0,0,0.34); }
 .book-tile:hover .book-tile__cover-wrap { box-shadow: 0 20px 32px rgba(0,0,0,0.5); }
