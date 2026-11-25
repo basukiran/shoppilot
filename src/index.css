@@ -3112,7 +3112,7 @@
 .storybook-world__art { opacity: .035 !important; }
 .storybook-world__veil { background: linear-gradient(115deg,rgba(247,217,242,.9),rgba(245,210,237,.56) 58%,rgba(251,220,225,.22)) !important; }
 .bookstore-hero__title {
-  color: #3d2148 !important;
+  color: #ff6b35 !important;
   font-family: 'DM Sans',sans-serif;
   font-size: clamp(3.35rem,8.1vw,7.25rem);
   font-weight: 900;
