@@ -488,7 +488,12 @@ function App() {
               />
             )}
 
-            {view === 'authors' && <AuthorsView />}
+            {view === 'authors' && (
+              <AuthorsView
+                onBuy={(product) => openPaymentApproval(product, 1)}
+                onRent={(product) => openRentalCheckout(product, 1)}
+              />
+            )}
 
             {view === 'account' && (
               <AccountView

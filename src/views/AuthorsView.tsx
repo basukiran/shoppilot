@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { BookOpen, ChevronDown, Loader2, Search, UserRound } from 'lucide-react';
+import { BookOpen, Loader2, Search, UserRound, X, ShoppingBag, Heart } from 'lucide-react';
 import { getAuthorPortraitUrl } from '@/components/AuthorByline';
 import { apiFetch } from '@/lib/api';
 import { toBookProduct, type BookApiRecord } from '@/lib/bookProducts';
@@ -126,13 +126,18 @@ function getAuthorNote(author: string, language: SiteLanguage) {
   })[language];
 }
 
-export function AuthorsView() {
+interface AuthorsViewProps {
+  onBuy: (book: Product) => void;
+  onRent: (book: Product) => void;
+}
+
+export function AuthorsView({ onBuy, onRent }: AuthorsViewProps) {
   const { language, t } = useLanguage();
   const [books, setBooks] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [query, setQuery] = useState('');
-  const [expandedAuthor, setExpandedAuthor] = useState<string | null>(null);
+  const [selectedAuthor, setSelectedAuthor] = useState<{ name: string; books: Product[] } | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -198,53 +203,58 @@ export function AuthorsView() {
       ) : authors.length === 0 ? (
         <div className="py-16 text-center text-sm font-medium text-ink-700">{t('No authors found. Try another name.')}</div>
       ) : (
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {authors.map(({ name, books: authorBooks }) => {
             const portrait = getAuthorPortraitUrl(name);
             const initials = name.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase();
             return (
-              <article key={normalize(name)} className="card overflow-hidden rounded-3xl border border-violet-200/70 bg-white/90 p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6">
-                <button
-                  type="button"
-                  aria-label={`${t('Open this author’s books')}: ${name}`}
-                  aria-expanded={expandedAuthor === normalize(name)}
-                  aria-controls={`author-books-${normalize(name).replace(/\s+/g, '-')}`}
-                  onClick={() => setExpandedAuthor((current) => current === normalize(name) ? null : normalize(name))}
-                  className="flex w-full items-center gap-4 rounded-xl text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-600"
-                >
+              <button key={normalize(name)} type="button" onClick={() => setSelectedAuthor({ name, books: authorBooks })}
+                aria-label={`${t('View author details and books')}: ${name}`}
+                className="group overflow-hidden rounded-3xl border border-violet-200/70 bg-white/90 p-3 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-600 sm:p-4">
+                <span className="relative mx-auto block aspect-square w-full overflow-hidden rounded-2xl bg-gradient-to-br from-violet-200 via-pink-200 to-orange-100">
                   {portrait ? (
-                    <img src={portrait} alt={`${name} portrait`} loading="lazy" className="h-20 w-20 shrink-0 rounded-2xl object-cover shadow-sm" />
+                    <img src={portrait} alt={`${name} portrait`} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                   ) : (
-                    <div aria-label={`${name} portrait unavailable`} className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-200 via-pink-200 to-rose-200 text-xl font-bold text-violet-950">
+                    <span aria-label={`${name} portrait unavailable`} className="flex h-full w-full items-center justify-center text-4xl font-bold text-violet-950 sm:text-6xl">
                       {initials || <UserRound className="h-8 w-8" />}
-                    </div>
+                    </span>
                   )}
-                  <div className="min-w-0">
-                    <h2 className="font-display text-xl font-bold text-violet-950">{name}</h2>
-                    <p className="mt-1 text-sm font-semibold text-fuchsia-800">{authorBooks.length} {t(authorBooks.length === 1 ? 'book in our catalog' : 'books in our catalog')}</p>
-                  </div>
-                  <ChevronDown className={`ml-auto h-5 w-5 shrink-0 text-violet-700 transition-transform ${expandedAuthor === normalize(name) ? 'rotate-180' : ''}`} />
-                </button>
-                <p className="mt-5 text-sm leading-7 text-ink-700">{getAuthorNote(name, language)}</p>
-                {expandedAuthor === normalize(name) && (
-                  <div id={`author-books-${normalize(name).replace(/\s+/g, '-')}`} className="mt-4 border-t border-violet-100 pt-4">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-violet-800">{t('Available titles')}</h3>
-                    <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-                      {authorBooks.map((book) => (
-                        <li key={book.id} className="flex min-w-0 items-center gap-3 rounded-xl border border-violet-100 bg-white/80 p-2.5">
-                          <img src={book.coverImage} alt={`${book.name} cover`} loading="lazy" className="h-16 w-11 shrink-0 rounded object-cover shadow-sm" />
-                          <div className="min-w-0">
-                            <p className="line-clamp-2 text-sm font-semibold text-ink-900">{book.name}</p>
-                            <p className="mt-1 text-sm font-bold text-fuchsia-800">{formatCurrency(book.price)}</p>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </article>
+                </span>
+                <span className="mt-3 block truncate font-display text-base font-bold text-violet-950 sm:text-lg">{name}</span>
+                <span className="mt-1 block text-xs font-semibold text-fuchsia-800">{authorBooks.length} {t(authorBooks.length === 1 ? 'book in our catalog' : 'books in our catalog')}</span>
+              </button>
             );
           })}
+        </div>
+      )}
+
+      {selectedAuthor && (
+        <div className="fixed inset-0 z-[220] flex items-center justify-center overflow-y-auto bg-[#160d20]/75 p-3 backdrop-blur-sm sm:p-6" onMouseDown={(event) => { if (event.target === event.currentTarget) setSelectedAuthor(null); }}>
+          <section role="dialog" aria-modal="true" aria-labelledby="author-dialog-title" className="relative my-auto max-h-[94svh] w-full max-w-5xl overflow-y-auto rounded-3xl border border-white/50 bg-gradient-to-br from-[#fff9f5] via-[#f8eaf6] to-[#f5e7ff] p-5 shadow-2xl sm:p-8">
+            <button type="button" aria-label={t('Close')} onClick={() => setSelectedAuthor(null)} className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-violet-950 shadow"><X className="h-5 w-5" /></button>
+            <div className="grid gap-6 md:grid-cols-[250px_1fr]">
+              <div className="mx-auto w-full max-w-[250px] overflow-hidden rounded-3xl bg-gradient-to-br from-violet-200 via-pink-200 to-orange-100 shadow-lg">
+                {getAuthorPortraitUrl(selectedAuthor.name) ? <img src={getAuthorPortraitUrl(selectedAuthor.name)!} alt={`${selectedAuthor.name} portrait`} className="aspect-[4/5] w-full object-cover" /> : <div className="flex aspect-[4/5] items-center justify-center text-6xl font-bold text-violet-950">{selectedAuthor.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase()}</div>}
+              </div>
+              <div className="pt-2 md:pt-6">
+                <p className="inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-fuchsia-800"><BookOpen className="h-4 w-4" />{t('Meet the author')}</p>
+                <h2 id="author-dialog-title" className="mt-4 font-display text-3xl font-bold text-violet-950 sm:text-5xl">{selectedAuthor.name}</h2>
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-ink-700 sm:text-base">{getAuthorNote(selectedAuthor.name, language)}</p>
+                <h3 className="mt-6 text-xs font-extrabold uppercase tracking-[.16em] text-fuchsia-800">{t('Available titles')}</h3>
+              </div>
+            </div>
+            <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {selectedAuthor.books.map((book) => (
+                <article key={book.id} className="overflow-hidden rounded-2xl border border-violet-200/80 bg-white/90 p-3 shadow-sm">
+                  <button type="button" onClick={() => onBuy(book)} aria-label={`${t('Buy now')}: ${book.name}`} className="group flex w-full items-center gap-3 text-left">
+                    <img src={book.coverImage} alt={`${book.name} cover`} loading="lazy" className="h-28 w-[76px] shrink-0 rounded-lg bg-violet-50 object-cover shadow transition group-hover:-rotate-2 group-hover:scale-105" />
+                    <span className="min-w-0"><span className="line-clamp-3 block font-semibold text-violet-950">{book.name}</span><span className="mt-2 block font-bold text-fuchsia-800">{formatCurrency(book.price)}</span><span className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-violet-700"><ShoppingBag className="h-3.5 w-3.5" />{t('Buy now')}</span></span>
+                  </button>
+                  {book.isRentable && <button type="button" onClick={() => onRent(book)} disabled={!book.inStock} className="mt-3 inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-xl border border-violet-300 bg-violet-50 px-3 text-sm font-semibold text-violet-900 transition hover:bg-violet-100 disabled:opacity-50"><Heart className="h-4 w-4" />{t('Rent for')} {formatCurrency(book.rentalPrice)}</button>}
+                </article>
+              ))}
+            </div>
+          </section>
         </div>
       )}
     </section>
