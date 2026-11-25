@@ -962,7 +962,7 @@
 .bookstore-home .bookstore-hero__inner { min-height: min(780px, calc(100svh - 60px)); align-content: center; }
 .bookstore-home .bookstore-hero__title {
   max-width: 850px;
-  color: var(--stride-eggplant);
+  color: var(--stride-orange);
   font-family: 'DM Sans', sans-serif;
   font-size: clamp(4rem, 10vw, 9rem);
   font-weight: 900;
